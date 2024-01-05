@@ -1,39 +1,30 @@
-import { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import Login from "../pages/Login";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
+import Login from "../pages/Login";
+import { ProtectedPage, UnProtectedPage } from "./AuthGuard";
 
-const RouteUnAuth = () => {
+function RoutePage() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={
+          <UnProtectedPage>
+            <Login />
+          </UnProtectedPage>
+        }
+      />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedPage>
+            <Dashboard />
+          </ProtectedPage>
+        }
+      />
     </Routes>
   );
-};
+}
 
-const RouteAuth = () => {
-  return (
-    <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
-  );
-};
-
-const RoutesPage = () => {
-  const [isAuth, setIsAuth] = useState(false);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    //TODO: API Ready change logic with API
-    if (isAuth) {
-      navigate("/dashboard");
-    } else {
-      navigate("/login");
-    }
-  }, [isAuth, navigate]);
-
-  return <>{isAuth ? <RouteAuth /> : <RouteUnAuth />}</>;
-};
-
-export default RoutesPage;
+export default RoutePage;
