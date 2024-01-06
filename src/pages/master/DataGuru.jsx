@@ -1,5 +1,5 @@
 const DataGuru = () => {
-  return <div>DataGuru</div>;
+  return <div>DataGurus</div>;
 };
 
 export default DataGuru;
