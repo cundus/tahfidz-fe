@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 
+import SideNavs from "../components/molekuls/SideNavs";
 import { useAuth } from "../contexts/AuthContext";
 import { Navigate, useLocation } from "react-router-dom";
+import { Flex, Box } from "@chakra-ui/react";
+import Header from "../components/molekuls/Header";
 
 export function ProtectedPage({ children }) {
   let auth = useAuth();
@@ -11,7 +14,17 @@ export function ProtectedPage({ children }) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return children;
+  return (
+    <Flex>
+      <SideNavs />
+      <Flex flexDirection="column" w="100%" maxW="100%">
+        <Header />
+        <Box paddingLeft={8} paddingY={10} paddingRight={16}>
+          {children}
+        </Box>
+      </Flex>
+    </Flex>
+  );
 }
 
 export function UnProtectedPage({ children }) {

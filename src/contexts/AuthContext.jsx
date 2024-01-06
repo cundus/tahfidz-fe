@@ -14,7 +14,7 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-  let [user, setUser] = useState(null);
+  let [user, setUser] = useState("Rizki Ashari");
 
   let signin = (newUser, callback) => {
     return fakeAuthProvider.signin(() => {

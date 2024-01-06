@@ -1,7 +1,7 @@
 import { Flex, Box, Image, Text, Checkbox, Button } from "@chakra-ui/react";
 import AlQuran from "../assets/al-quran.png";
 import Logo from "../assets/logo.png";
-import InputCustom from "../components/InputCustom";
+import InputCustom from "../components/atoms/InputCustom";
 import { useState } from "react";
 
 const Login = () => {
@@ -74,6 +74,7 @@ const Login = () => {
               color: "#FFF",
               opacity: 1,
             }}
+            // isDisabled={true}
           >
             Masuk
           </Button>
