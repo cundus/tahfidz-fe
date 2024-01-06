@@ -38,20 +38,19 @@ export const SideNavWithArrow = ({ icon, title, listNav }) => {
               padding={2}
               onClick={() => router(item.to)}
               backgroundColor={
-                location.pathname === item.to ? "#000000" : "transparent"
+                location.pathname.includes(item.to) ? "#000000" : "transparent"
               }
               cursor="pointer"
-              color={location.pathname === item.to ? "#fff" : "#000000"}
-              opacity={location.pathname === item.to ? "1" : "0.5"}
+              color={location.pathname.includes(item.to) ? "#fff" : "#000000"}
+              opacity={location.pathname.includes(item.to) ? "1" : "0.5"}
             >
               <Flex alignItems="center" gap={2}>
                 <Box
                   __css={{
                     borderRadius: "100%",
-                    border:
-                      location.pathname === item.to
-                        ? "1px solid #fff"
-                        : "1px solid #000000",
+                    border: location.pathname.includes(item.to)
+                      ? "1px solid #fff"
+                      : "1px solid #000000",
                   }}
                   w="6px"
                   h="6px"
