@@ -34,7 +34,7 @@ function RoutePage() {
 
       {/* Master Data */}
       <Route
-        path="/master/data-siswa"
+        path="/master-data/data-siswa"
         element={
           <ProtectedPage>
             <DataSiswa />
@@ -42,7 +42,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master/data-guru"
+        path="/master-data/data-guru"
         element={
           <ProtectedPage>
             <DataGuru />
@@ -50,7 +50,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master/data-operator"
+        path="/master-data/data-operator"
         element={
           <ProtectedPage>
             <DataOperator />
@@ -58,7 +58,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master/data-tahun-ajaran"
+        path="/master-data/data-tahun-ajaran"
         element={
           <ProtectedPage>
             <DataTahunAjaran />
@@ -66,7 +66,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master/data-sekolah"
+        path="/master-data/data-sekolah"
         element={
           <ProtectedPage>
             <DataSekolah />
