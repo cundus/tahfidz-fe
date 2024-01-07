@@ -33,12 +33,12 @@ const SideNavs = () => {
       <HamburgerIcon
         __css={{
           position: "absolute",
-          top: "1.2rem",
+          top: "1.5rem",
           left: !isShow ? "16.8rem" : "20rem",
           cursor: "pointer",
         }}
-        w={5}
-        h={5}
+        w={6}
+        h={6}
         color="#212529"
         onClick={() => setIsShow(!isShow)}
       />

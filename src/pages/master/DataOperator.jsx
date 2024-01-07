@@ -1,5 +1,11 @@
+import Header from "../../components/molekuls/Header";
+
 const DataOperator = () => {
-  return <div>DataOperator</div>;
+  return (
+    <>
+      <Header title="Data Operator" />
+    </>
+  );
 };
 
 export default DataOperator;

@@ -1,5 +1,11 @@
+import Header from "../../components/molekuls/Header";
+
 const KelompokHalaqoh = () => {
-  return <div>KelompokHalaqoh</div>;
+  return (
+    <>
+      <Header title="Kelompok Halaqoh" />
+    </>
+  );
 };
 
 export default KelompokHalaqoh;

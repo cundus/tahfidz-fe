@@ -1,5 +1,11 @@
+import Header from "../components/molekuls/Header";
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <Header title="Dashboard" />
+    </>
+  );
 };
 
 export default Dashboard;

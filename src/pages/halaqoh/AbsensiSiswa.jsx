@@ -1,5 +1,11 @@
+import Header from "../../components/molekuls/Header";
+
 const AbsensiSiswa = () => {
-  return <div>AbsensiSiswa</div>;
+  return (
+    <>
+      <Header title="Absensi Siswa" />
+    </>
+  );
 };
 
 export default AbsensiSiswa;

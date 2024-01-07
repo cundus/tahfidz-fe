@@ -1,5 +1,11 @@
+import Header from "../../components/molekuls/Header";
+
 const DataGuru = () => {
-  return <div>DataGurus</div>;
+  return (
+    <>
+      <Header title="Data Guru" />
+    </>
+  );
 };
 
 export default DataGuru;

@@ -1,5 +1,11 @@
+import Header from "../../components/molekuls/Header";
+
 const AbsensiGuru = () => {
-  return <div>AbsensiGuru</div>;
+  return (
+    <>
+      <Header title="Absensi Guru" />
+    </>
+  );
 };
 
 export default AbsensiGuru;

@@ -1,5 +1,11 @@
+import Header from "../../components/molekuls/Header";
+
 const DataSekolah = () => {
-  return <div>DataSekolah</div>;
+  return (
+    <>
+      <Header title="Data Sekolah" />
+    </>
+  );
 };
 
 export default DataSekolah;
