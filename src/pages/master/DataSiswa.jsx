@@ -13,14 +13,18 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const DataSiswa = () => {
+  const router = useNavigate();
+
   return (
     <>
       <Header title="Data Siswa">
         <ButtonCustom
           icon={<AddIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Tambah Data Baru"
+          onClick={() => router("/master-data/data-siswa/tambah-data-siswa")}
         />
       </Header>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
@@ -29,7 +33,7 @@ const DataSiswa = () => {
           <Input type="text" placeholder="Pencarian" />
           <ButtonCustom
             paddingX={6}
-            icon={<SearchIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
+            icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
             title="Cari"
             height="38px"
           />

@@ -36,30 +36,36 @@ const Header = ({ children, title }) => {
               Dashboard
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {filtered.map((item, index) => (
-            <BreadcrumbItem
-              key={index}
-              isCurrentPage={index === filtered.length - 1}
-            >
-              {index === filtered.length - 1 ? (
-                <BreadcrumbLink textTransform="capitalize">
-                  {item.replace(/-/g, " ")}
-                </BreadcrumbLink>
-              ) : (
-                <BreadcrumbLink
-                  __css={{ display: "flex", alignItems: "center", gap: 1 }}
-                  _hover={{
-                    textDecoration: item === "master-data" ? "" : "underline",
-                  }}
-                  color="#0D6EFD"
-                  textTransform="capitalize"
-                  href={`${item === "master-data" ? "#" : `/${item}`}`}
-                >
-                  {item.replace(/-/g, " ")}
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
-          ))}
+
+          {location.pathname !== "/dashboard" &&
+            filtered.map((item, index) => (
+              <BreadcrumbItem
+                key={index}
+                isCurrentPage={index === filtered.length - 1}
+              >
+                {index === filtered.length - 1 ? (
+                  <BreadcrumbLink textTransform="capitalize">
+                    {item.replace(/-/g, " ")}
+                  </BreadcrumbLink>
+                ) : (
+                  <BreadcrumbLink
+                    __css={{ display: "flex", alignItems: "center", gap: 1 }}
+                    _hover={{
+                      textDecoration: item === "master-data" ? "" : "underline",
+                    }}
+                    color="#0D6EFD"
+                    textTransform="capitalize"
+                    href={`${
+                      item === "master-data"
+                        ? "#"
+                        : `/${filtered.slice(0, index + 1).join("/")}`
+                    }`}
+                  >
+                    {item.replace(/-/g, " ")}
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            ))}
         </Breadcrumb>
       </Flex>
       {children}

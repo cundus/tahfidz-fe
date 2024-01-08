@@ -9,11 +9,16 @@ const TableCustom = ({ thead, tbody }) => {
         <Thead bg="#F8F9FA">
           <Tr>
             {thead.map((item) => (
-              <Th key={item}>{item}</Th>
+              <Th
+                css={{ textTransform: "capitalize", fontSize: "14px" }}
+                key={item}
+              >
+                {item}
+              </Th>
             ))}
           </Tr>
         </Thead>
-        <Tbody>{tbody}</Tbody>
+        <Tbody css={{ fontSize: "14px" }}>{tbody}</Tbody>
       </Table>
       <Pagination />
     </TableContainer>
