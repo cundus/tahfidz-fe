@@ -22,6 +22,9 @@ import DetailOperator from "../pages/master/DataOperator/Detail";
 import TambahTahunAjaran from "../pages/master/DataTahunAjaran/Tambah";
 import EditTahunAjaran from "../pages/master/DataTahunAjaran/Edit";
 import DetailTahunAjaran from "../pages/master/DataTahunAjaran/Detail";
+import TambahKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Tambah";
+import EditKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Edit";
+import DetailKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Detail";
 
 function RoutePage() {
   return (
@@ -192,6 +195,7 @@ function RoutePage() {
       />
 
       {/* Halaqoh */}
+      {/* Kelompok Halaqoh */}
       <Route
         path="/halaqoh/kelompok-halaqoh"
         element={
@@ -201,6 +205,32 @@ function RoutePage() {
         }
       />
       <Route
+        path="/halaqoh/kelompok-halaqoh/tambah-kelompok-halaqoh"
+        element={
+          <ProtectedPage>
+            <TambahKelompokHalaqoh />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/halaqoh/kelompok-halaqoh/edit-kelompok-halaqoh"
+        element={
+          <ProtectedPage>
+            <EditKelompokHalaqoh />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh"
+        element={
+          <ProtectedPage>
+            <DetailKelompokHalaqoh />
+          </ProtectedPage>
+        }
+      />
+
+      {/* Absensi Siswa */}
+      <Route
         path="/halaqoh/absensi-siswa"
         element={
           <ProtectedPage>
@@ -208,6 +238,8 @@ function RoutePage() {
           </ProtectedPage>
         }
       />
+
+      {/* Absensi Guru */}
       <Route
         path="/halaqoh/absensi-guru"
         element={

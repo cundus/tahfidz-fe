@@ -56,7 +56,7 @@ const Header = ({ children, title }) => {
                     color="#0D6EFD"
                     textTransform="capitalize"
                     href={`${
-                      item === "master-data"
+                      index === 0
                         ? "#"
                         : `/${filtered.slice(0, index + 1).join("/")}`
                     }`}
