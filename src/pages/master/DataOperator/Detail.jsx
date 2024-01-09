@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../../components/molekuls/Header";
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
 
 const DetailOprator = () => {
   const router = useNavigate();
@@ -16,6 +17,7 @@ const DetailOprator = () => {
           type="outline"
         />
       </Header>
+      <BoxInputLayout title="Detail Data Operator"></BoxInputLayout>
     </>
   );
 };

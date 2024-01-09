@@ -21,7 +21,6 @@ import EditOperator from "../pages/master/DataOperator/Edit";
 import DetailOperator from "../pages/master/DataOperator/Detail";
 import TambahTahunAjaran from "../pages/master/DataTahunAjaran/Tambah";
 import EditTahunAjaran from "../pages/master/DataTahunAjaran/Edit";
-import DetailTahunAjaran from "../pages/master/DataTahunAjaran/Detail";
 import TambahKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Tambah";
 import EditKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Edit";
 import DetailKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Detail";
@@ -172,14 +171,6 @@ function RoutePage() {
         element={
           <ProtectedPage>
             <EditTahunAjaran />
-          </ProtectedPage>
-        }
-      />
-      <Route
-        path="/master-data/data-tahun-ajaran/detail-data-tahun-ajaran"
-        element={
-          <ProtectedPage>
-            <DetailTahunAjaran />
           </ProtectedPage>
         }
       />
