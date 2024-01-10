@@ -153,8 +153,12 @@ const TambahSiswa = () => {
             notInputForm={
               <RadioGroup name="jenis_kelamin">
                 <Stack direction="row">
-                  <Radio value="L">Laki-laki</Radio>
-                  <Radio value="P">Perempuan</Radio>
+                  <Radio bgColor="white" value="L">
+                    Laki-laki
+                  </Radio>
+                  <Radio bgColor="white" value="P">
+                    Perempuan
+                  </Radio>
                 </Stack>
               </RadioGroup>
             }

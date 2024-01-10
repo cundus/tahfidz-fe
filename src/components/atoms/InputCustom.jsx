@@ -20,6 +20,7 @@ const InputCustom = ({
   leftAddon,
   name,
   notInputForm,
+  disabled,
 }) => {
   const [show, setShow] = useState(true);
 
@@ -47,6 +48,8 @@ const InputCustom = ({
             placeholder={placeholder}
             onChange={onChange}
             name={name}
+            isDisabled={disabled}
+            bgColor="white"
           />
           {errorText ? (
             <InputRightElement>
