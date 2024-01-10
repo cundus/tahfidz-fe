@@ -44,12 +44,14 @@ const Login = () => {
             typeInput="text"
             placeholder="Username"
             label="Username"
+            name="username"
             errorText=""
           />
           <InputCustom
             typeInput="password"
             placeholder="Password"
             label="Password"
+            name="password"
             errorText=""
           />
           <Text fontStyle="italic" color="#6C757D">

@@ -17,6 +17,9 @@ const InputCustom = ({
   isReq,
   onChange,
   errorText,
+  leftAddon,
+  name,
+  notInputForm,
 }) => {
   const [show, setShow] = useState(true);
 
@@ -28,28 +31,42 @@ const InputCustom = ({
       marginBottom={4}
     >
       <FormLabel>{label}</FormLabel>
-      <InputGroup>
-        <Input
-          type={
-            typeInput === "password" ? (!show ? "text" : "password") : typeInput
-          }
-          placeholder={placeholder}
-          onChange={onChange}
-        />
-
-        <InputRightElement>
+      {notInputForm ? (
+        notInputForm
+      ) : (
+        <InputGroup>
+          {leftAddon}
+          <Input
+            type={
+              typeInput === "password"
+                ? !show
+                  ? "text"
+                  : "password"
+                : typeInput
+            }
+            placeholder={placeholder}
+            onChange={onChange}
+            name={name}
+          />
           {errorText ? (
-            <InfoOutlineIcon color="red.500" />
+            <InputRightElement>
+              <InfoOutlineIcon color="red.500" />
+            </InputRightElement>
           ) : (
             typeInput === "password" &&
             (show ? (
-              <ViewOffIcon cursor="pointer" onClick={() => setShow(!show)} />
+              <InputRightElement>
+                <ViewOffIcon cursor="pointer" onClick={() => setShow(!show)} />
+              </InputRightElement>
             ) : (
-              <ViewIcon cursor="pointer" onClick={() => setShow(!show)} />
+              <InputRightElement>
+                <ViewIcon cursor="pointer" onClick={() => setShow(!show)} />
+              </InputRightElement>
             ))
           )}
-        </InputRightElement>
-      </InputGroup>
+        </InputGroup>
+      )}
+
       {errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
     </FormControl>
   );
