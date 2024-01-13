@@ -75,13 +75,12 @@ const DataTahunAjaran = () => {
             </Td>
             <Td>
               <Flex>
-                <Link color="#0D6EFD">Detail</Link>
                 <Link
                   mx="5px"
                   paddingX={2}
-                  borderLeft="1px solid #21252940"
                   borderRight="1px solid #21252940"
                   color="#0D6EFD"
+                  href="/master-data/data-tahun-ajaran/edit-data-tahun-ajaran"
                 >
                   Edit
                 </Link>

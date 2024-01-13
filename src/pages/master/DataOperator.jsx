@@ -86,13 +86,19 @@ const DataOperator = () => {
             </Td>
             <Td>
               <Flex>
-                <Link color="#0D6EFD">Detail</Link>
+                <Link
+                  href="/master-data/data-operator/detail-data-operator"
+                  color="#0D6EFD"
+                >
+                  Detail
+                </Link>
                 <Link
                   mx="5px"
                   paddingX={2}
                   borderLeft="1px solid #21252940"
                   borderRight="1px solid #21252940"
                   color="#0D6EFD"
+                  href="/master-data/data-operator/edit-data-operator"
                 >
                   Edit
                 </Link>
