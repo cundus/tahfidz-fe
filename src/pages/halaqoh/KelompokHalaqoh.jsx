@@ -125,8 +125,22 @@ const KelompokHalaqoh = () => {
                   }
                 ></MenuButton>
                 <MenuList>
-                  <MenuItem>Detail</MenuItem>
-                  <MenuItem>Edit</MenuItem>
+                  <MenuItem
+                    onClick={() =>
+                      router(
+                        "/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh"
+                      )
+                    }
+                  >
+                    Detail
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() =>
+                      router("/halaqoh/kelompok-halaqoh/edit-kelompok-halaqoh")
+                    }
+                  >
+                    Edit
+                  </MenuItem>
                   <MenuItem>Delete</MenuItem>
                 </MenuList>
               </Menu>
