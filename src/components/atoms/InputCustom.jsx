@@ -57,6 +57,7 @@ const InputCustom = ({
             </InputRightElement>
           ) : (
             typeInput === "password" &&
+            !disabled &&
             (show ? (
               <InputRightElement>
                 <ViewOffIcon cursor="pointer" onClick={() => setShow(!show)} />

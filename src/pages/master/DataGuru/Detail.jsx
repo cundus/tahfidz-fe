@@ -30,11 +30,14 @@ const DetailGuru = () => {
           <Flex direction="column" gap={4}>
             <InfoProfile title="Nama" value="Muhammad Fauzan" />
             <InfoProfile title="Username" value="ahmad" />
-            <InfoProfile title="No Induk Siswa" value="SRQAI 000001" />
+            <InfoProfile title="No Induk Guru" value="GRQAI 000001" />
             <InfoProfile title="Status" value="AKTIF" />
             <InfoProfile title="Jenis kelamin" value="Laki-Laki" />
             <InfoProfile title="Tempat Lahir" value="Tangerang" />
             <InfoProfile title="Tanggal Lahir" value="2021-10-30" />
+            <InfoProfile title="Email" value="budi@gmail.com" />
+            <InfoProfile title="Posisi / Jabatan" value="Penasihat Akademik" />
+            <InfoProfile title="Tanggal Bergabung" value="2021-10-30" />
             <InfoProfile
               title="Alamat Lengkap"
               value="Jl. Beringin 5 No.90, Pamulang Bar., Kec. Pamulang, Kota Tangerang Selatan, Banten 15417"
