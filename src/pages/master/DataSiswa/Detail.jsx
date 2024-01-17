@@ -28,11 +28,7 @@ const DetailSiswa = () => {
         />
       </Header>
       <BoxInputLayout title="Detail Data Siswa">
-        <Tabs
-          variant="enclosed"
-          mt={8}
-          // _selected={{ color: "white", bg: "blue.500" }}
-        >
+        <Tabs variant="enclosed" mt={8}>
           <TabList>
             <Tab>Data Diri Siswa</Tab>
             <Tab>Data Diri Orang Tua Siswa</Tab>
