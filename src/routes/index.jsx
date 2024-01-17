@@ -9,7 +9,7 @@ import DataTahunAjaran from "../pages/master/DataTahunAjaran";
 import DataSekolah from "../pages/master/DataSekolah";
 import KelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh";
 import AbsensiSiswa from "../pages/halaqoh/AbsensiSiswa";
-import AbsensiGuru from "../pages/halaqoh/AbsensiGuru";
+// import AbsensiGuru from "../pages/halaqoh/AbsensiGuru";
 import TambahSiswa from "../pages/master/DataSiswa/Tambah";
 import EditSiswa from "../pages/master/DataSiswa/Edit";
 import DetailSiswa from "../pages/master/DataSiswa/Detail";
@@ -231,14 +231,14 @@ function RoutePage() {
       />
 
       {/* Absensi Guru */}
-      <Route
+      {/* <Route
         path="/halaqoh/absensi-guru"
         element={
           <ProtectedPage>
             <AbsensiGuru />
           </ProtectedPage>
         }
-      />
+      /> */}
     </Routes>
   );
 }

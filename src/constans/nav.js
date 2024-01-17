@@ -26,10 +26,10 @@ export const nav = {
       label: "Kelompok Halaqoh",
       to: "/halaqoh/kelompok-halaqoh",
     },
-    {
-      label: "Absensi Siswa",
-      to: "/halaqoh/absensi-siswa",
-    },
+    // {
+    //   label: "Absensi Siswa",
+    //   to: "/halaqoh/absensi-siswa",
+    // },
     {
       label: "Absensi Guru",
       to: "/halaqoh/absensi-guru",
