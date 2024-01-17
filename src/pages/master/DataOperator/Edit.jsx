@@ -221,7 +221,7 @@ const EditOperator = () => {
           </Flex>
           <Switch color="#0D6EFD" name="status" />
         </Flex>
-        <Flex justifyContent="flex-end" gap={4} alignItems="center">
+        <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>
           <ButtonCustom
             title="Batal"
             type="outline"

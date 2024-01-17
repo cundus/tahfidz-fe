@@ -23,7 +23,9 @@ const DataTahunAjaran = () => {
         <ButtonCustom
           icon={<AddIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Tambah Data Baru"
-          onClick={() => router("/master-data/data-guru/tambah-data-guru")}
+          onClick={() =>
+            router("/master-data/data-tahun-ajaran/tambah-data-tahun-ajaran")
+          }
         />
       </Header>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
