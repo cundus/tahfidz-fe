@@ -35,4 +35,15 @@ export const nav = {
       to: "/halaqoh/absensi-guru",
     },
   ],
+  hafalan: [
+    {
+      label: "Hafalan Baru (Sabq)",
+      to: "/hafalan/hafalan-baru-(sabq)",
+    },
+    {
+      label: "Maroja`ah (Manzil)",
+      to: "/hafalan/muroja’ah-(manzil)",
+    },
+  ],
+  ujian_hafalan: "/ujian-hafalan",
 };

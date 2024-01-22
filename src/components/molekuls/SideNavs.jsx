@@ -10,6 +10,7 @@ import UjianHafalanIcon from "../../assets/icons/ujian_hafalan.png";
 import RaporHafalanIcon from "../../assets/icons/rapor_tahfidz.png";
 import { SideNavWithArrow } from "../atoms/SideNav";
 import { nav } from "../../constans/nav";
+import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
 
 const SideNavs = ({ isShow }) => {
   return (
@@ -77,8 +78,18 @@ const SideNavs = ({ isShow }) => {
           <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
             MANAJEMEN KBM/TASMI’
           </Text>
-          <SideNavWithArrow icon={HafalanIcon} title="Hafalan" />
-          <SideNavWithArrow icon={UjianHafalanIcon} title="Ujian Hafalan" />
+          <SideNavWithArrow
+            icon={HafalanIcon}
+            title="Hafalan"
+            listNav={nav.hafalan}
+          />
+          <SideNavWithArrow
+            singleLink
+            icon={UjianHafalanIcon}
+            title="Ujian Hafalan"
+            singleLinkTo={nav.ujian_hafalan}
+            IconSingle={UjianHafalanWhite}
+          />
 
           {/*  MANAJEMEN REKAPITULASI DATAM */}
           <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">

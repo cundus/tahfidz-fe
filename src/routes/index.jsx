@@ -24,6 +24,9 @@ import EditTahunAjaran from "../pages/master/DataTahunAjaran/Edit";
 import TambahKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Tambah";
 import EditKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Edit";
 import DetailKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Detail";
+import UjianHafalan from "../pages/UjianHafalan";
+import HafalanBaru from "../pages/hafalan/HafalanBaru";
+import Murojaah from "../pages/hafalan/Murojaah";
 
 function RoutePage() {
   return (
@@ -226,6 +229,34 @@ function RoutePage() {
         element={
           <ProtectedPage>
             <AbsensiSiswa />
+          </ProtectedPage>
+        }
+      />
+
+      {/* Ujian Hafalan */}
+      <Route
+        path="/ujian-hafalan"
+        element={
+          <ProtectedPage>
+            <UjianHafalan />
+          </ProtectedPage>
+        }
+      />
+
+      {/* Hafalan  */}
+      <Route
+        path="/hafalan/hafalan-baru-(sabq)"
+        element={
+          <ProtectedPage>
+            <HafalanBaru />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/hafalan/muroja’ah-(manzil)"
+        element={
+          <ProtectedPage>
+            <Murojaah />
           </ProtectedPage>
         }
       />
