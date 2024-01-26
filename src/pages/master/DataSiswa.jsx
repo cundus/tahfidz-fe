@@ -1,8 +1,7 @@
 import Header from "../../components/molekuls/Header";
-import { AddIcon } from "@chakra-ui/icons";
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import TableCustom from "../../components/molekuls/TableCustom";
-import { DownloadIcon, SearchIcon } from "@chakra-ui/icons";
+import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Tr,
   Td,
@@ -12,8 +11,10 @@ import {
   Select,
   Button,
   Input,
+  Icon,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { BsDownload } from "react-icons/bs";
 
 const DataSiswa = () => {
   const router = useNavigate();
@@ -52,7 +53,7 @@ const DataSiswa = () => {
           fontWeight="400"
           size="sm"
         >
-          <DownloadIcon __css={{ marginRight: "6px" }} w={3} h={3} />
+          <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
       </Flex>

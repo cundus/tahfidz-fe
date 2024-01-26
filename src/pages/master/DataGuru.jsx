@@ -1,6 +1,6 @@
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
-import { AddIcon, SearchIcon, DownloadIcon } from "@chakra-ui/icons";
+import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import {
   Flex,
@@ -11,8 +11,10 @@ import {
   Link,
   Tr,
   Td,
+  Icon,
 } from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
+import { BsDownload } from "react-icons/bs";
 
 const DataGuru = () => {
   const router = useNavigate();
@@ -51,7 +53,7 @@ const DataGuru = () => {
           fontWeight="400"
           size="sm"
         >
-          <DownloadIcon __css={{ marginRight: "6px" }} w={3} h={3} />
+          <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
       </Flex>

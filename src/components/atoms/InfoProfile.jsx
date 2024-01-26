@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Box, Text } from "@chakra-ui/react";
 
-const InfoProfile = ({ title, value }) => {
+const InfoProfile = ({ title, value, isLine = true }) => {
   return (
     <Box
       __css={{
@@ -9,7 +9,7 @@ const InfoProfile = ({ title, value }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        borderBottom: "1px solid #E2E8F0",
+        borderBottom: isLine ? "1px solid #E2E8F0" : "none",
       }}
       w="100%"
       gap={4}

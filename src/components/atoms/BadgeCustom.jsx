@@ -2,7 +2,7 @@
 import { Badge, Icon } from "@chakra-ui/react";
 import { IoClose } from "react-icons/io5";
 
-const BadgeCustom = ({ onDelete, title, isDelete = true }) => {
+const BadgeCustom = ({ onDelete, title, isDelete = true, ...props }) => {
   return (
     <Badge
       backgroundColor="#E9ECEF"
@@ -10,6 +10,8 @@ const BadgeCustom = ({ onDelete, title, isDelete = true }) => {
       fontWeight="500"
       color="#212529"
       paddingX={2}
+      borderRadius={3}
+      {...props}
     >
       {title}
       {isDelete && (

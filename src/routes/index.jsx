@@ -29,6 +29,7 @@ import HafalanBaru from "../pages/hafalan/HafalanBaru";
 import Murojaah from "../pages/hafalan/Murojaah";
 import RaporTahfidz from "../pages/RaporTahfidz";
 import KelolaAbsensi from "../pages/halaqoh/AbsensiSiswa/KelolaAbsensi";
+import RekapitulasiAbsen from "../pages/halaqoh/AbsensiSiswa/RekapitulasiAbsen";
 
 function RoutePage() {
   return (
@@ -239,6 +240,14 @@ function RoutePage() {
         element={
           <ProtectedPage>
             <KelolaAbsensi />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/halaqoh/absensi-siswa/kelola-absensi-siswa/rekapitulasi-absen"
+        element={
+          <ProtectedPage>
+            <RekapitulasiAbsen />
           </ProtectedPage>
         }
       />

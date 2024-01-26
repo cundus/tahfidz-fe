@@ -1,14 +1,24 @@
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import Header from "../../../components/molekuls/Header";
 import { useNavigate } from "react-router-dom";
-import { ArrowBackIcon, AddIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, AddIcon, SearchIcon } from "@chakra-ui/icons";
 import InfoProfile from "../../../components/atoms/InfoProfile";
-import { Flex, Image, Tr, Td } from "@chakra-ui/react";
+import {
+  Flex,
+  Image,
+  Tr,
+  Td,
+  Select,
+  Input,
+  Button,
+  Icon,
+} from "@chakra-ui/react";
 import FileWhite from "../../../assets/icons/file_white.png";
 import TableCustom from "../../../components/molekuls/TableCustom";
 import BadgeCustom from "../../../components/atoms/BadgeCustom";
+import { BsDownload } from "react-icons/bs";
 
-const KelolaAbsensi = () => {
+const RekapitulasiAbsen = () => {
   const router = useNavigate();
   return (
     <>
@@ -49,11 +59,7 @@ const KelolaAbsensi = () => {
               />
             }
             title="Rekapitulasi Absen"
-            onClick={() =>
-              router(
-                "/halaqoh/absensi-siswa/kelola-absensi-siswa/rekapitulasi-absen"
-              )
-            }
+            onClick={() => {}}
             bgColor="#198754"
             _hover={{ opacity: "0.8" }}
           />
@@ -63,6 +69,35 @@ const KelolaAbsensi = () => {
             onClick={() => {}}
           />
         </Flex>
+      </Flex>
+      <Flex marginTop={10} justifyContent="space-between" alignItems="center">
+        <Flex gap={3} alignItems="stretch">
+          <Select placeholder="Pilih Cari Berdasarkan"></Select>
+          <Input type="text" placeholder="Pencarian" />
+          <ButtonCustom
+            paddingX={6}
+            icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
+            title="Cari"
+            height="38px"
+          />
+          <ButtonCustom
+            paddingX={6}
+            _hover={{ backgroundColor: "#5c656e", color: "white" }}
+            bgColor="#6C757D"
+            title="Reset"
+            height="38px"
+          />
+        </Flex>
+        <Button
+          bgColor="#F8F9FA"
+          color="#000"
+          borderRadius={4}
+          fontWeight="400"
+          size="sm"
+        >
+          <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
+          Download
+        </Button>
       </Flex>
       <TableCustom
         theadCustom={
@@ -162,4 +197,4 @@ const KelolaAbsensi = () => {
   );
 };
 
-export default KelolaAbsensi;
+export default RekapitulasiAbsen;

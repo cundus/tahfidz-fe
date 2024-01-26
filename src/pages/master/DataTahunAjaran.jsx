@@ -1,7 +1,7 @@
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
 import { useNavigate } from "react-router-dom";
-import { AddIcon, SearchIcon, DownloadIcon } from "@chakra-ui/icons";
+import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Select,
@@ -11,8 +11,10 @@ import {
   Link,
   Tr,
   Td,
+  Icon,
 } from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
+import { BsDownload } from "react-icons/bs";
 
 const DataTahunAjaran = () => {
   const router = useNavigate();
@@ -53,7 +55,7 @@ const DataTahunAjaran = () => {
           fontWeight="400"
           size="sm"
         >
-          <DownloadIcon __css={{ marginRight: "6px" }} w={3} h={3} />
+          <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
       </Flex>

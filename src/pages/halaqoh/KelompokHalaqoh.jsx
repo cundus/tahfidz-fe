@@ -1,7 +1,7 @@
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
 import { useNavigate } from "react-router-dom";
-import { AddIcon, DownloadIcon, SearchIcon } from "@chakra-ui/icons";
+import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import TableCustom from "../../components/molekuls/TableCustom";
 import {
   Tr,
@@ -15,9 +15,10 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Icon,
 } from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
 import { IoEyeOutline } from "react-icons/io5";
+import { BsDownload } from "react-icons/bs";
 
 const KelompokHalaqoh = () => {
   const router = useNavigate();
@@ -58,7 +59,7 @@ const KelompokHalaqoh = () => {
           fontWeight="400"
           size="sm"
         >
-          <DownloadIcon __css={{ marginRight: "6px" }} w={3} h={3} />
+          <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
       </Flex>

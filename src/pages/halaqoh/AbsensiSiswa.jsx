@@ -1,10 +1,12 @@
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
-import { Flex, Select, Input, Td, Tr, Link } from "@chakra-ui/react";
+import { Flex, Select, Input, Td, Tr, Text } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import TableCustom from "../../components/molekuls/TableCustom";
+import { useNavigate } from "react-router-dom";
 
 const AbsensiSiswa = () => {
+  const router = useNavigate();
   return (
     <>
       <Header title="Absensi Siswa" />
@@ -34,9 +36,19 @@ const AbsensiSiswa = () => {
             <Td>TA 2020 - 2021 GANJIL</Td>
             <Td>Ibadurrahman</Td>
             <Td>
-              <Link color="#0D6EFD" fontSize="sm">
+              <Text
+                color="#0D6EFD"
+                onClick={() => router("/halaqoh/kelompok-halaqoh/absensi")}
+                fontSize="sm"
+                borderBottom="1px solid transparent"
+                _hover={{
+                  cursor: "pointer",
+                  borderBottom: "1px solid #0D6EFD",
+                  width: "fit-content",
+                }}
+              >
                 Kelola Absensi
-              </Link>
+              </Text>
             </Td>
           </Tr>
         }
