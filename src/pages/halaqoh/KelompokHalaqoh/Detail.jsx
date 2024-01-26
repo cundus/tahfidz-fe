@@ -29,8 +29,8 @@ const DetailKelompokHalaqoh = () => {
             title="Anggota"
             value={
               <Flex flexWrap="wrap" gap={4}>
-                <BadgeCustom title="Nama Siswa 1" />
-                <BadgeCustom title="Nama Siswa 1" />
+                <BadgeCustom title="Nama Siswa 1" isDelete={false} />
+                <BadgeCustom title="Nama Siswa 1" isDelete={false} />
               </Flex>
             }
           />
