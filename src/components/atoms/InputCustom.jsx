@@ -34,7 +34,7 @@ const InputCustom = ({
       width="100%"
       marginBottom={4}
     >
-      <FormLabel>{label}</FormLabel>
+      {label && <FormLabel>{label}</FormLabel>}
       {notInputForm ? (
         notInputForm
       ) : (

@@ -42,7 +42,7 @@ export const nav = {
     },
     {
       label: "Maroja`ah (Manzil)",
-      to: "/hafalan/muroja’ah-(manzil)",
+      to: "/hafalan/murojaah-(manzil)",
     },
   ],
   ujian_hafalan: "/ujian-hafalan",
