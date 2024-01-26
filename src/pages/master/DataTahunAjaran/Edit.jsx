@@ -52,6 +52,7 @@ const EditTahunAjaran = () => {
             borderColor="#DC3545"
             _hover={{ bgColor: "#DC3545", color: "white" }}
             w="100px"
+            bgColor="transparent"
           />
           <ButtonCustom
             title="Tambahkan"

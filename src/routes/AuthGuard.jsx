@@ -13,6 +13,8 @@ export function ProtectedPage({ children }) {
 
   const [isShow, setIsShow] = useState(true);
 
+  console.log("auth", auth);
+
   if (!auth.user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

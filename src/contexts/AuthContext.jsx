@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { fakeAuthProvider } from "../utils/auth";
 
 export const AuthContext = createContext(null);
@@ -15,6 +15,10 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   let [user, setUser] = useState("Rizki Ashari");
+
+  useEffect(() => {
+    console.log("user", user);
+  }, []);
 
   let signin = (newUser, callback) => {
     return fakeAuthProvider.signin(() => {

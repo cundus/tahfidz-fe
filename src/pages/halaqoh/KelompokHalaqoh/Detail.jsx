@@ -3,6 +3,9 @@ import Header from "../../../components/molekuls/Header";
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
+import { Flex } from "@chakra-ui/react";
+import InfoProfile from "../../../components/atoms/InfoProfile";
+import BadgeCustom from "../../../components/atoms/BadgeCustom";
 
 const DetailKelompokHalaqoh = () => {
   const router = useNavigate();
@@ -17,7 +20,23 @@ const DetailKelompokHalaqoh = () => {
           type="outline"
         />
       </Header>
-      <BoxInputLayout title="Detail Kelompok Halaqoh"></BoxInputLayout>
+      <BoxInputLayout title="Detail Kelompok Halaqoh">
+        <Flex direction="column" gap={4}>
+          <InfoProfile title="Nama Halaqoh" value="Muhammad Fauzan" />
+          <InfoProfile title="Tahun Ajaran" value="TA 2023-2024 GANJIL" />
+          <InfoProfile title="Nama Guru" value="Muhammad Fauzan" />
+          <InfoProfile
+            title="Anggota"
+            value={
+              <Flex flexWrap="wrap" gap={4}>
+                <BadgeCustom title="Nama Siswa 1" />
+                <BadgeCustom title="Nama Siswa 1" />
+              </Flex>
+            }
+          />
+          <InfoProfile title="Status" value="AKTIF" />
+        </Flex>
+      </BoxInputLayout>
     </>
   );
 };

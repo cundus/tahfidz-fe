@@ -6,6 +6,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { useState } from "react";
@@ -21,6 +22,8 @@ const InputCustom = ({
   name,
   notInputForm,
   disabled,
+  rightAddon,
+  helper,
 }) => {
   const [show, setShow] = useState(true);
 
@@ -68,10 +71,11 @@ const InputCustom = ({
               </InputRightElement>
             ))
           )}
+          {rightAddon && <InputRightElement>{rightAddon}</InputRightElement>}
         </InputGroup>
       )}
-
-      {errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
+      {errorText && <FormErrorMessage mt="2px">{errorText}</FormErrorMessage>}
+      {helper && <FormHelperText mt="2px">{helper}</FormHelperText>}
     </FormControl>
   );
 };
