@@ -8,11 +8,13 @@ import {
   Image,
 } from "@chakra-ui/react";
 import DashboardIcon from "../../assets/icons/dashboard_blue.png";
+import DashboardIconBlack from "../../assets/icons/dashboard_black.png";
 import { useLocation } from "react-router-dom";
 
 const Header = ({ children, title }) => {
   const location = useLocation();
   const filtered = location.pathname?.split("/").filter((item) => item !== "");
+  console.log(filtered);
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Flex flexDirection="column" gap={1}>
@@ -26,15 +28,37 @@ const Header = ({ children, title }) => {
         </Text>
         <Breadcrumb fontWeight="medium" fontSize="sm">
           <BreadcrumbItem>
-            <BreadcrumbLink
-              __css={{ display: "flex", alignItems: "center", gap: 1 }}
-              _hover={{ textDecoration: "underline" }}
-              color="#0D6EFD"
-              href="/dashboard"
-            >
-              <Image src={DashboardIcon} w="12px" h="12px" alt="dashboard" />
-              Dashboard
-            </BreadcrumbLink>
+            {filtered[0] === "dashboard" ? (
+              <BreadcrumbLink
+                __css={{
+                  display: "flex",
+                  gap: 1,
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={DashboardIconBlack}
+                  w="12px"
+                  h="12px"
+                  alt="dashboard"
+                />
+                Dashboard
+              </BreadcrumbLink>
+            ) : (
+              <BreadcrumbLink
+                __css={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  textDecoration: "underline",
+                }}
+                color="#0D6EFD"
+                href="/dashboard"
+              >
+                <Image src={DashboardIcon} w="12px" h="12px" alt="dashboard" />
+                Dashboard
+              </BreadcrumbLink>
+            )}
           </BreadcrumbItem>
 
           {location.pathname !== "/dashboard" &&
@@ -49,9 +73,11 @@ const Header = ({ children, title }) => {
                   </BreadcrumbLink>
                 ) : (
                   <BreadcrumbLink
-                    __css={{ display: "flex", alignItems: "center", gap: 1 }}
-                    _hover={{
-                      textDecoration: item === "master-data" ? "" : "underline",
+                    __css={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      textDecoration: "underline",
                     }}
                     color="#0D6EFD"
                     textTransform="capitalize"
