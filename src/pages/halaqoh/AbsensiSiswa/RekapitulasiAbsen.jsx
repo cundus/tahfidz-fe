@@ -1,18 +1,9 @@
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import Header from "../../../components/molekuls/Header";
 import { useNavigate } from "react-router-dom";
-import { ArrowBackIcon, AddIcon, SearchIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, AddIcon } from "@chakra-ui/icons";
 import InfoProfile from "../../../components/atoms/InfoProfile";
-import {
-  Flex,
-  Image,
-  Tr,
-  Td,
-  Select,
-  Input,
-  Button,
-  Icon,
-} from "@chakra-ui/react";
+import { Flex, Image, Tr, Td, Select, Button, Icon } from "@chakra-ui/react";
 import FileWhite from "../../../assets/icons/file_white.png";
 import TableCustom from "../../../components/molekuls/TableCustom";
 import BadgeCustom from "../../../components/atoms/BadgeCustom";
@@ -72,21 +63,9 @@ const RekapitulasiAbsen = () => {
       </Flex>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
         <Flex gap={3} alignItems="stretch">
-          <Select placeholder="Pilih Cari Berdasarkan"></Select>
-          <Input type="text" placeholder="Pencarian" />
-          <ButtonCustom
-            paddingX={6}
-            icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
-            title="Cari"
-            height="38px"
-          />
-          <ButtonCustom
-            paddingX={6}
-            _hover={{ backgroundColor: "#5c656e", color: "white" }}
-            bgColor="#6C757D"
-            title="Reset"
-            height="38px"
-          />
+          <Select width={60} placeholder="Pilih Tahun"></Select>
+          <Select width={60} placeholder="Pilih Bulan"></Select>
+          <ButtonCustom paddingX={6} title="Submit" height="38px" />
         </Flex>
         <Button
           bgColor="#F8F9FA"

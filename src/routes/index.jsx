@@ -30,6 +30,7 @@ import Murojaah from "../pages/hafalan/Murojaah";
 import RaporTahfidz from "../pages/RaporTahfidz";
 import KelolaAbsensi from "../pages/halaqoh/AbsensiSiswa/KelolaAbsensi";
 import RekapitulasiAbsen from "../pages/halaqoh/AbsensiSiswa/RekapitulasiAbsen";
+import KelolaHafalan from "../pages/hafalan/HafalanBaru/KelolaHafalan";
 
 function RoutePage() {
   return (
@@ -258,6 +259,14 @@ function RoutePage() {
         element={
           <ProtectedPage>
             <HafalanBaru />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan"
+        element={
+          <ProtectedPage>
+            <KelolaHafalan />
           </ProtectedPage>
         }
       />

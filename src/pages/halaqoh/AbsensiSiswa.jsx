@@ -38,7 +38,9 @@ const AbsensiSiswa = () => {
             <Td>
               <Text
                 color="#0D6EFD"
-                onClick={() => router("/halaqoh/kelompok-halaqoh/absensi")}
+                onClick={() =>
+                  router("/halaqoh/absensi-siswa/kelola-absensi-siswa")
+                }
                 fontSize="sm"
                 borderBottom="1px solid transparent"
                 _hover={{
