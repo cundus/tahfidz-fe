@@ -11,6 +11,7 @@ import RaporHafalanIcon from "../../assets/icons/rapor_tahfidz.png";
 import { SideNavWithArrow } from "../atoms/SideNav";
 import { nav } from "../../constans/nav";
 import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
+import RaportTahfidzWhite from "../../assets/icons/rapor_tahfidz_white.png";
 
 const SideNavs = ({ isShow }) => {
   return (
@@ -95,7 +96,13 @@ const SideNavs = ({ isShow }) => {
           <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
             MANAJEMEN REKAPITULASI DATA
           </Text>
-          <SideNavWithArrow icon={RaporHafalanIcon} title="Rapor Tahfidz" />
+          <SideNavWithArrow
+            singleLink
+            IconSingle={RaportTahfidzWhite}
+            icon={RaporHafalanIcon}
+            title="Rapor Tahfidz"
+            singleLinkTo={nav.rapor_tahfidz}
+          />
         </Flex>
       </Box>
     </>

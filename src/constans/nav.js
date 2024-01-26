@@ -31,8 +31,8 @@ export const nav = {
     //   to: "/halaqoh/absensi-siswa",
     // },
     {
-      label: "Absensi Guru",
-      to: "/halaqoh/absensi-guru",
+      label: "Absensi Siswa",
+      to: "/halaqoh/absensi-siswa",
     },
   ],
   hafalan: [
@@ -46,4 +46,5 @@ export const nav = {
     },
   ],
   ujian_hafalan: "/ujian-hafalan",
+  rapor_tahfidz: "/rapor-tahfidz",
 };

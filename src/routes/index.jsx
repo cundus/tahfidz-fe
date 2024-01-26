@@ -27,6 +27,7 @@ import DetailKelompokHalaqoh from "../pages/halaqoh/KelompokHalaqoh/Detail";
 import UjianHafalan from "../pages/UjianHafalan";
 import HafalanBaru from "../pages/hafalan/HafalanBaru";
 import Murojaah from "../pages/hafalan/Murojaah";
+import RaporTahfidz from "../pages/RaporTahfidz";
 
 function RoutePage() {
   return (
@@ -233,16 +234,6 @@ function RoutePage() {
         }
       />
 
-      {/* Ujian Hafalan */}
-      <Route
-        path="/ujian-hafalan"
-        element={
-          <ProtectedPage>
-            <UjianHafalan />
-          </ProtectedPage>
-        }
-      />
-
       {/* Hafalan  */}
       <Route
         path="/hafalan/hafalan-baru-(sabq)"
@@ -261,15 +252,25 @@ function RoutePage() {
         }
       />
 
-      {/* Absensi Guru */}
-      {/* <Route
-        path="/halaqoh/absensi-guru"
+      {/* Ujian Hafalan */}
+      <Route
+        path="/ujian-hafalan"
         element={
           <ProtectedPage>
-            <AbsensiGuru />
+            <UjianHafalan />
           </ProtectedPage>
         }
-      /> */}
+      />
+
+      {/* Rapor Tahfizd */}
+      <Route
+        path="/rapor-tahfidz"
+        element={
+          <ProtectedPage>
+            <RaporTahfidz />
+          </ProtectedPage>
+        }
+      />
     </Routes>
   );
 }
