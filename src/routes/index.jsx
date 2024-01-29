@@ -31,6 +31,13 @@ import RaporTahfidz from "../pages/RaporTahfidz";
 import KelolaAbsensi from "../pages/halaqoh/AbsensiSiswa/KelolaAbsensi";
 import RekapitulasiAbsen from "../pages/halaqoh/AbsensiSiswa/RekapitulasiAbsen";
 import KelolaHafalan from "../pages/hafalan/HafalanBaru/KelolaHafalan";
+import SiswaHafalan from "../pages/hafalan/HafalanBaru/SiswaHafalan";
+import KelolaMurojaah from "../pages/hafalan/Murojaah/KelolaMurojaah";
+import SiswaMurojaah from "../pages/hafalan/Murojaah/SiswaMurojaah";
+import KelolaUjianHafalan from "../pages/ujianHafalan/KelolaUjianHafalan";
+import SiswaUjianHafalan from "../pages/ujianHafalan/SiswaUjianHafalan";
+import KelolaRaporTahfidz from "../pages/raporTahfidz/KelolaRaporTahfidz";
+import SiswaRaporTahfidz from "../pages/raporTahfidz/SiswaRaporTahfidz";
 
 function RoutePage() {
   return (
@@ -271,10 +278,35 @@ function RoutePage() {
         }
       />
       <Route
+        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id"
+        element={
+          <ProtectedPage>
+            <SiswaHafalan />
+          </ProtectedPage>
+        }
+      />
+
+      <Route
         path="/hafalan/murojaah-(manzil)"
         element={
           <ProtectedPage>
             <Murojaah />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan"
+        element={
+          <ProtectedPage>
+            <KelolaMurojaah />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id"
+        element={
+          <ProtectedPage>
+            <SiswaMurojaah />
           </ProtectedPage>
         }
       />
@@ -288,6 +320,22 @@ function RoutePage() {
           </ProtectedPage>
         }
       />
+      <Route
+        path="/ujian-hafalan/kelola-hafalan"
+        element={
+          <ProtectedPage>
+            <KelolaUjianHafalan />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/ujian-hafalan/kelola-hafalan/:id"
+        element={
+          <ProtectedPage>
+            <SiswaUjianHafalan />
+          </ProtectedPage>
+        }
+      />
 
       {/* Rapor Tahfizd */}
       <Route
@@ -295,6 +343,22 @@ function RoutePage() {
         element={
           <ProtectedPage>
             <RaporTahfidz />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/rapor-tahfidz/kelola-hafalan"
+        element={
+          <ProtectedPage>
+            <KelolaRaporTahfidz />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/rapor-tahfidz/kelola-hafalan/:id"
+        element={
+          <ProtectedPage>
+            <SiswaRaporTahfidz />
           </ProtectedPage>
         }
       />

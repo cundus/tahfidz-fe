@@ -6,7 +6,7 @@ import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import InfoProfile from "../../../components/atoms/InfoProfile";
 import { useNavigate } from "react-router-dom";
 
-const KelolaHafalan = () => {
+const KelolaMurojaah = () => {
   const router = useNavigate();
   return (
     <>
@@ -14,7 +14,7 @@ const KelolaHafalan = () => {
         <ButtonCustom
           icon={<ArrowBackIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Kembali"
-          onClick={() => router("/hafalan/hafalan-baru-(sabq)")}
+          onClick={() => router("/hafalan/murojaah-(manzil)")}
           type="outline"
         />
       </Header>
@@ -49,7 +49,7 @@ const KelolaHafalan = () => {
               <Text
                 color="#0D6EFD"
                 onClick={() =>
-                  router("/hafalan/hafalan-baru-(sabq)/kelola-hafalan/Ahmad")
+                  router("/hafalan/murojaah-(manzil)/kelola-hafalan/Ahmad")
                 }
                 fontSize="sm"
                 borderBottom="1px solid transparent"
@@ -69,4 +69,4 @@ const KelolaHafalan = () => {
   );
 };
 
-export default KelolaHafalan;
+export default KelolaMurojaah;

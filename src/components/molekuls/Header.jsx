@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 const Header = ({ children, title }) => {
   const location = useLocation();
   const filtered = location.pathname?.split("/").filter((item) => item !== "");
-  console.log(filtered);
+
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Flex flexDirection="column" gap={1}>

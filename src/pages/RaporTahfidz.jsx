@@ -1,10 +1,13 @@
 import Header from "../components/molekuls/Header";
-import { Flex, Select, Input, Link, Tr, Td } from "@chakra-ui/react";
+import { Flex, Select, Input, Text, Tr, Td } from "@chakra-ui/react";
 import ButtonCustom from "../components/atoms/ButtonCustom";
 import { SearchIcon } from "@chakra-ui/icons";
 import TableCustom from "../components/molekuls/TableCustom";
+import { useNavigate } from "react-router-dom";
 
 const RaporTahfidz = () => {
+  const router = useNavigate();
+
   return (
     <>
       <Header title="Rapor Tahfidz" />
@@ -34,9 +37,19 @@ const RaporTahfidz = () => {
             <Td>TA 2020 - 2021 GANJIL</Td>
             <Td>Ibadurrahman</Td>
             <Td>
-              <Link color="#0D6EFD" fontSize="sm">
+              <Text
+                color="#0D6EFD"
+                onClick={() => router("/rapor-tahfidz/kelola-hafalan")}
+                fontSize="sm"
+                borderBottom="1px solid transparent"
+                _hover={{
+                  cursor: "pointer",
+                  borderBottom: "1px solid #0D6EFD",
+                  width: "fit-content",
+                }}
+              >
                 Pilih Halaqoh
-              </Link>
+              </Text>
             </Td>
           </Tr>
         }

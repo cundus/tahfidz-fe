@@ -1,20 +1,20 @@
-import Header from "../../../components/molekuls/Header";
+import Header from "../../components/molekuls/Header";
 import { Flex, Td, Tr, Text } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import TableCustom from "../../../components/molekuls/TableCustom";
-import ButtonCustom from "../../../components/atoms/ButtonCustom";
-import InfoProfile from "../../../components/atoms/InfoProfile";
+import TableCustom from "../../components/molekuls/TableCustom";
+import ButtonCustom from "../../components/atoms/ButtonCustom";
+import InfoProfile from "../../components/atoms/InfoProfile";
 import { useNavigate } from "react-router-dom";
 
-const KelolaHafalan = () => {
+const KelolaUjianHafalan = () => {
   const router = useNavigate();
   return (
     <>
-      <Header title="HAFALAN BARU (SABQ)">
+      <Header title="UJIAN HAFALAN">
         <ButtonCustom
           icon={<ArrowBackIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Kembali"
-          onClick={() => router("/hafalan/hafalan-baru-(sabq)")}
+          onClick={() => router("/ujian-hafalan")}
           type="outline"
         />
       </Header>
@@ -48,9 +48,7 @@ const KelolaHafalan = () => {
             <Td>
               <Text
                 color="#0D6EFD"
-                onClick={() =>
-                  router("/hafalan/hafalan-baru-(sabq)/kelola-hafalan/Ahmad")
-                }
+                onClick={() => router("/ujian-hafalan/kelola-hafalan/Ahmad")}
                 fontSize="sm"
                 borderBottom="1px solid transparent"
                 _hover={{
@@ -59,7 +57,7 @@ const KelolaHafalan = () => {
                   width: "fit-content",
                 }}
               >
-                Kelola Hafalan
+                Kelola Ujian
               </Text>
             </Td>
           </Tr>
@@ -69,4 +67,4 @@ const KelolaHafalan = () => {
   );
 };
 
-export default KelolaHafalan;
+export default KelolaUjianHafalan;
