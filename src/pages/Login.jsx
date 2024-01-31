@@ -1,32 +1,43 @@
-import { Flex, Box, Image, Text, Checkbox, Button } from "@chakra-ui/react";
+import {
+   Flex,
+   Box,
+   Image,
+   Text,
+   Checkbox,
+   Button,
+   Select,
+   FormControl,
+   FormErrorMessage,
+   FormLabel,
+} from "@chakra-ui/react";
 import AlQuran from "../assets/al-quran.png";
 import Logo from "../assets/logo.png";
 import InputCustom from "../components/atoms/InputCustom";
 import { useState } from "react";
+import { useLoginValidation } from "../lib/validation/loginValidation";
+import { Controller } from "react-hook-form";
+import { login } from "../lib/api/auth";
 
 const Login = () => {
+   const { control, handleSubmit, reset, setError } = useLoginValidation();
    const [isLoading, setIsLoading] = useState(false);
 
-   const [form, setForm] = useState({
-      username: "",
-      password: "",
-   });
-
-   const handleLogin = async () => {
+   const handleLogin = async (data) => {
       try {
          setIsLoading(true);
-         const response = await fetch("https://reqres.in/api/login", {
-            method: "POST",
-            headers: {
-               "Content-Type": "application/json",
-            },
-            body: JSON.stringify(form),
-         });
-         const data = await response.json();
-         console.log(data);
+         const response = await login(data);
+         console.log(response);
          setIsLoading(false);
       } catch (error) {
          console.log(error);
+         setError("username", {
+            type: "custom",
+            message: "Password tidak valid. Silakan periksa kembali.",
+         });
+         setError("password", {
+            type: "custom",
+            message: "Password tidak valid. Silakan periksa kembali.",
+         });
          setIsLoading(false);
       }
    };
@@ -64,26 +75,61 @@ const Login = () => {
                <Text color="#6C757D" marginTop={1} marginBottom={4}>
                   Rumah Quran Al-Inayah Pamulang Tangerang Banten
                </Text>
-               <InputCustom
-                  typeInput="text"
-                  placeholder="Username"
-                  label="Username"
+               <Controller
+                  control={control}
                   name="username"
-                  errorText=""
-                  onChange={(e) =>
-                     setForm({ ...form, username: e.target.value })
-                  }
+                  render={({ field, fieldState }) => (
+                     <InputCustom
+                        typeInput="text"
+                        placeholder="Username"
+                        label="Username"
+                        name="username"
+                        errorText={fieldState.error?.message}
+                        {...field}
+                     />
+                  )}
                />
-               <InputCustom
-                  typeInput="password"
-                  placeholder="Password"
-                  label="Password"
+
+               <Controller
+                  control={control}
                   name="password"
-                  onChange={(e) =>
-                     setForm({ ...form, username: e.target.value })
-                  }
-                  errorText=""
+                  render={({ field, fieldState }) => (
+                     <InputCustom
+                        typeInput="password"
+                        placeholder="Password"
+                        label="Password"
+                        name="password"
+                        {...field}
+                        errorText={fieldState.error?.message}
+                     />
+                  )}
                />
+
+               <Controller
+                  control={control}
+                  name="role"
+                  render={({ field, fieldState }) => (
+                     <FormControl
+                        isInvalid={!!fieldState.error?.message}
+                        mb={"2"}
+                     >
+                        <FormLabel>Role</FormLabel>
+                        <Select placeholder="Pilih Role" {...field}>
+                           <option value="admin">Admin</option>
+                           <option value="operator">Operator</option>
+                           <option value="guru">Guru</option>
+                           <option value="siswa">Siswa</option>
+                        </Select>
+
+                        {!!fieldState.error?.message && (
+                           <FormErrorMessage>
+                              {fieldState.error?.message}
+                           </FormErrorMessage>
+                        )}
+                     </FormControl>
+                  )}
+               />
+
                <Text fontStyle="italic" color="#6C757D">
                   Checklist <strong>&quot;Simpan Password&quot;</strong> untuk
                   masuk kembali tanpa menuliskan Username dan Password
@@ -107,6 +153,7 @@ const Login = () => {
                      opacity: 1,
                   }}
                   // isDisabled={true}
+                  onSubmit={handleSubmit(handleLogin)}
                >
                   Masuk
                </Button>
