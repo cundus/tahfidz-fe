@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { fakeAuthProvider } from "../utils/auth";
+import { checkAuth } from "../lib/api/auth";
 
 export const AuthContext = createContext(null);
 
@@ -14,7 +15,29 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-   let [user, setUser] = useState("");
+   let [user, setUser] = useState(null);
+
+   const checkingAuth = async () => {
+      try {
+         const token = localStorage.getItem("token");
+         console.log("token", token);
+         if (!token) {
+            return signout(() => {});
+         }
+
+         const res = await checkAuth();
+         setUser(res.user);
+      } catch (error) {
+         console.log(error);
+
+         localStorage.removeItem("token");
+         return signout(() => {});
+      }
+   };
+
+   useEffect(() => {
+      checkingAuth();
+   }, []);
 
    useEffect(() => {
       console.log("user", user);

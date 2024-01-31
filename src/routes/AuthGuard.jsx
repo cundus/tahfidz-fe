@@ -8,43 +8,48 @@ import Profile from "../components/molekuls/Profile";
 import { useState } from "react";
 
 export function ProtectedPage({ children }) {
-  let auth = useAuth();
-  let location = useLocation();
+   let auth = useAuth();
+   let location = useLocation();
 
-  const [isShow, setIsShow] = useState(true);
+   const [isShow, setIsShow] = useState(true);
 
-  console.log("auth", auth);
+   console.log("auth", auth);
 
-  if (!auth.user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+   if (auth.user === null) {
+      return <Navigate to="/login" state={{ from: location }} replace />;
+   }
 
-  return (
-    <Flex>
-      <SideNavs isShow={isShow} setIsShow={setIsShow} />
-      <Flex
-        flexDirection="column"
-        marginLeft={isShow ? "18rem" : "16rem"}
-        w={isShow ? "calc(100% - 18rem)" : "calc(100% - 16rem)"}
-        maxW="100%"
-      >
-        <Profile isShow={isShow} setIsShow={setIsShow} />
-        <Box paddingLeft={8} paddingY={10} paddingRight={16} overflowY="auto">
-          {children}
-        </Box>
+   return (
+      <Flex>
+         <SideNavs isShow={isShow} setIsShow={setIsShow} />
+         <Flex
+            flexDirection="column"
+            marginLeft={isShow ? "18rem" : "16rem"}
+            w={isShow ? "calc(100% - 18rem)" : "calc(100% - 16rem)"}
+            maxW="100%"
+         >
+            <Profile isShow={isShow} setIsShow={setIsShow} />
+            <Box
+               paddingLeft={8}
+               paddingY={10}
+               paddingRight={16}
+               overflowY="auto"
+            >
+               {children}
+            </Box>
+         </Flex>
       </Flex>
-    </Flex>
-  );
+   );
 }
 
 export function UnProtectedPage({ children }) {
-  let auth = useAuth();
-  let location = useLocation();
+   let auth = useAuth();
+   let location = useLocation();
 
-  if (auth.user) {
-    // back to previous page
-    return <Navigate to={location.state?.from || "/"} replace />;
-  }
+   if (auth.user) {
+      // back to previous page
+      return <Navigate to={location.state?.from || "/"} replace />;
+   }
 
-  return children;
+   return children;
 }

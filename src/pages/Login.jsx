@@ -17,22 +17,30 @@ import { useState } from "react";
 import { useLoginValidation } from "../lib/validation/loginValidation";
 import { Controller } from "react-hook-form";
 import { login } from "../lib/api/auth";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
    const { control, handleSubmit, reset, setError } = useLoginValidation();
    const [isLoading, setIsLoading] = useState(false);
+   const navigate = useNavigate();
+   const auth = useAuth();
 
    const handleLogin = async (data) => {
       try {
          setIsLoading(true);
          const response = await login(data);
          console.log(response);
+         auth.signin(response.user);
+         localStorage.setItem("token", response.token);
+         navigate("/dashboard");
+
          setIsLoading(false);
       } catch (error) {
          console.log(error);
          setError("username", {
             type: "custom",
-            message: "Password tidak valid. Silakan periksa kembali.",
+            message: "Username tidak valid. Silakan periksa kembali.",
          });
          setError("password", {
             type: "custom",
@@ -153,7 +161,7 @@ const Login = () => {
                      opacity: 1,
                   }}
                   // isDisabled={true}
-                  onSubmit={handleSubmit(handleLogin)}
+                  onClick={handleSubmit(handleLogin)}
                >
                   Masuk
                </Button>
