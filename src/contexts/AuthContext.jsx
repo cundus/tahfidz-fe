@@ -6,35 +6,35 @@ import { fakeAuthProvider } from "../utils/auth";
 export const AuthContext = createContext(null);
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within a AuthProvider");
-  }
-  return context;
+   const context = useContext(AuthContext);
+   if (context === undefined) {
+      throw new Error("useAuth must be used within a AuthProvider");
+   }
+   return context;
 };
 
 export function AuthProvider({ children }) {
-  let [user, setUser] = useState("Rizki Ashari");
+   let [user, setUser] = useState();
 
-  useEffect(() => {
-    console.log("user", user);
-  }, []);
+   useEffect(() => {
+      console.log("user", user);
+   }, []);
 
-  let signin = (newUser, callback) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
-      callback();
-    });
-  };
+   let signin = (newUser, callback) => {
+      return fakeAuthProvider.signin(() => {
+         setUser(newUser);
+         callback();
+      });
+   };
 
-  let signout = (callback) => {
-    return fakeAuthProvider.signout(() => {
-      setUser(null);
-      callback();
-    });
-  };
+   let signout = (callback) => {
+      return fakeAuthProvider.signout(() => {
+         setUser(null);
+         callback();
+      });
+   };
 
-  let value = { user, signin, signout };
+   let value = { user, signin, signout };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
