@@ -14,7 +14,7 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-   let [user, setUser] = useState("");
+   let [user, setUser] = useState("ii");
 
    useEffect(() => {
       console.log("user", user);

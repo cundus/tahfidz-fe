@@ -22,9 +22,12 @@ import { PiUploadSimpleLight } from "react-icons/pi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { Icon } from "@chakra-ui/react";
 import InputCustom from "../../../components/atoms/InputCustom";
+import { Controller } from "react-hook-form";
+import { useOperatorValidation } from "../../../lib/validation/userValidation";
 
 const EditOperator = () => {
   const router = useNavigate();
+  const { control } = useOperatorValidation();
 
   return (
     <>
@@ -90,116 +93,212 @@ const EditOperator = () => {
           </Text>
         </Box>
         <Grid templateColumns="repeat(4, 1fr)" gap="16px">
-          <InputCustom
-            typeInput="text"
-            placeholder="Nama Lengkap"
-            label="Nama Lengkap"
+          <Controller
+            control={control}
             name="nama_lengkap"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Nama Lengkap"
+                label="Nama Lengkap"
+                name="nama_lengkap"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="text"
-            placeholder="Username"
-            label="Username"
+          <Controller
+            control={control}
             name="username"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Username"
+                label="Username"
+                name="username"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="password"
-            placeholder="Password"
-            label="Password"
+          <Controller
+            control={control}
             name="password"
-            disabled={true}
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="password"
+                placeholder="Password"
+                label="Password"
+                name="password"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="password"
-            placeholder="Konfirmasi Password"
-            label="Konfirmasi Password"
+
+          <Controller
+            control={control}
             name="konfirmasi_password"
-            disabled={true}
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="password"
+                placeholder="Konfirmasi Password"
+                label="Konfirmasi Password"
+                name="konfirmasi_password"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            placeholder="NIO"
-            isReq={true}
-            label="No Induk Operator"
-            leftAddon={
-              <InputLeftAddon bg="#E9ECEF" px="4" border="1px solid #CED4DA">
-                ARQAI
-              </InputLeftAddon>
-            }
+
+          <Controller
+            control={control}
+            name="nomor_induk"
+            render={({ field, fieldState }) => (
+              <InputCustom
+                placeholder="NIO"
+                isReq={true}
+                label="No Induk Operator"
+                name="nomor_induk"
+                errorText={fieldState.error?.message}
+                {...field}
+                leftAddon={
+                  <InputLeftAddon
+                    bg="#E9ECEF"
+                    px="4"
+                    border="1px solid #CED4DA"
+                  >
+                    GRQAI
+                  </InputLeftAddon>
+                }
+              />
+            )}
           />
-          <InputCustom
-            typeInput="text"
-            placeholder="Tempat Lahir"
-            label="Tempat Lahir"
+
+          <Controller
+            control={control}
             name="tempat_lahir"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Tempat Lahir"
+                label="Tempat Lahir"
+                name="tempat_lahir"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="date"
-            label="Tanggal Lahir"
-            placeholder="Pilih Tanggal"
+          <Controller
+            control={control}
             name="tanggal_lahir"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="date"
+                label="Tanggal Lahir"
+                placeholder="Pilih Tanggal"
+                name="tanggal_lahir"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
-          <InputCustom
-            label="Jenis Kelamin"
-            errorText=""
-            isReq={true}
-            notInputForm={
-              <RadioGroup name="jenis_kelamin">
-                <Stack direction="row">
-                  <Radio bgColor="white" value="L">
-                    Laki-laki
-                  </Radio>
-                  <Radio bgColor="white" value="P">
-                    Perempuan
-                  </Radio>
-                </Stack>
-              </RadioGroup>
-            }
+          <Controller
+            control={control}
+            name="jenis_kelamin"
+            render={({ field, fieldState }) => (
+              <InputCustom
+                label="Jenis Kelamin"
+                name="jenis_kelamin"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+                notInputForm={
+                  <RadioGroup name="jenis_kelamin">
+                    <Stack direction="row">
+                      <Radio bgColor="white" value="L">
+                        Laki-laki
+                      </Radio>
+                      <Radio bgColor="white" value="P">
+                        Perempuan
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                }
+              />
+            )}
           />
-          <InputCustom
-            typeInput="email"
-            label="Email"
-            placeholder="Email"
+
+          <Controller
+            control={control}
             name="email"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="email"
+                label="Email"
+                placeholder="Email"
+                name="email"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="number"
-            label="Nomor Telepon"
-            placeholder="Nomor Telepon"
+
+          <Controller
+            control={control}
             name="nomor_telepon"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="number"
+                label="Nomor Telepon"
+                placeholder="Nomor Telepon"
+                name="nomor_telepon"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="text"
-            placeholder="Jabatan"
-            label="Posisi / Jabatan"
+          <Controller
+            control={control}
             name="jabatan"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Jabatan"
+                label="Posisi / Jabatan"
+                name="jabatan"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="date"
-            label="Tanggal Bergabung"
-            placeholder="Pilih Tanggal"
+          <Controller
+            control={control}
             name="tanggal_bergabung"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="date"
+                label="Tanggal Bergabung"
+                placeholder="Pilih Tanggal"
+                name="tanggal_bergabung"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
         </Grid>
+
+
         <InputCustom
           label="Alamat Lengkap"
           notInputForm={
