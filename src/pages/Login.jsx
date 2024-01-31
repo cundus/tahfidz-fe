@@ -161,7 +161,7 @@ const Login = () => {
                      opacity: 1,
                   }}
                   // isDisabled={true}
-                  onClick={handleSubmit(handleLogin)}
+                  onSubmit={handleSubmit(handleLogin)}
                >
                   Masuk
                </Button>

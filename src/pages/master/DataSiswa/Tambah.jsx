@@ -22,9 +22,18 @@ import { PiUploadSimpleLight } from "react-icons/pi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { Icon } from "@chakra-ui/react";
 import InputCustom from "../../../components/atoms/InputCustom";
+import { Controller } from "react-hook-form";
+import { useSiswaValidation } from "../../../lib/validation/userValidation";
 
 const TambahSiswa = () => {
   const router = useNavigate();
+
+  const {
+    control,
+    // handleSubmit,
+    // reset,
+    // setError
+  } = useSiswaValidation();
 
   return (
     <>
@@ -90,82 +99,138 @@ const TambahSiswa = () => {
           </Text>
         </Box>
         <Grid templateColumns="repeat(4, 1fr)" gap="16px">
-          <InputCustom
-            typeInput="text"
-            placeholder="Nama Lengkap"
-            label="Nama Lengkap"
+          <Controller
+            control={control}
             name="nama_lengkap"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Nama Lengkap"
+                label="Nama Lengkap"
+                name="nama_lengkap"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="text"
-            placeholder="Username"
-            label="Username"
+
+          <Controller
+            control={control}
             name="username"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Username"
+                label="Username"
+                name="username"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
+
           <InputCustom
             typeInput="password"
             placeholder="Password"
             label="Password"
             name="password"
-            errorText=""
           />
+
           <InputCustom
             typeInput="password"
             placeholder="Konfirmasi Password"
             label="Konfirmasi Password"
             name="konfirmasi_password"
-            errorText=""
           />
-          <InputCustom
-            placeholder="NIS"
-            isReq={true}
-            label="No Induk Siswa"
-            leftAddon={
-              <InputLeftAddon bg="#E9ECEF" px="4" border="1px solid #CED4DA">
-                SRQAI
-              </InputLeftAddon>
-            }
+
+          <Controller
+            control={control}
+            name="nomor_induk"
+            render={({ field, fieldState }) => (
+              <InputCustom
+                placeholder="NIS"
+                name="nomor_induk"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+                label="No Induk Siswa"
+                leftAddon={
+                  <InputLeftAddon
+                    bg="#E9ECEF"
+                    px="4"
+                    border="1px solid #CED4DA"
+                  >
+                    SRQAI
+                  </InputLeftAddon>
+                }
+              />
+            )}
           />
-          <InputCustom
-            typeInput="text"
-            placeholder="Tempat Lahir"
-            label="Tempat Lahir"
+
+          <Controller
+            control={control}
             name="tempat_lahir"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Tempat Lahir"
+                label="Tempat Lahir"
+                name="tempat_lahir"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <InputCustom
-            typeInput="date"
-            label="Tanggal Lahir"
-            placeholder="Pilih Tanggal"
+
+          <Controller
+            control={control}
             name="tanggal_lahir"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="date"
+                label="Tanggal Lahir"
+                placeholder="Pilih Tanggal"
+                name="tanggal_lahir"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                {...field}
+              />
+            )}
           />
-          <InputCustom
-            label="Jenis Kelamin"
-            errorText=""
-            isReq={true}
-            notInputForm={
-              <RadioGroup name="jenis_kelamin">
-                <Stack direction="row">
-                  <Radio bgColor="white" value="L">
-                    Laki-laki
-                  </Radio>
-                  <Radio bgColor="white" value="P">
-                    Perempuan
-                  </Radio>
-                </Stack>
-              </RadioGroup>
-            }
+
+          <Controller
+            control={control}
+            name="jenis_kelamin"
+            render={({ field, fieldState }) => (
+              <InputCustom
+                label="Jenis Kelamin"
+                name="jenis_kelamin"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+                notInputForm={
+                  <RadioGroup name="jenis_kelamin">
+                    <Stack direction="row">
+                      <Radio bgColor="white" value="L">
+                        Laki-laki
+                      </Radio>
+                      <Radio bgColor="white" value="P">
+                        Perempuan
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                }
+              />
+            )}
           />
         </Grid>
+
         <InputCustom
           label="Alamat Lengkap"
+          name="alamat"
           notInputForm={
             <Textarea
               bgColor="white"
@@ -174,6 +239,7 @@ const TambahSiswa = () => {
             />
           }
         />
+
         <Box position="relative" mt="40px" mb="40px">
           <Divider
             variant="dashed"
@@ -189,34 +255,59 @@ const TambahSiswa = () => {
           </Text>
         </Box>
         <Grid templateColumns="repeat(3, 1fr)" gap="16px">
-          <InputCustom
-            typeInput="text"
-            placeholder="Nama Ayah"
-            label="Nama Ayah"
+          <Controller
+            control={control}
             name="nama_ayah"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Nama Ayah"
+                label="Nama Ayah"
+                name="nama_ayah"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
+
           <InputCustom
             typeInput="text"
             placeholder="Nomor Telepon Ayah"
             label="Nomor Telepon Ayah"
             name="nomor_telepon_ayah"
           />
+
+          <InputCustom
+            typeInput="text"
+            placeholder="Nomor Telepon Ayah"
+            label="Nomor Telepon Ayah"
+            name="nomor_telepon_ayah"
+          />
+
           <InputCustom
             typeInput="text"
             placeholder="Pekerjaan Ayah"
             label="Pekerjaan Ayah"
             name="pekerjaan_ayah"
           />
-          <InputCustom
-            typeInput="text"
-            placeholder="Nama Ibu"
-            label="Nama Ibu"
+
+          <Controller
+            control={control}
             name="nama_ibu"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Nama Ibu"
+                label="Nama Ibu"
+                name="nama_ibu"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
+
           <InputCustom
             typeInput="text"
             placeholder="Nomor Telepon Ibu"

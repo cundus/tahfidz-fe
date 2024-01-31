@@ -39,10 +39,6 @@ export function AuthProvider({ children }) {
       checkingAuth();
    }, []);
 
-   useEffect(() => {
-      console.log("user", user);
-   }, []);
-
    let signin = (newUser, callback) => {
       return fakeAuthProvider.signin(() => {
          setUser(newUser);
