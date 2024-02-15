@@ -79,7 +79,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-siswa/edit-data-siswa"
+        path="/master-data/data-siswa/edit-data-siswa/:id"
         element={
           <ProtectedPage>
             <EditSiswa />
@@ -87,7 +87,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-siswa/detail-data-siswa"
+        path="/master-data/data-siswa/detail-data-siswa/:id"
         element={
           <ProtectedPage>
             <DetailSiswa />
@@ -121,7 +121,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-guru/detail-data-guru"
+        path="/master-data/data-guru/detail-data-guru/:id"
         element={
           <ProtectedPage>
             <DetailGuru />
@@ -155,7 +155,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-operator/detail-data-operator"
+        path="/master-data/data-operator/detail-data-operator/:id"
         element={
           <ProtectedPage>
             <DetailOperator />

@@ -1,23 +1,71 @@
-import Header from "../../components/molekuls/Header";
-import ButtonCustom from "../../components/atoms/ButtonCustom";
-import TableCustom from "../../components/molekuls/TableCustom";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import {
-  Tr,
-  Td,
   Badge,
+  Button,
   Flex,
+  Icon,
+  Input,
   Link,
   Select,
-  Button,
-  Input,
-  Icon,
+  Td,
+  Text,
+  Tr,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { BsDownload } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import ButtonCustom from "../../components/atoms/ButtonCustom";
+import Header from "../../components/molekuls/Header";
+import TableCustom from "../../components/molekuls/TableCustom";
+import { deleteUser, getAllSiswa } from "../../lib/api/users";
+import AlertConfirm from "./../../components/atoms/AlertDialog";
 
 const DataSiswa = () => {
   const router = useNavigate();
+  const [dataSiswa, setDataSiswa] = useState([]);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [selectedId, setSelectedId] = useState();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const handleGetAllSiswa = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllSiswa();
+      setLoading(false);
+      setDataSiswa(response);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteSiswa = async () => {
+    try {
+      const response = await deleteUser(selectedId);
+      console.log(response);
+      onClose();
+      toast({
+        title: response.data.message,
+        status: "success",
+        position: "top",
+      });
+      handleGetAllSiswa();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const openAlertConfirm = (id) => {
+    setSelectedId(id);
+    onOpen();
+  };
+
+  useEffect(() => {
+    handleGetAllSiswa();
+  }, []);
 
   return (
     <>
@@ -58,6 +106,7 @@ const DataSiswa = () => {
         </Button>
       </Flex>
       <TableCustom
+        isLoading={loading}
         thead={[
           "#",
           "No Induk Siswa",
@@ -66,12 +115,12 @@ const DataSiswa = () => {
           "Status",
           "Aksi",
         ]}
-        tbody={
-          <Tr>
-            <Td>1</Td>
-            <Td>SRQAI 000001</Td>
-            <Td>Ahmad Zakariya</Td>
-            <Td>Laki-Laki</Td>
+        tbody={dataSiswa?.users?.map((data, idx) => (
+          <Tr key={idx}>
+            <Td>{idx + 1}</Td>
+            <Td>{data.profile.nomor_induk}</Td>
+            <Td>{data.profile.nama_lengkap}</Td>
+            <Td>{data.profile.jenis_kelamin}</Td>
             <Td>
               <Badge
                 borderRadius="xl"
@@ -79,18 +128,17 @@ const DataSiswa = () => {
                 paddingX={2}
                 color="white"
                 // backgroundColor="#0D6EFD"
-                backgroundColor="#DC3545"
+                backgroundColor={data.profile.status ? "#0D6EFD" : "#DC3545"}
               >
-                Non Aktif
+                {data.profile.status ? "Aktif" : "Non Aktif"}
               </Badge>
             </Td>
             <Td>
-              <Flex>
+              <Flex gap={2}>
                 <Link
-                  href="/master-data/data-siswa/detail-data-siswa"
-                  color="#0D6EFD"
+                  href={`/master-data/data-siswa/detail-data-siswa/${data.id}`}
                 >
-                  Detail
+                  <Text color="#0D6EFD">Detail</Text>
                 </Link>
                 <Link
                   mx="5px"
@@ -98,16 +146,28 @@ const DataSiswa = () => {
                   borderLeft="1px solid #21252940"
                   borderRight="1px solid #21252940"
                   color="#0D6EFD"
-                  href="/master-data/data-siswa/edit-data-siswa"
+                  href={`/master-data/data-siswa/edit-data-siswa/${data.id}`}
                 >
-                  Edit
+                  <Text color="#0D6EFD">Edit</Text>
                 </Link>
-                <Link color="#0D6EFD">Hapus</Link>
+                <Link onClick={() => openAlertConfirm(data.id)} color="#0D6EFD">
+                  <Text color="#0D6EFD">Hapus</Text>
+                </Link>
               </Flex>
             </Td>
           </Tr>
-        }
+        ))}
       />
+
+      {isOpen && (
+        <AlertConfirm
+          isOpen={isOpen}
+          onClose={onClose}
+          onOK={handleDeleteSiswa}
+          title="Hapus Data"
+          subTitle="Apakah anda yakin ingin menghapus data ?"
+        />
+      )}
     </>
   );
 };

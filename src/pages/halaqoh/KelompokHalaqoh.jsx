@@ -19,9 +19,29 @@ import {
 } from "@chakra-ui/react";
 import { IoEyeOutline } from "react-icons/io5";
 import { BsDownload } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { getAllHalaqoh } from "../../lib/api/halaqoh";
 
 const KelompokHalaqoh = () => {
   const router = useNavigate();
+  const [loading,setLoading] = useState(false)
+  const [data,setData] = useState()
+
+  const fetchDataHolawoh = async() => {
+    setLoading(true)
+    try {
+      const response = await getAllHalaqoh()
+      setData(response.halaqoh)
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(()=> {
+    fetchDataHolawoh()
+  }, [])
+
+  console.log(data);
 
   return (
     <>
@@ -64,6 +84,7 @@ const KelompokHalaqoh = () => {
         </Button>
       </Flex>
       <TableCustom
+      isLoading={loading}
         thead={[
           "#",
           "Nama Halaqoh",
@@ -74,11 +95,12 @@ const KelompokHalaqoh = () => {
           "Aksi",
         ]}
         tbody={
-          <Tr>
-            <Td>1</Td>
-            <Td>SRQAI 000001</Td>
-            <Td>TA 2020 - 2021 GANJIL</Td>
-            <Td>Ibadurrahman</Td>
+          data?.map((item,idx)=> (
+          <Tr key={idx}>
+            <Td>{idx  + 1}</Td>
+            <Td>{item?.nama_halaqoh}</Td>
+            <Td>{item?.tahun_ajaran?.nama_tahun_ajaran}</Td>
+            <Td>{item?.nama_guru}</Td>
             <Td>
               <Badge
                 borderRadius="xl"
@@ -95,7 +117,7 @@ const KelompokHalaqoh = () => {
                 }}
               >
                 <Icon as={IoEyeOutline} w={3} h={3} />
-                10 Siswa
+                {item?.siswa.length} Siswa
               </Badge>
             </Td>
             <Td>
@@ -107,7 +129,7 @@ const KelompokHalaqoh = () => {
                 backgroundColor="#0D6EFD"
                 // backgroundColor="#DC3545"
               >
-                Aktif
+                {item?.status ? "Aktif" : "Non Aktif"}
               </Badge>
             </Td>
             <Td>
@@ -147,6 +169,7 @@ const KelompokHalaqoh = () => {
               </Menu>
             </Td>
           </Tr>
+          ))
         }
       />
     </>

@@ -11,13 +11,61 @@ import {
   Tr,
   Td,
   Icon,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
 import { useNavigate } from "react-router-dom";
 import { BsDownload } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { deleteUser, getAllOperator } from "../../lib/api/users";
+import AlertConfirm from "../../components/atoms/AlertDialog";
 
 const DataOperator = () => {
   const router = useNavigate();
+
+  const [dataOperator, setDataOperator] = useState([]);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [selectedId, setSelectedId] = useState();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const openAlertConfirm = (id) => {
+    setSelectedId(id);
+    onOpen();
+  };
+
+  const handleDeleteSiswa = async () => {
+    try {
+      const response = await deleteUser(selectedId);
+
+      onClose();
+      toast({
+        title: response.data.message,
+        status: "success",
+        position: "top",
+      });
+      handleGetAllOperator();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGetAllOperator = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllOperator();
+      setLoading(false);
+      setDataOperator(response);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllOperator();
+  }, []);
 
   return (
     <>
@@ -60,6 +108,7 @@ const DataOperator = () => {
         </Button>
       </Flex>
       <TableCustom
+        isLoading={loading}
         thead={[
           "#",
           "No Induk Operator",
@@ -68,12 +117,12 @@ const DataOperator = () => {
           "Status",
           "Aksi",
         ]}
-        tbody={
-          <Tr>
-            <Td>1</Td>
-            <Td>SRQAI 000001</Td>
-            <Td>Ahmad Zakariya</Td>
-            <Td>Laki-Laki</Td>
+        tbody={dataOperator?.users?.map((data, idx) => (
+          <Tr key={idx}>
+            <Td>{idx + 1}</Td>
+            <Td>{data.profile.nomor_induk}</Td>
+            <Td>{data.profile.nama_lengkap}</Td>
+            <Td>{data.profile.jenis_kelamin}</Td>
             <Td>
               <Badge
                 borderRadius="xl"
@@ -81,15 +130,15 @@ const DataOperator = () => {
                 paddingX={2}
                 color="white"
                 // backgroundColor="#0D6EFD"
-                backgroundColor="#DC3545"
+                backgroundColor={data.profile.status ? "#0D6EFD" : "#DC3545"}
               >
-                Non Aktif
+                {data.profile.status ? "Aktif" : "Non Aktif"}
               </Badge>
             </Td>
             <Td>
               <Flex>
                 <Link
-                  href="/master-data/data-operator/detail-data-operator"
+                  href={`/master-data/data-operator/detail-data-operator/${data.id}`}
                   color="#0D6EFD"
                 >
                   Detail
@@ -100,16 +149,28 @@ const DataOperator = () => {
                   borderLeft="1px solid #21252940"
                   borderRight="1px solid #21252940"
                   color="#0D6EFD"
-                  href="/master-data/data-operator/edit-data-operator"
+                  href="/master-data/data-opeator/edit-data-siswa"
                 >
                   Edit
                 </Link>
-                <Link color="#0D6EFD">Hapus</Link>
+                <Link onClick={() => openAlertConfirm(data.id)} color="#0D6EFD">
+                  Hapus
+                </Link>
               </Flex>
             </Td>
           </Tr>
-        }
+        ))}
       />
+
+      {isOpen && (
+        <AlertConfirm
+          isOpen={isOpen}
+          onClose={onClose}
+          onOK={handleDeleteSiswa}
+          title="Hapus Data"
+          subTitle="Apakah anda yakin ingin menghapus data ?"
+        />
+      )}
     </>
   );
 };

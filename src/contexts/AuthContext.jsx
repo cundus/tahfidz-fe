@@ -6,7 +6,7 @@ import { checkAuth } from "../lib/api/auth";
 
 export const AuthContext = createContext(null);
 
-export const useAuth = () => {
+export const useAuth = () => {   
    const context = useContext(AuthContext);
    if (context === undefined) {
       throw new Error("useAuth must be used within a AuthProvider");
@@ -17,7 +17,7 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
    let [user, setUser] = useState(null);
 
-   const checkingAuth = async () => {
+   const checkingAuth = async () => {  
       try {
          const token = localStorage.getItem("token");
          console.log("token", token);

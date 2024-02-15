@@ -12,12 +12,62 @@ import {
   Tr,
   Td,
   Icon,
+  useDisclosure,
 } from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
 import { BsDownload } from "react-icons/bs";
+import {
+  deleteTahunajaran,
+  getAllTahunAjaran,
+} from "./../../lib/api/tahun-ajaran";
+import { useEffect, useState } from "react";
+import AlertConfirm from "../../components/atoms/AlertDialog";
 
 const DataTahunAjaran = () => {
   const router = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedId, setSelectedId] = useState(null);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllTahunAjaran();
+      setData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const openAlertConfirm = (id) => {
+    setSelectedId(id);
+    onOpen();
+  };
+  const closeAlertConfirm = () => {
+    setSelectedId(null);
+    onClose();
+  };
+
+  const deleteTahunAjaran = async () => {
+    try {
+      setLoadingDelete(true);
+      const response = await deleteTahunajaran(selectedId);
+      console.log(response);
+      setLoadingDelete(false);
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -60,11 +110,12 @@ const DataTahunAjaran = () => {
         </Button>
       </Flex>
       <TableCustom
+        isLoading={loading}
         thead={["#", "Nama Tahun Ajaran", "Status", "Aksi"]}
-        tbody={
-          <Tr>
-            <Td width={10}>1</Td>
-            <Td width="52rem">TA 2020 - 2021 GANJIL</Td>
+        tbody={data.map((data, idx) => (
+          <Tr key={idx}>
+            <Td width={10}>{idx + 1}</Td>
+            <Td width="52rem">{data.nama_tahun_ajaran}</Td>
             <Td>
               <Badge
                 borderRadius="xl"
@@ -72,9 +123,9 @@ const DataTahunAjaran = () => {
                 paddingX={2}
                 color="white"
                 // backgroundColor="#0D6EFD"
-                backgroundColor="#DC3545"
+                backgroundColor={data.status ? "#198754" : "#DC3545"}
               >
-                Non Aktif
+                {data.status ? "Aktif" : "Non Aktif"}
               </Badge>
             </Td>
             <Td>
@@ -88,11 +139,22 @@ const DataTahunAjaran = () => {
                 >
                   Edit
                 </Link>
-                <Link color="#0D6EFD">Hapus</Link>
+                <Link onClick={() => openAlertConfirm(data.id)} color="#0D6EFD">
+                  Hapus
+                </Link>
               </Flex>
             </Td>
           </Tr>
-        }
+        ))}
+      />
+
+      <AlertConfirm
+        loadingDelete={loadingDelete}
+        isOpen={isOpen}
+        onClose={closeAlertConfirm}
+        title="Hapus Data"
+        subTitle="Apakah anda yakin ingin menghapus data ?"
+        onOK={deleteTahunAjaran}
       />
     </>
   );

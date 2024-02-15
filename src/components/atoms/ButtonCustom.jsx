@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Button } from "@chakra-ui/react";
 
-const ButtonCustom = ({ icon, type, title, onClick, ...props }) => {
+const ButtonCustom = ({ icon, type, title, onClick,isLoading,typeButton, ...props }) => {
   if (type === "outline") {
     return (
       <Button
+      isLoading={isLoading}
         bgColor="#fff"
         colorScheme="blue"
         borderRadius={4}
@@ -25,9 +26,11 @@ const ButtonCustom = ({ icon, type, title, onClick, ...props }) => {
   return (
     <Button
       bgColor="#0D6EFD"
+      isLoading={isLoading}
       colorScheme="blue"
       borderRadius={4}
       fontWeight="400"
+      type={typeButton}
       onClick={onClick}
       size="sm"
       {...props}

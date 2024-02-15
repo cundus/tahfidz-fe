@@ -7,6 +7,8 @@ import { BrowserRouter } from "react-router-dom";
 import { fonts } from "./utils/theme.js";
 import { tabs } from "./utils/tabs.js";
 
+
+
 const rootElement = document.getElementById("root");
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>

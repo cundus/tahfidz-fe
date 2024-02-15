@@ -1,7 +1,7 @@
 import Header from "../../../components/molekuls/Header";
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import { useNavigate } from "react-router-dom";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, InfoIcon } from "@chakra-ui/icons";
 import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
 import {
   Text,
@@ -16,6 +16,7 @@ import {
   Stack,
   Textarea,
   Switch,
+  Input,
 } from "@chakra-ui/react";
 import AvatarPic from "../../../assets/avatar_profile.png";
 import { PiUploadSimpleLight } from "react-icons/pi";
@@ -24,10 +25,51 @@ import { Icon } from "@chakra-ui/react";
 import InputCustom from "../../../components/atoms/InputCustom";
 import { useGuruValidation } from "../../../lib/validation/userValidation";
 import { Controller } from "react-hook-form";
+import { useRef, useState } from "react";
+import { addUser } from "../../../lib/api/users";
 
 const TambahGuru = () => {
   const router = useNavigate();
-  const { control } = useGuruValidation();
+  const inputRef = useRef(null);
+  const {
+    control,
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useGuruValidation();
+
+  // HANDLE UPLOAD FOTO
+  const [selectedGambarUrl, setSelectedGambarUrl] = useState("");
+  const [selectedImage, seSelectedImage] = useState();
+  const [loading, setLoading] = useState(false);
+  function handleChangeGambar(e) {
+    if (e.target.files && e.target.files[0]) {
+      const fileImage = e.target.files[0];
+      seSelectedImage(fileImage);
+      setValue("foto", fileImage);
+      const imgUrl = URL.createObjectURL(fileImage);
+      setSelectedGambarUrl(imgUrl);
+    }
+  }
+  // HANDLE SUBMIT
+  const handleAddGuru = async (data) => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      Object.entries(data).map(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append("role", "guru");
+      const response = await addUser(formData);
+      console.log(response);
+      setLoading(false);
+      window.location.href = "/master-data/data-guru";
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -45,17 +87,28 @@ const TambahGuru = () => {
         </Text>
         <Flex gap="16px" mt="32px" alignItems="center">
           <Image
-            src={AvatarPic}
+            src={
+              selectedImage && selectedGambarUrl ? selectedGambarUrl : AvatarPic
+            }
             border="1px solid #DEE2E6"
             w="100px"
             h="100px"
           />
           <Flex flexDirection="column" gap={4}>
             <ButtonCustom
+              onClick={() => {
+                if (inputRef.current) {
+                  inputRef.current.click();
+                }
+              }}
               title="Unggah Foto Profil"
               icon={<Icon as={PiUploadSimpleLight} w={5} mr={2} h={5} />}
             />
             <ButtonCustom
+              onClick={() => {
+                seSelectedImage(null);
+                setSelectedGambarUrl("");
+              }}
               title="Hapus Foto Profil"
               bgColor="#DC3545"
               _hover={{ opacity: "0.8" }}
@@ -63,6 +116,16 @@ const TambahGuru = () => {
               icon={<Icon as={FaRegTrashCan} w={5} mr={2} h={5} />}
             />
           </Flex>
+          <Input
+            type="file"
+            {...register("foto")}
+            accept="image/*"
+            name="foto"
+            display="none"
+            onChange={handleChangeGambar}
+            ref={inputRef}
+          />
+
           <Box
             borderRadius="4px"
             border="1px solid #FDFDFE"
@@ -78,6 +141,14 @@ const TambahGuru = () => {
             </Text>
           </Box>
         </Flex>
+        {errors.foto && (
+          <Flex align="center" mt={2} gap={1}>
+            <InfoIcon color="red.500" />
+            <Text color="red.500" fontSize="sm">
+              {errors.foto.message}
+            </Text>
+          </Flex>
+        )}
         <Box position="relative" mt="52px" mb="24px">
           <Divider
             variant="dashed"
@@ -218,10 +289,9 @@ const TambahGuru = () => {
                 label="Jenis Kelamin"
                 name="jenis_kelamin"
                 errorText={fieldState.error?.message}
-                {...field}
                 isReq={true}
                 notInputForm={
-                  <RadioGroup name="jenis_kelamin">
+                  <RadioGroup name="jenis_kelamin" {...field}>
                     <Stack direction="row">
                       <Radio bgColor="white" value="L">
                         Laki-laki
@@ -269,13 +339,13 @@ const TambahGuru = () => {
           />
           <Controller
             control={control}
-            name="jabatan"
+            name="posisi"
             render={({ field, fieldState }) => (
               <InputCustom
                 typeInput="text"
                 placeholder="Jabatan"
                 label="Posisi / Jabatan"
-                name="jabatan"
+                name="posisi"
                 errorText={fieldState.error?.message}
                 {...field}
                 isReq={true}
@@ -299,17 +369,26 @@ const TambahGuru = () => {
             )}
           />
         </Grid>
-        <InputCustom
-          label="Alamat Lengkap"
-          notInputForm={
-            <Textarea
-              bgColor="white"
-              name="alamat"
-              placeholder="Alamat Lengkap"
+        <Controller
+          control={control}
+          name="alamat"
+          render={({ field, fieldState }) => (
+            <InputCustom
+              label="Alamat Lengkap"
+              errorText={fieldState?.error?.message}
+              notInputForm={
+                <Textarea
+                  {...field}
+                  bgColor="white"
+                  name="alamat"
+                  placeholder="Alamat Lengkap"
+                />
+              }
             />
-          }
+          )}
         />
-        <Flex justifyContent="space-between" mt="12px" gap={4}>
+
+        <Flex justifyContent="space-between" mt="12px" gap={4} align="center">
           <Flex flexDirection="column" gap="1px">
             <Text fontSize="16px" fontWeight={600} color="#000">
               Status
@@ -318,7 +397,22 @@ const TambahGuru = () => {
               Anda dapat memilih ingin mengaktifkan atau menonaktifkan
             </Text>
           </Flex>
-          <Switch color="#0D6EFD" name="status" />
+
+          <Box>
+            <Controller
+              control={control}
+              name="status"
+              render={({ field }) => {
+                console.log(field);
+                return (
+                  <>
+                    <Switch color="#0D6EFD" name="status" {...field} />
+                    <Text>{field.value}</Text>
+                  </>
+                );
+              }}
+            />
+          </Box>
         </Flex>
         <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>
           <ButtonCustom
@@ -331,6 +425,8 @@ const TambahGuru = () => {
             bgColor="transparent"
           />
           <ButtonCustom
+            isLoading={loading}
+            onClick={handleSubmit(handleAddGuru)}
             title="Tambahkan"
             _hover={{ opacity: "0.8" }}
             bgColor="#0B5ED7"

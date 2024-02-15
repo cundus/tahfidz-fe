@@ -313,6 +313,7 @@ const EditGuru = () => {
             _hover={{ bgColor: "#DC3545", color: "white" }}
             w="100px"
             bgColor="transparent"
+            onClick={()=> router('/master-data/data-guru')}
           />
           <ButtonCustom
             title="Tambahkan"

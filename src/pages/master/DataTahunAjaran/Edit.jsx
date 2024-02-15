@@ -8,6 +8,7 @@ import InputCustom from "../../../components/atoms/InputCustom";
 
 const EditTahunAjaran = () => {
   const router = useNavigate();
+  const navigation = useNavigate()
 
   return (
     <>
@@ -53,6 +54,9 @@ const EditTahunAjaran = () => {
             _hover={{ bgColor: "#DC3545", color: "white" }}
             w="100px"
             bgColor="transparent"
+            onClick={() => {
+              navigation("/master-data/data-tahun-ajaran");
+            }}
           />
           <ButtonCustom
             title="Tambahkan"

@@ -1,13 +1,34 @@
-import Header from "../../../components/molekuls/Header";
-import ButtonCustom from "../../../components/atoms/ButtonCustom";
-import { useNavigate } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
-import { Text, Grid, Flex, Switch } from "@chakra-ui/react";
+import { Flex, Grid, Switch, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import InputCustom from "../../../components/atoms/InputCustom";
+import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
+import Header from "../../../components/molekuls/Header";
+import { useTahunAjaranValidation } from "../../../lib/validation/tahunAjaranValidation";
+import { Controller } from "react-hook-form";
+import { useState } from "react";
+import { createTahunajaran } from "../../../lib/api/tahun-ajaran";
 
 const TambahTahunAjaran = () => {
   const router = useNavigate();
+
+  const { control, handleSubmit, reset } = useTahunAjaranValidation();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCreate = async (data) => {
+    try {
+      setIsLoading(true);
+      const response = await createTahunajaran(data);
+      console.log(response);
+      setIsLoading(false);
+      reset();
+      router("/master-data/data-tahun-ajaran");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -24,13 +45,20 @@ const TambahTahunAjaran = () => {
           Silahkan isi data di bawah untuk menambahkan data tahun ajaran baru
         </Text>
         <Grid templateColumns="repeat(1, 1fr)" mt={8} gap="16px">
-          <InputCustom
-            typeInput="text"
-            placeholder="Nama Lengkap"
-            label="Nama Lengkap"
-            name="nama_lengkap"
-            errorText=""
-            isReq={true}
+          <Controller
+            control={control}
+            name="nama_tahun_ajaran"
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Nama tahun ajaran"
+                label="Nama Tahun Ajaran"
+                name="nama_tahun_ajaran"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
         </Grid>
         <Flex justifyContent="space-between" mt="12px" gap={4}>
@@ -42,7 +70,18 @@ const TambahTahunAjaran = () => {
               Anda dapat memilih ingin mengaktifkan atau menonaktifkan
             </Text>
           </Flex>
-          <Switch color="#0D6EFD" name="status" />
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <Switch
+                color="#0D6EFD"
+                name="status"
+                isChecked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
+          />
         </Flex>
         <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>
           <ButtonCustom
@@ -59,6 +98,8 @@ const TambahTahunAjaran = () => {
             _hover={{ opacity: "0.8" }}
             bgColor="#0B5ED7"
             color="#FFF"
+            isLoading={isLoading}
+            onClick={handleSubmit(handleCreate)}
           />
         </Flex>
       </BoxInputLayout>

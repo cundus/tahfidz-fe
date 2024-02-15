@@ -1,32 +1,37 @@
 import {
-   Flex,
    Box,
-   Image,
-   Text,
-   Checkbox,
    Button,
-   Select,
+   Checkbox,
+   Flex,
    FormControl,
    FormErrorMessage,
    FormLabel,
+   Image,
+   Select,
+   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import AlQuran from "../assets/al-quran.png";
 import Logo from "../assets/logo.png";
 import InputCustom from "../components/atoms/InputCustom";
-import { useState } from "react";
-import { useLoginValidation } from "../lib/validation/loginValidation";
-import { Controller } from "react-hook-form";
-import { login } from "../lib/api/auth";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { login } from "../lib/api/auth";
+import { useLoginValidation } from "../lib/validation/loginValidation";
 
 const Login = () => {
-   const { control, handleSubmit, reset, setError } = useLoginValidation();
+   const {
+      control,
+      handleSubmit, 
+      // reset,
+      setError } = useLoginValidation();
    const [isLoading, setIsLoading] = useState(false);
    const navigate = useNavigate();
    const auth = useAuth();
 
    const handleLogin = async (data) => {
+      console.log('click');
       try {
          setIsLoading(true);
          const response = await login(data);
@@ -34,7 +39,6 @@ const Login = () => {
          auth.signin(response.user);
          localStorage.setItem("token", response.token);
          navigate("/dashboard");
-
          setIsLoading(false);
       } catch (error) {
          console.log(error);
@@ -161,7 +165,7 @@ const Login = () => {
                      opacity: 1,
                   }}
                   // isDisabled={true}
-                  onSubmit={handleSubmit(handleLogin)}
+                  onClick={handleSubmit(handleLogin)}
                >
                   Masuk
                </Button>

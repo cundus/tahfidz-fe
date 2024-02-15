@@ -9,15 +9,15 @@ import { useState } from "react";
 
 export function ProtectedPage({ children }) {
    let auth = useAuth();
-   let location = useLocation();
+   // let location = useLocation();
 
    const [isShow, setIsShow] = useState(true);
 
    console.log("auth", auth);
 
-   if (auth.user === null) {
-      return <Navigate to="/login" state={{ from: location }} replace />;
-   }
+   // if (auth.user === null) {
+   //    return <Navigate to="/login" state={{ from: location }} replace />;
+   // }
 
    return (
       <Flex>

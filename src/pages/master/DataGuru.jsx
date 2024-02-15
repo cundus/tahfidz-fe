@@ -1,23 +1,71 @@
+import { AddIcon, SearchIcon } from "@chakra-ui/icons";
+import {
+  Badge,
+  Button,
+  Flex,
+  Icon,
+  Input,
+  Link,
+  Select,
+  Td,
+  Tr,
+  useDisclosure,
+  useToast
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { BsDownload } from "react-icons/bs";
+import {  useNavigate } from "react-router-dom";
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
-import { AddIcon, SearchIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
-import {
-  Flex,
-  Select,
-  Input,
-  Button,
-  Badge,
-  Link,
-  Tr,
-  Td,
-  Icon,
-} from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
-import { BsDownload } from "react-icons/bs";
+import { deleteUser, getAllGuru } from "../../lib/api/users";
+import AlertConfirm from "../../components/atoms/AlertDialog";
 
 const DataGuru = () => {
   const router = useNavigate();
+
+  const [dataGuru, setDataGuru] = useState([]);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [selectedId, setSelectedId] = useState();
+  const [loading,setLoading] = useState(false)
+  const toast = useToast()
+
+  const openAlertConfirm = (id) => {
+    setSelectedId(id);
+    onOpen();
+  };
+
+  const handleDeleteSiswa = async () => {
+    try {
+      const response = await deleteUser(selectedId);
+      console.log(response);
+      onClose();
+      toast({
+        title: response.data.message,
+        status: "success",
+        position: "top",
+      });
+      handleGetAllGuru();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGetAllGuru = async () => {
+    setLoading(true)
+    try {
+      const response = await getAllGuru();
+      setLoading(false)
+      setDataGuru(response);
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllGuru();
+  }, []);
 
   return (
     <>
@@ -58,6 +106,7 @@ const DataGuru = () => {
         </Button>
       </Flex>
       <TableCustom
+      isLoading={loading}
         thead={[
           "#",
           "No Induk Guru",
@@ -67,47 +116,66 @@ const DataGuru = () => {
           "Aksi",
         ]}
         tbody={
-          <Tr>
-            <Td>1</Td>
-            <Td>SRQAI 000001</Td>
-            <Td>Ahmad Zakariya</Td>
-            <Td>Laki-Laki</Td>
-            <Td>
-              <Badge
-                borderRadius="xl"
-                paddingY={1}
-                paddingX={2}
-                color="white"
-                // backgroundColor="#0D6EFD"
-                backgroundColor="#DC3545"
-              >
-                Non Aktif
-              </Badge>
-            </Td>
-            <Td>
-              <Flex>
-                <Link
-                  href="/master-data/data-guru/detail-data-guru"
-                  color="#0D6EFD"
-                >
-                  Detail
-                </Link>
-                <Link
-                  mx="5px"
-                  paddingX={2}
-                  borderLeft="1px solid #21252940"
-                  borderRight="1px solid #21252940"
-                  color="#0D6EFD"
-                  href="/master-data/data-guru/edit-data-guru"
-                >
-                  Edit
-                </Link>
-                <Link color="#0D6EFD">Hapus</Link>
-              </Flex>
-            </Td>
-          </Tr>
+          dataGuru?.users?.length !== 0 ? (
+            dataGuru?.users?.map((data, idx) => (
+              <Tr key={idx}>
+                <Td>{idx + 1}</Td>
+                <Td>{data.profile.nomor_induk}</Td>
+                <Td>{data.profile.nama_lengkap}</Td>
+                <Td>{data.profile.jenis_kelamin}</Td>
+                <Td>
+                  <Badge
+                    borderRadius="xl"
+                    paddingY={1}
+                    paddingX={2}
+                    color="white"
+                    // backgroundColor="#0D6EFD"
+                    backgroundColor={data.profile.status ? "#0D6EFD" : "#DC3545"}
+                  >
+                    {data.profile.status ? "Aktif" : "Non Aktif"}
+                  </Badge>
+                </Td>
+                <Td>
+                  <Flex gap={3} color="#0D6EFD">
+                    <Link
+                      href={`/master-data/data-guru/detail-data-guru/${data.id}`}
+                      color="#0D6EFD"
+                    >
+                      Detail
+                    </Link>
+                    <Link
+                      mx="5px"
+                      paddingX={2}
+                      borderLeft="1px solid #21252940"
+                      borderRight="1px solid #21252940"
+                      color="#0D6EFD"
+                      href="/master-data/data-guru/edit-data-guru"
+                    >
+                      Edit
+                    </Link>
+                    <Link onClick={()=> openAlertConfirm(data.id)} color="#0D6EFD">Hapus</Link>
+                  </Flex>
+                </Td>
+              </Tr>
+            ))
+          ) : (
+            <Tr>
+              <Td textAlign="center" colSpan={5}>Data Not Found</Td>
+            </Tr>
+          )
         }
       />
+
+
+         {isOpen && (
+        <AlertConfirm
+          isOpen={isOpen}
+          onClose={onClose}
+          onOK={handleDeleteSiswa}
+          title="Hapus Data"
+          subTitle="Apakah anda yakin ingin menghapus data ?"
+        />
+      )}
     </>
   );
 };

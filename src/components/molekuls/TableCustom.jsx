@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import Pagination from "../atoms/Pagination";
-import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, TableContainer, Td, Spinner } from "@chakra-ui/react";
 
-const TableCustom = ({ thead, tbody, theadCustom }) => {
+const TableCustom = ({ thead, tbody, theadCustom,isLoading }) => {
   return (
     <TableContainer marginTop={6} border="1px solid #E2E8F0">
       <Table variant="simple">
@@ -20,7 +20,14 @@ const TableCustom = ({ thead, tbody, theadCustom }) => {
             </Tr>
           )}
         </Thead>
-        <Tbody css={{ fontSize: "15px" }}>{tbody}</Tbody>
+        <Tbody css={{ fontSize: "15px" }}>
+          {tbody}
+          {isLoading && (
+            <Td colSpan={5} textAlign="center">
+              <Spinner size="xl" color="blue" />
+            </Td>
+          )}
+        </Tbody>
       </Table>
       <Pagination />
     </TableContainer>

@@ -298,7 +298,6 @@ const EditOperator = () => {
           />
         </Grid>
 
-
         <InputCustom
           label="Alamat Lengkap"
           notInputForm={
@@ -329,6 +328,7 @@ const EditOperator = () => {
             _hover={{ bgColor: "#DC3545", color: "white" }}
             w="100px"
             bgColor="transparent"
+            onClick={() => router("/master-data/data-operator")}
           />
           <ButtonCustom
             title="Tambahkan"
