@@ -38,7 +38,6 @@ const DataOperator = () => {
   const handleDeleteSiswa = async () => {
     try {
       const response = await deleteUser(selectedId);
-
       onClose();
       toast({
         title: response.data.message,
@@ -149,7 +148,7 @@ const DataOperator = () => {
                   borderLeft="1px solid #21252940"
                   borderRight="1px solid #21252940"
                   color="#0D6EFD"
-                  href="/master-data/data-opeator/edit-data-siswa"
+                  href={`/master-data/data-operator/edit-data-operator/${data.id}`}
                 >
                   Edit
                 </Link>

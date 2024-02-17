@@ -1,34 +1,89 @@
-import { useNavigate } from "react-router-dom";
-import Header from "../../../components/molekuls/Header";
-import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
 import {
-  Text,
-  Flex,
   Box,
-  Image,
   Divider,
-  InputLeftAddon,
+  Flex,
   Grid,
+  Icon,
+  Image,
+  Input,
+  InputLeftAddon,
   Radio,
   RadioGroup,
   Stack,
-  Textarea,
   Switch,
+  Text,
+  Textarea,
 } from "@chakra-ui/react";
-import AvatarPic from "../../../assets/avatar_profile.png";
-import { PiUploadSimpleLight } from "react-icons/pi";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { Icon } from "@chakra-ui/react";
-import InputCustom from "../../../components/atoms/InputCustom";
-import { useGuruValidation } from "../../../lib/validation/userValidation";
+import moment from "moment";
+import { useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { PiUploadSimpleLight } from "react-icons/pi";
+import { useNavigate, useParams } from "react-router-dom";
+import ButtonCustom from "../../../components/atoms/ButtonCustom";
+import InputCustom from "../../../components/atoms/InputCustom";
+import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
+import Header from "../../../components/molekuls/Header";
+import { getDetailUser, updateUser } from "../../../lib/api/users";
+import { useGuruValidation } from "../../../lib/validation/userValidation";
 
 const EditGuru = () => {
   const router = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef(null);
 
-  const { control } = useGuruValidation();
+  const params = useParams();
+  const idParams = parseInt(params.id);
+
+  const { control, reset, getValues, handleSubmit, setValue, register } =
+    useGuruValidation("edit");
+
+  // state menangkap input gambar dari file
+  const [selectedGambarUrl, setSelectedGambarUrl] = useState("");
+  const [selectedImage, seSelectedImage] = useState();
+  function handleChangeGambar(e) {
+    if (e.target.files && e.target.files[0]) {
+      const fileImage = e.target.files[0];
+      seSelectedImage(fileImage);
+      setValue("foto", fileImage);
+      const imgUrl = URL.createObjectURL(fileImage);
+      setSelectedGambarUrl(imgUrl);
+    }
+  }
+
+  const handleUpdateGuru = async (data) => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      Object.entries(data).map(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append("role", "guru");
+      await updateUser(formData, idParams);
+      setLoading(false);
+      // router("/master-data/data-siswa");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleGetDetailSiswa = async () => {
+    try {
+      const response = await getDetailUser(idParams);
+      reset({
+        username: response.data.user.username,
+        ...response.data.user.profile,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetDetailSiswa();
+  }, [idParams]);
 
   return (
     <>
@@ -49,17 +104,30 @@ const EditGuru = () => {
         </Text>
         <Flex gap="16px" mt="32px" alignItems="center">
           <Image
-            src={AvatarPic}
+            src={
+              selectedImage && selectedGambarUrl
+                ? selectedGambarUrl
+                : getValues("foto")
+            }
             border="1px solid #DEE2E6"
             w="100px"
             h="100px"
           />
           <Flex flexDirection="column" gap={4}>
             <ButtonCustom
+              onClick={() => {
+                if (inputRef.current) {
+                  inputRef.current.click();
+                }
+              }}
               title="Unggah Foto Profil"
               icon={<Icon as={PiUploadSimpleLight} w={5} mr={2} h={5} />}
             />
             <ButtonCustom
+              onClick={() => {
+                seSelectedImage(null);
+                setSelectedGambarUrl("");
+              }}
               title="Hapus Foto Profil"
               bgColor="#DC3545"
               _hover={{ opacity: "0.8" }}
@@ -67,6 +135,17 @@ const EditGuru = () => {
               icon={<Icon as={FaRegTrashCan} w={5} mr={2} h={5} />}
             />
           </Flex>
+
+          <Input
+            type="file"
+            {...register("foto")}
+            accept="image/*"
+            name="foto"
+            display="none"
+            onChange={handleChangeGambar}
+            ref={inputRef}
+          />
+
           <Box
             borderRadius="4px"
             border="1px solid #FDFDFE"
@@ -106,6 +185,7 @@ const EditGuru = () => {
                 placeholder="Nama Lengkap"
                 label="Nama Lengkap"
                 name="nama_lengkap"
+                defaultValue={getValues("nama_lengkap")}
                 isReq={true}
                 errorText={fieldState.error?.message}
                 {...field}
@@ -121,6 +201,7 @@ const EditGuru = () => {
                 placeholder="Username"
                 label="Username"
                 name="username"
+                defaultValue={getValues("username")}
                 isReq={true}
                 errorText={fieldState.error?.message}
                 {...field}
@@ -151,6 +232,7 @@ const EditGuru = () => {
                 placeholder="NIG"
                 isReq={true}
                 label="No Induk Guru"
+                defaultValue={getValues("nomor_induk")}
                 name="nomor_induk"
                 errorText={fieldState.error?.message}
                 {...field}
@@ -166,7 +248,7 @@ const EditGuru = () => {
               />
             )}
           />
-            <Controller
+          <Controller
             control={control}
             name="tempat_lahir"
             render={({ field, fieldState }) => (
@@ -174,6 +256,7 @@ const EditGuru = () => {
                 typeInput="text"
                 placeholder="Tempat Lahir"
                 label="Tempat Lahir"
+                defaultValue={getValues("tempat_lahir")}
                 name="tempat_lahir"
                 errorText={fieldState.error?.message}
                 {...field}
@@ -181,7 +264,7 @@ const EditGuru = () => {
               />
             )}
           />
-      <Controller
+          <Controller
             control={control}
             name="tanggal_lahir"
             render={({ field, fieldState }) => (
@@ -189,6 +272,9 @@ const EditGuru = () => {
                 typeInput="date"
                 label="Tanggal Lahir"
                 placeholder="Pilih Tanggal"
+                defaultValue={moment(getValues("tanggal_lahir")).format(
+                  "YYYY-MM-DD"
+                )}
                 name="tanggal_lahir"
                 isReq={true}
                 errorText={fieldState.error?.message}
@@ -196,7 +282,7 @@ const EditGuru = () => {
               />
             )}
           />
-            <Controller
+          <Controller
             control={control}
             name="jenis_kelamin"
             render={({ field, fieldState }) => (
@@ -207,7 +293,10 @@ const EditGuru = () => {
                 {...field}
                 isReq={true}
                 notInputForm={
-                  <RadioGroup name="jenis_kelamin">
+                  <RadioGroup
+                    name="jenis_kelamin"
+                    defaultValue={getValues("jenis_kelamin")}
+                  >
                     <Stack direction="row">
                       <Radio bgColor="white" value="L">
                         Laki-laki
@@ -221,13 +310,14 @@ const EditGuru = () => {
               />
             )}
           />
-       <Controller
+          <Controller
             control={control}
             name="email"
             render={({ field, fieldState }) => (
               <InputCustom
                 typeInput="email"
                 label="Email"
+                defaultValue={getValues("email")}
                 placeholder="Email"
                 name="email"
                 errorText={fieldState.error?.message}
@@ -237,13 +327,14 @@ const EditGuru = () => {
             )}
           />
 
-<Controller
+          <Controller
             control={control}
             name="nomor_telepon"
             render={({ field, fieldState }) => (
               <InputCustom
                 typeInput="number"
                 label="Nomor Telepon"
+                defaultValue={getValues("nomor_telepon")}
                 placeholder="Nomor Telepon"
                 name="nomor_telepon"
                 errorText={fieldState.error?.message}
@@ -252,22 +343,23 @@ const EditGuru = () => {
               />
             )}
           />
-            <Controller
+          <Controller
             control={control}
-            name="jabatan"
+            name="posisi"
             render={({ field, fieldState }) => (
               <InputCustom
                 typeInput="text"
                 placeholder="Jabatan"
                 label="Posisi / Jabatan"
-                name="jabatan"
+                defaultValue={getValues("posisi")}
+                name="posisi"
                 errorText={fieldState.error?.message}
                 {...field}
                 isReq={true}
               />
             )}
           />
-        <Controller
+          <Controller
             control={control}
             name="tanggal_bergabung"
             render={({ field, fieldState }) => (
@@ -276,6 +368,9 @@ const EditGuru = () => {
                 label="Tanggal Bergabung"
                 placeholder="Pilih Tanggal"
                 name="tanggal_bergabung"
+                defaultValue={moment(getValues("tanggal_bergabung")).format(
+                  "YYYY-MM-DD"
+                )}
                 errorText={fieldState.error?.message}
                 {...field}
                 isReq={true}
@@ -283,15 +378,24 @@ const EditGuru = () => {
             )}
           />
         </Grid>
-        <InputCustom
-          label="Alamat Lengkap"
-          notInputForm={
-            <Textarea
-              bgColor="white"
-              name="alamat"
-              placeholder="Alamat Lengkap"
+
+        <Controller
+          name="alamat"
+          control={control}
+          render={({ field }) => (
+            <InputCustom
+              label="Alamat Lengkap"
+              notInputForm={
+                <Textarea
+                  bgColor="white"
+                  {...field}
+                  name="alamat"
+                  defaultValue={getValues("alamat")}
+                  placeholder="Alamat Lengkap"
+                />
+              }
             />
-          }
+          )}
         />
         <Flex justifyContent="space-between" mt="12px" gap={4}>
           <Flex flexDirection="column" gap="1px">
@@ -302,7 +406,19 @@ const EditGuru = () => {
               Anda dapat memilih ingin mengaktifkan atau menonaktifkan
             </Text>
           </Flex>
-          <Switch color="#0D6EFD" name="status" />
+
+          <Controller
+            name="status"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                {...field}
+                color="#0D6EFD"
+                name="status"
+                defaultChecked={getValues("status")}
+              />
+            )}
+          />
         </Flex>
         <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>
           <ButtonCustom
@@ -313,13 +429,15 @@ const EditGuru = () => {
             _hover={{ bgColor: "#DC3545", color: "white" }}
             w="100px"
             bgColor="transparent"
-            onClick={()=> router('/master-data/data-guru')}
+            onClick={() => router("/master-data/data-guru")}
           />
           <ButtonCustom
-            title="Tambahkan"
+            title="Edit"
             _hover={{ opacity: "0.8" }}
             bgColor="#0B5ED7"
             color="#FFF"
+            isLoading={loading}
+            onClick={handleSubmit(handleUpdateGuru, (err) => console.log(err))}
           />
         </Flex>
       </BoxInputLayout>

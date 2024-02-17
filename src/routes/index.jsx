@@ -113,7 +113,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-guru/edit-data-guru"
+        path="/master-data/data-guru/edit-data-guru/:id"
         element={
           <ProtectedPage>
             <EditGuru />
@@ -147,7 +147,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-operator/edit-data-operator"
+        path="/master-data/data-operator/edit-data-operator/:id"
         element={
           <ProtectedPage>
             <EditOperator />
@@ -181,7 +181,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-tahun-ajaran/edit-data-tahun-ajaran"
+        path="/master-data/data-tahun-ajaran/edit-data-tahun-ajaran/:id"
         element={
           <ProtectedPage>
             <EditTahunAjaran />
@@ -218,7 +218,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/halaqoh/kelompok-halaqoh/edit-kelompok-halaqoh"
+        path="/halaqoh/kelompok-halaqoh/edit-kelompok-halaqoh/:id"
         element={
           <ProtectedPage>
             <EditKelompokHalaqoh />

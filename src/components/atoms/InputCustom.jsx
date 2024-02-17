@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
+import { InfoOutlineIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   FormControl,
-  FormLabel,
   FormErrorMessage,
+  FormHelperText,
+  FormLabel,
   Input,
   InputGroup,
   InputRightElement,
-  FormHelperText,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
+// eslint-disable-next-line react/display-name
 const InputCustom = ({
   typeInput,
   placeholder,

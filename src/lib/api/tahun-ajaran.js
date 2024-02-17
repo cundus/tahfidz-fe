@@ -10,3 +10,13 @@ export const createTahunajaran = async ({ nama_tahun_ajaran, status }) => {
 export const deleteTahunajaran = async (id) => {
   return (await API.delete(`/tahun-ajaran/${id}`)).data;
 };
+
+
+export const getDetailTahunAjaran = async (id) => {
+  return (await API.get(`/tahun-ajaran/${id}`)).data;
+};
+
+export const updateTahunAjaran = async (data,id) => {
+  return (await API.put(`/tahun-ajaran/${id}`, data)).data;
+};
+
