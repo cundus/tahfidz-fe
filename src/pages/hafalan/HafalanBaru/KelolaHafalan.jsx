@@ -1,12 +1,18 @@
-import Header from "../../../components/molekuls/Header";
-import { Flex, Td, Tr, Text } from "@chakra-ui/react";
+/* eslint-disable no-unused-vars */
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import TableCustom from "../../../components/molekuls/TableCustom";
+import { Flex, Td, Text, Tr } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
 import InfoProfile from "../../../components/atoms/InfoProfile";
-import { useNavigate } from "react-router-dom";
+import Header from "../../../components/molekuls/Header";
+import TableCustom from "../../../components/molekuls/TableCustom";
 
 const KelolaHafalan = () => {
+
+
+
+
+
   const router = useNavigate();
   return (
     <>
@@ -46,7 +52,7 @@ const KelolaHafalan = () => {
             <Td>TA 2020 - 2021 GANJIL</Td>
             <Td>Ibadurrahman</Td>
             <Td>
-              <Text
+              <Text 
                 color="#0D6EFD"
                 onClick={() =>
                   router("/hafalan/hafalan-baru-(sabq)/kelola-hafalan/Ahmad")
@@ -65,8 +71,10 @@ const KelolaHafalan = () => {
           </Tr>
         }
       />
+
     </>
   );
 };
 
 export default KelolaHafalan;
+

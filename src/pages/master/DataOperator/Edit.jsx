@@ -59,7 +59,7 @@ const EditOperator = () => {
       formData.append("role", "operator");
       await updateUser(formData, idParams);
       setIsLoading(false);
-      // router("/master-data/data-siswa");
+      router("/master-data/data-siswa");
     } catch (error) {
       console.log(error);
       setIsLoading(false);

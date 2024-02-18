@@ -14,7 +14,7 @@ const InfoProfile = ({ title, value, isLine = true }) => {
       w="100%"
       gap={4}
     >
-      <Text minW="16rem" fontSize="16px" color="#6C757D">
+      <Text minW="10rem" fontSize="16px" color="#6C757D">
         {title}
       </Text>
       <Text fontSize="16px" color="#212529">

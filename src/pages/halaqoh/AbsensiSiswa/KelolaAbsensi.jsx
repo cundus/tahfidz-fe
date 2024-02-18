@@ -1,15 +1,37 @@
-import ButtonCustom from "../../../components/atoms/ButtonCustom";
-import Header from "../../../components/molekuls/Header";
-import { useNavigate } from "react-router-dom";
-import { ArrowBackIcon, AddIcon } from "@chakra-ui/icons";
-import InfoProfile from "../../../components/atoms/InfoProfile";
-import { Flex, Image, Tr, Td } from "@chakra-ui/react";
+import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons";
+import { Flex, Image, Td, Tr } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import FileWhite from "../../../assets/icons/file_white.png";
-import TableCustom from "../../../components/molekuls/TableCustom";
 import BadgeCustom from "../../../components/atoms/BadgeCustom";
+import ButtonCustom from "../../../components/atoms/ButtonCustom";
+import InfoProfile from "../../../components/atoms/InfoProfile";
+import Header from "../../../components/molekuls/Header";
+import TableCustom from "../../../components/molekuls/TableCustom";
+import { getDetailHalaqah } from "../../../lib/api/halaqoh";
 
 const KelolaAbsensi = () => {
   const router = useNavigate();
+
+  const params = useParams();
+  const idParam = parseInt(params.id);
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleGetDetailHalaqoh = async () => {
+      try {
+        setLoading(true);
+        const response = await getDetailHalaqah(idParam);
+        setLoading(false);
+        setData(response);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+    handleGetDetailHalaqoh();
+  }, []);
   return (
     <>
       <Header title="Absensi Siswa">
@@ -24,17 +46,17 @@ const KelolaAbsensi = () => {
         <Flex borderLeft="4px solid #0D6EFD" direction="column">
           <InfoProfile
             title="Nama Halaqoh"
-            value="Muhammad Fauzan"
+            value={data?.nama_halaqoh}
             isLine={false}
           />
           <InfoProfile
             title="Tahun Ajaran"
-            value="TA 2023-2024 GANJIL"
+            value={data?.tahun_ajaran?.nama_tahun_ajaran}
             isLine={false}
           />
           <InfoProfile
             title="Nama Guru"
-            value="Muhammad Fauzan"
+            value={data?.nama_guru}
             isLine={false}
           />
         </Flex>
@@ -65,6 +87,7 @@ const KelolaAbsensi = () => {
         </Flex>
       </Flex>
       <TableCustom
+        isLoading={loading}
         theadCustom={
           <>
             <Tr>
@@ -80,11 +103,11 @@ const KelolaAbsensi = () => {
               </Td>
             </Tr>
             <Tr>
-              <Td>1</Td>
-              <Td>2</Td>
-              <Td>3</Td>
-              <Td>4</Td>
-              <Td>5</Td>
+              <Td textAlign="center">1</Td>
+              <Td textAlign="center">2</Td>
+              <Td textAlign="center">3</Td>
+              <Td textAlign="center">4</Td>
+              <Td textAlign="center">5</Td>
               <Td textAlign="center" color="#fff" bgColor="#0D6EFD">
                 H
               </Td>
@@ -100,63 +123,59 @@ const KelolaAbsensi = () => {
             </Tr>
           </>
         }
-        tbody={
-          <Tr>
-            <Td>1</Td>
-            <Td>SRQAI000001</Td>
-            <Td>Muhammad Fauzan</Td>
-            <Td>Laki-laki</Td>
+        tbody={data?.siswa.map((item, idx) => (
+          <Tr key={idx}>
+            <Td>{idx + 1}</Td>
+            <Td>{item?.nomor_induk}</Td>
+            <Td>{item.nama_siswa}</Td>
+            <Td>{item?.jenis_kelamin}</Td>
+            {item.kehadiran.map((item, idx) => (
+              <Td key={idx}>
+                <BadgeCustom
+                  title={item.status}
+                  isDelete={false}
+                  color="#fff"
+                  bgColor={
+                    item.status === "Hadir"
+                      ? "#0D6EFD"
+                      : item.status === "Sakit"
+                      ? "#198754"
+                      : item.status === "Ijin"
+                      ? "#FFC107"
+                      : item.status === "alpha"
+                      ? "DC3545"
+                      : "transparent"
+                  }
+                  padding="4px 8px"
+                />
+              </Td>
+            ))}
             <Td>
-              <BadgeCustom
-                title="H"
-                isDelete={false}
-                color="#fff"
-                bgColor="#0D6EFD"
-                padding="4px 8px"
-              />
+              {item.kehadiran.reduce(
+                (total, item) => (item.status === "Hadir" ? total + 1 : total),
+                0
+              )}
             </Td>
             <Td>
-              <BadgeCustom
-                title="H"
-                isDelete={false}
-                color="#fff"
-                bgColor="#0D6EFD"
-                padding="4px 8px"
-              />
+              {item.kehadiran.reduce(
+                (total, item) => (item.status === "Ijin" ? total + 1 : total),
+                0
+              )}
             </Td>
             <Td>
-              <BadgeCustom
-                title="I"
-                isDelete={false}
-                color="#212529"
-                bgColor="#FFC107"
-                padding="4px 8px"
-              />
+              {item.kehadiran.reduce(
+                (total, item) => (item.status === "Sakit" ? total + 1 : total),
+                0
+              )}
             </Td>
             <Td>
-              <BadgeCustom
-                title="S"
-                isDelete={false}
-                color="#fff"
-                bgColor="#198754"
-                padding="4px 8px"
-              />
+              {item.kehadiran.reduce(
+                (total, item) => (item.status === "Alpha" ? total + 1 : total),
+                0
+              )}
             </Td>
-            <Td>
-              <BadgeCustom
-                title="A"
-                isDelete={false}
-                color="#fff"
-                bgColor="#DC3545"
-                padding="4px 8px"
-              />
-            </Td>
-            <Td>5</Td>
-            <Td>5</Td>
-            <Td>5</Td>
-            <Td>5</Td>
           </Tr>
-        }
+        ))}
       />
     </>
   );

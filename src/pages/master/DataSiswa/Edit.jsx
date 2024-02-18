@@ -72,7 +72,7 @@ const EditSiswa = () => {
       formData.append("role", "siswa");
       await updateUser(formData, idParams);
       setIsLoading(false);
-      // router("/master-data/data-siswa");
+      router("/master-data/data-siswa");
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -490,7 +490,12 @@ const EditSiswa = () => {
             control={control}
             name="status"
             render={({ field }) => (
-              <Switch color="#0D6EFD" name="status" {...field} />
+              <Switch
+                {...register("status")}
+                color="#0D6EFD"
+                name="status"
+                {...field}
+              />
             )}
           />
         </Flex>

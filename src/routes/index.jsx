@@ -226,7 +226,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh"
+        path="/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh/:id"
         element={
           <ProtectedPage>
             <DetailKelompokHalaqoh />
@@ -244,7 +244,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/halaqoh/absensi-siswa/kelola-absensi-siswa"
+        path="/halaqoh/absensi-siswa/kelola-absensi-siswa/:id"
         element={
           <ProtectedPage>
             <KelolaAbsensi />

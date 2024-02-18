@@ -62,7 +62,7 @@ const EditGuru = () => {
       formData.append("role", "guru");
       await updateUser(formData, idParams);
       setLoading(false);
-      // router("/master-data/data-siswa");
+      router("/master-data/data-siswa");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -290,10 +290,10 @@ const EditGuru = () => {
                 label="Jenis Kelamin"
                 name="jenis_kelamin"
                 errorText={fieldState.error?.message}
-                {...field}
                 isReq={true}
                 notInputForm={
                   <RadioGroup
+                    {...field}
                     name="jenis_kelamin"
                     defaultValue={getValues("jenis_kelamin")}
                   >
@@ -411,12 +411,7 @@ const EditGuru = () => {
             name="status"
             control={control}
             render={({ field }) => (
-              <Switch
-                {...field}
-                color="#0D6EFD"
-                name="status"
-                defaultChecked={getValues("status")}
-              />
+              <Switch {...field} color="#0D6EFD" name="status" />
             )}
           />
         </Flex>

@@ -28,6 +28,7 @@ const EditTahunAjaran = () => {
       const response = await updateTahunAjaran(data,idParam);
       console.log(response);
       setLoading(false)
+      router("/master-data/data-tahun-ajaran")
     } catch (error) {
       console.log(error);
       setLoading(false)

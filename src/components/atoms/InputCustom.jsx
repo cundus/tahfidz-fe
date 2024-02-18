@@ -7,6 +7,7 @@ import {
   FormLabel,
   Input,
   InputGroup,
+  InputRightAddon,
   InputRightElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -74,7 +75,7 @@ const InputCustom = ({
               </InputRightElement>
             ))
           )}
-          {rightAddon && <InputRightElement>{rightAddon}</InputRightElement>}
+          {rightAddon && <InputRightAddon>{rightAddon}</InputRightAddon>}
         </InputGroup>
       )}
       {errorText && <FormErrorMessage mt="2px">{errorText}</FormErrorMessage>}
