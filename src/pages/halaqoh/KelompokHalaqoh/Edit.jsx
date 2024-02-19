@@ -1,16 +1,115 @@
-import { useNavigate } from "react-router-dom";
-import Header from "../../../components/molekuls/Header";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Flex, Grid, Switch, Text, useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import Select from "react-select";
 import ButtonCustom from "../../../components/atoms/ButtonCustom";
-import { Icon, ArrowBackIcon } from "@chakra-ui/icons";
-import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
-import { Text, Grid, Flex, Switch } from "@chakra-ui/react";
 import InputCustom from "../../../components/atoms/InputCustom";
-import SelectCustom from "../../../components/atoms/SelectCustom";
-import { IoIosSearch } from "react-icons/io";
-import BadgeCustom from "../../../components/atoms/BadgeCustom";
+import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
+import Header from "../../../components/molekuls/Header";
+import { getDetailHalaqah, updateHalaqoh } from "../../../lib/api/halaqoh";
+import { getAllTahunAjaran } from "../../../lib/api/tahun-ajaran";
+import { getAllGuru, getAllSiswa } from "../../../lib/api/users";
+import { useHalaqohValidation } from "../../../lib/validation/halaqohValidation";
 
 const EditKelompokHalaqoh = () => {
   const router = useNavigate();
+  const params = useParams();
+  const idParam = parseInt(params.id);
+  const [dataTahunAjaran, setDataTahunAjaran] = useState([]);
+  const [dataGuru, setDataGuru] = useState([]);
+  const [dataSiswa, setDataSiswa] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const { control, handleSubmit, reset } = useHalaqohValidation();
+
+  useEffect(() => {
+    const fetchDataSelect = async () => {
+      setLoading(true);
+      try {
+        const [
+          responseDetailHalaqah,
+          responseTahunAjaran,
+          responseDataGuru,
+          responseDataSiswa,
+        ] = await Promise.all([
+          getDetailHalaqah(idParam),
+          getAllTahunAjaran(),
+          getAllGuru(),
+          getAllSiswa(),
+        ]);
+        setDataTahunAjaran(
+          responseTahunAjaran.data.map((item) => ({
+            value: item.id,
+            label: item.nama_tahun_ajaran,
+          }))
+        );
+        setDataGuru(
+          responseDataGuru.users.map((item) => ({
+            value: item.id,
+            label: item.profile.nama_lengkap,
+          }))
+        );
+        setDataSiswa(
+          responseDataSiswa.users.map((item) => ({
+            value: item.id,
+            label: item.profile.nama_lengkap,
+          }))
+        );
+        reset({
+          guruId: {
+            value: responseDetailHalaqah.guru_id,
+            label: responseDetailHalaqah.nama_guru,
+          },
+          nama_halaqoh: responseDetailHalaqah.nama_halaqoh,
+          tahun_ajaran: {
+            value: responseDetailHalaqah.tahun_ajaran.id,
+            label: responseDetailHalaqah.tahun_ajaran.nama_tahun_ajaran,
+          },
+          siswaIds: responseDetailHalaqah.siswa.map((item) => ({
+            value: item.siswa_id,
+            label: item.nama_siswa,
+          })),
+          status: responseDetailHalaqah.status,
+        });
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+    fetchDataSelect();
+  }, []);
+
+  const handleUpdateHalaqoh = async (data) => {
+    try {
+      setLoading(true);
+
+      const response = await updateHalaqoh({
+        guruId: data.guruId.value,
+        nama_halaqoh: data.nama_halaqoh,
+        siswaIds: data.siswaIds.map((item => item.value)),
+        status: data.status,
+        tahun_ajaran: data.tahun_ajaran.value
+      }, idParam)
+      router("/halaqoh/kelompok-halaqoh");
+      toast({
+        title: response.message,
+        status: "success",
+        position: "top",
+      });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  if (loading) {
+    return <>loading....</>;
+  }
 
   return (
     <>
@@ -22,47 +121,98 @@ const EditKelompokHalaqoh = () => {
           type="outline"
         />
       </Header>
-      <BoxInputLayout title="Edit Kelompok Halaqoh Baru">
+      <BoxInputLayout title="Tambah Kelompok Halaqoh Baru">
         <Text fontSize="14px" color="#6C757D">
-          Silahkan ubah data di bawah untuk mengedit kelompok halaqoh
+          Silahkan isi data di bawah untuk menambahkan kelompok halaqoh baru
         </Text>
         <Grid templateColumns="repeat(3, 1fr)" mt={8} gap="16px">
-          <InputCustom
-            typeInput="text"
-            placeholder="Nama Halaqoh"
-            label="Nama Halaqoh"
+          <Controller
+            control={control}
             name="nama_halaqoh"
-            errorText=""
-            isReq={true}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                typeInput="text"
+                placeholder="Nama Halaqoh"
+                label="Nama Halaqoh"
+                name="nama_halaqoh"
+                errorText={fieldState.error?.message}
+                {...field}
+                isReq={true}
+              />
+            )}
           />
-          <SelectCustom
-            label="Tahun Ajaran"
-            placeholder="Tahun Ajaran"
-            isReq={true}
-            errorText=""
+
+          <Controller
             name="tahun_ajaran"
+            control={control}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                label="Tahun Ajaran"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                notInputForm={
+                  <Select
+                    {...field}
+                    name="tahun_ajaran"
+                    placeholder="Cari Tahun Ajaran"
+                    options={dataTahunAjaran}
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                }
+              />
+            )}
           />
-          <SelectCustom
-            label="Nama Guru"
-            placeholder="Nama Guru"
-            isReq={true}
-            errorText=""
-            name="nama_guru"
+
+          <Controller
+            name="guruId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <InputCustom
+                label="Nama Guru"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                notInputForm={
+                  <Select
+                    {...field}
+                    name="guruId"
+                    placeholder="Cari Guru"
+                    options={dataGuru}
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                }
+              />
+            )}
           />
         </Grid>
-        <InputCustom
-          label="Nama Anggota"
-          placeholder="Nama Anggota"
-          isReq={true}
-          errorText=""
-          name="nama_anggota"
-          rightAddon={<Icon as={IoIosSearch} fontSize="20px" />}
-          helper="Pilih minimal satu siswa"
+
+        <Controller
+          name="siswaIds"
+          control={control}
+          render={({ field, fieldState }) => (
+            <InputCustom
+              name="siswaIds"
+              label="Nama Anggota"
+              isReq={true}
+              errorText={fieldState.error?.message}
+              notInputForm={
+                <Select
+                  name="siswaIds"
+                  onChange={(e) => {
+                    field.onChange(e);
+                  }}  
+                  isMulti
+                  value={field.value}
+                  placeholder="Cari siswa"
+                  options={dataSiswa}
+                />
+              }
+            />
+          )}
         />
-        <Flex flexWrap="wrap" gap={4}>
-          <BadgeCustom title="Nama Siswa 1" />
-          <BadgeCustom title="Nama Siswa 1" />
-        </Flex>
         <Flex justifyContent="space-between" mt="12px" gap={4}>
           <Flex flexDirection="column" gap="1px">
             <Text fontSize="16px" fontWeight={600} color="#000">
@@ -72,7 +222,20 @@ const EditKelompokHalaqoh = () => {
               Anda dapat memilih ingin mengaktifkan atau menonaktifkan
             </Text>
           </Flex>
-          <Switch color="#0D6EFD" name="status" />
+
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <Switch
+                {...field}
+                color="#0D6EFD"
+                onChange={(e) => field.onChange(e.target.checked)}
+                name="status"
+                defaultChecked={field.value}
+              />
+            )}
+          />
         </Flex>
         <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>
           <ButtonCustom
@@ -85,6 +248,9 @@ const EditKelompokHalaqoh = () => {
             bgColor="transparent"
           />
           <ButtonCustom
+            onClick={handleSubmit(handleUpdateHalaqoh)}
+            typeButton="submit"
+            isLoading={loading}
             title="Tambahkan"
             _hover={{ opacity: "0.8" }}
             bgColor="#0B5ED7"

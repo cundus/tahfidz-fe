@@ -29,3 +29,21 @@ export const createHalaqah = async ({
 export const getDetailHalaqah = async(id) => {
   return (await API.get("/halaqoh/"+ id)).data
 }
+
+export const updateHalaqoh = async ({
+  nama_halaqoh,
+  tahun_ajaran,
+  guruId,
+  siswaIds,
+  status
+},id) => {
+  return (
+    await API.put("/halaqoh/"+ id, {
+      nama_halaqoh,
+      tahun_ajaran,
+      guruId,
+      siswaIds,
+      status
+    })
+  ).data;
+};

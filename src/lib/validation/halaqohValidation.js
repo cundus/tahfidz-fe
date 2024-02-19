@@ -6,7 +6,7 @@ const schema = yup.object({
    nama_halaqoh: yup.string().required("Nama halaqah wajib di isi "),
    tahun_ajaran: yup.object().required('Tahun ajaran harus dipilih'),
    guruId: yup.object().required('Nama guru harus dipilih'),
-   siswaIds: yup.array().of(yup.number()).required("Siswa wajib di isi"),
+   siswaIds: yup.array().of(yup.object()).required("Siswa wajib di isi"),
    status: yup.boolean(),
 });
 

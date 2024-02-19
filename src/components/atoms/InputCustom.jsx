@@ -26,7 +26,7 @@ const InputCustom = ({
   disabled,
   rightAddon,
   helper,
-  defaultValue,
+  value
 }) => {
   const [show, setShow] = useState(true);
 
@@ -56,7 +56,8 @@ const InputCustom = ({
             name={name}
             isDisabled={disabled}
             bgColor="white"
-            defaultValue={defaultValue}
+            // defaultValue={defaultValue}
+            value={value}
           />
           {errorText ? (
             <InputRightElement>
