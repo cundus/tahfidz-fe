@@ -69,21 +69,26 @@ const EditGuru = () => {
     }
   };
 
-  const handleGetDetailSiswa = async () => {
-    try {
-      const response = await getDetailUser(idParams);
-      reset({
-        username: response.data.user.username,
-        ...response.data.user.profile,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const handleGetDetailSiswa = async () => {
+      try {
+        const response = await getDetailUser(idParams);
+        console.log(response);
+        reset({
+          username: response.data.user.username,
+          ...response.data.user.profile,
+          tanggal_lahir: moment(
+            response.data.user.profile.tanggal_lahir
+          ).format("YYYY-MM-DD"),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     handleGetDetailSiswa();
   }, [idParams]);
+
+  console.log(getValues());
 
   return (
     <>
@@ -185,7 +190,6 @@ const EditGuru = () => {
                 placeholder="Nama Lengkap"
                 label="Nama Lengkap"
                 name="nama_lengkap"
-                defaultValue={getValues("nama_lengkap")}
                 isReq={true}
                 errorText={fieldState.error?.message}
                 {...field}
@@ -201,7 +205,6 @@ const EditGuru = () => {
                 placeholder="Username"
                 label="Username"
                 name="username"
-                defaultValue={getValues("username")}
                 isReq={true}
                 errorText={fieldState.error?.message}
                 {...field}
@@ -232,7 +235,6 @@ const EditGuru = () => {
                 placeholder="NIG"
                 isReq={true}
                 label="No Induk Guru"
-                defaultValue={getValues("nomor_induk")}
                 name="nomor_induk"
                 errorText={fieldState.error?.message}
                 {...field}
@@ -256,7 +258,6 @@ const EditGuru = () => {
                 typeInput="text"
                 placeholder="Tempat Lahir"
                 label="Tempat Lahir"
-                defaultValue={getValues("tempat_lahir")}
                 name="tempat_lahir"
                 errorText={fieldState.error?.message}
                 {...field}
@@ -272,9 +273,6 @@ const EditGuru = () => {
                 typeInput="date"
                 label="Tanggal Lahir"
                 placeholder="Pilih Tanggal"
-                defaultValue={moment(getValues("tanggal_lahir")).format(
-                  "YYYY-MM-DD"
-                )}
                 name="tanggal_lahir"
                 isReq={true}
                 errorText={fieldState.error?.message}
@@ -292,11 +290,7 @@ const EditGuru = () => {
                 errorText={fieldState.error?.message}
                 isReq={true}
                 notInputForm={
-                  <RadioGroup
-                    {...field}
-                    name="jenis_kelamin"
-                    defaultValue={getValues("jenis_kelamin")}
-                  >
+                  <RadioGroup {...field} name="jenis_kelamin">
                     <Stack direction="row">
                       <Radio bgColor="white" value="L">
                         Laki-laki
@@ -317,7 +311,6 @@ const EditGuru = () => {
               <InputCustom
                 typeInput="email"
                 label="Email"
-                defaultValue={getValues("email")}
                 placeholder="Email"
                 name="email"
                 errorText={fieldState.error?.message}
@@ -334,7 +327,6 @@ const EditGuru = () => {
               <InputCustom
                 typeInput="number"
                 label="Nomor Telepon"
-                defaultValue={getValues("nomor_telepon")}
                 placeholder="Nomor Telepon"
                 name="nomor_telepon"
                 errorText={fieldState.error?.message}
@@ -351,7 +343,6 @@ const EditGuru = () => {
                 typeInput="text"
                 placeholder="Jabatan"
                 label="Posisi / Jabatan"
-                defaultValue={getValues("posisi")}
                 name="posisi"
                 errorText={fieldState.error?.message}
                 {...field}
@@ -368,9 +359,6 @@ const EditGuru = () => {
                 label="Tanggal Bergabung"
                 placeholder="Pilih Tanggal"
                 name="tanggal_bergabung"
-                defaultValue={moment(getValues("tanggal_bergabung")).format(
-                  "YYYY-MM-DD"
-                )}
                 errorText={fieldState.error?.message}
                 {...field}
                 isReq={true}
@@ -390,7 +378,6 @@ const EditGuru = () => {
                   bgColor="white"
                   {...field}
                   name="alamat"
-                  defaultValue={getValues("alamat")}
                   placeholder="Alamat Lengkap"
                 />
               }
@@ -408,13 +395,20 @@ const EditGuru = () => {
           </Flex>
 
           <Controller
-            name="status"
             control={control}
+            name="status"
             render={({ field }) => (
-              <Switch {...field} color="#0D6EFD" name="status" />
+              <Switch
+                {...field}
+                color="#0D6EFD"
+                onChange={(e) => field.onChange(e.target.checked)}
+                name="status"
+                defaultChecked={field.value}
+              />
             )}
           />
         </Flex>
+
         <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>
           <ButtonCustom
             title="Batal"
@@ -432,7 +426,7 @@ const EditGuru = () => {
             bgColor="#0B5ED7"
             color="#FFF"
             isLoading={loading}
-            onClick={handleSubmit(handleUpdateGuru, (err) => console.log(err))}
+            onClick={handleSubmit(handleUpdateGuru)}
           />
         </Flex>
       </BoxInputLayout>

@@ -107,7 +107,7 @@ const EditKelompokHalaqoh = () => {
     }
   };
 
-  if (loading) {
+  if (loading) {``
     return <>loading....</>;
   }
 
