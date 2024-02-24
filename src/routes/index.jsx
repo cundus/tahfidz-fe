@@ -270,7 +270,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan"
+        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id"
         element={
           <ProtectedPage>
             <KelolaHafalan />
@@ -278,7 +278,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id"
+        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id/:siswa_id/:nama_siswa"
         element={
           <ProtectedPage>
             <SiswaHafalan />
@@ -295,7 +295,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/murojaah-(manzil)/kelola-hafalan"
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id"
         element={
           <ProtectedPage>
             <KelolaMurojaah />
@@ -303,7 +303,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id"
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan/"
         element={
           <ProtectedPage>
             <SiswaMurojaah />

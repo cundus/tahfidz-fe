@@ -12,7 +12,7 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react";
 
-const ModalCustom = ({ isOpen, onClose, children, title,onOK }) => {
+const ModalCustom = ({ isOpen, onClose, children, title,onOK,isLoading }) => {
   return (
     <Modal size="2xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -28,7 +28,7 @@ const ModalCustom = ({ isOpen, onClose, children, title,onOK }) => {
           <Button px={10} variant="outline" colorScheme="red" mr={3} onClick={onClose}>
             Batal
           </Button>
-          <Button onClick={onOK} px={10} bg="#0B5ED7" color="white">Simpan</Button>
+          <Button isLoading={isLoading} onClick={onOK} px={10} bg="#0B5ED7" color="white">Simpan</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

@@ -1,8 +1,17 @@
 /* eslint-disable react/prop-types */
+import {
+  Spinner,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr
+} from "@chakra-ui/react";
 import Pagination from "../atoms/Pagination";
-import { Table, Thead, Tbody, Tr, Th, TableContainer, Td, Spinner } from "@chakra-ui/react";
 
-const TableCustom = ({ thead, tbody, theadCustom,isLoading }) => {
+const TableCustom = ({ thead, tbody, theadCustom, isLoading }) => {
   return (
     <TableContainer marginTop={6} border="1px solid #E2E8F0">
       <Table variant="simple">

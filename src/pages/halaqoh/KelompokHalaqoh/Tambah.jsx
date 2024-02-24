@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import BadgeCustom from "../../../components/atoms/BadgeCustom";
 import InputCustom from "../../../components/atoms/InputCustom";
 import BoxInputLayout from "../../../components/molekuls/BoxInputLayout";
 import Header from "../../../components/molekuls/Header";
@@ -60,7 +59,7 @@ const TambahKelompokHalaqoh = () => {
       const response = await createHalaqah({
         guruId: data.guruId.value,
         nama_halaqoh: data.nama_halaqoh,
-        siswaIds: data.siswaIds,
+        siswaIds: data.siswaIds.map(item => item.value),
         tahun_ajaran: data.tahun_ajaran.value,
         status: data.status
       });
@@ -152,31 +151,28 @@ const TambahKelompokHalaqoh = () => {
         <Controller
           name="siswaIds"
           control={control}
-          render={({ field, fieldState }) => (
-            <InputCustom
-              name="Nama Anggota"
-              label="Nama Anggota"
-              isReq={true}
-              errorText={fieldState.error?.message}
-              notInputForm={
-                <Select
-                  name="siswaIds"
-                  onChange={(select) => {
-                    const value = select.map((i) => i.value);
-                    field.onChange(value);
-                  }}
-                  isMulti
-                  placeholder="Cari siswa"
-                  options={dataSiswa}
-                />
-              }
-            />
-          )}
+          render={({ field, fieldState }) => {
+            console.log(field.value);
+            return (
+              <InputCustom
+                name="Nama Anggota"
+                label="Nama Anggota"
+                isReq={true}
+                errorText={fieldState.error?.message}
+                notInputForm={
+                  <Select
+                    name="siswaIds"
+                    {...field}
+                    isMulti
+                    placeholder="Cari siswa"
+                    options={dataSiswa}
+                  />
+                }
+              />
+            )
+          }}
         />
 
-        <Flex flexWrap="wrap" gap={4}>
-          <BadgeCustom title={"SISWA 1"} />
-        </Flex>
         <Flex justifyContent="space-between" mt="12px" gap={4}>
           <Flex flexDirection="column" gap="1px">
             <Text fontSize="16px" fontWeight={600} color="#000">

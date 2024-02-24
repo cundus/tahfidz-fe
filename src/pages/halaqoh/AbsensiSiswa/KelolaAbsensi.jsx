@@ -123,59 +123,63 @@ const KelolaAbsensi = () => {
             </Tr>
           </>
         }
-        tbody={data?.siswa.map((item, idx) => (
-          <Tr key={idx}>
-            <Td>{idx + 1}</Td>
-            <Td>{item?.nomor_induk}</Td>
-            <Td>{item.nama_siswa}</Td>
-            <Td>{item?.jenis_kelamin}</Td>
-            {item.kehadiran.map((item, idx) => (
-              <Td key={idx}>
-                <BadgeCustom
-                  title={item.status}
-                  isDelete={false}
-                  color="#fff"
-                  bgColor={
-                    item.status === "Hadir"
-                      ? "#0D6EFD"
-                      : item.status === "Sakit"
-                      ? "#198754"
-                      : item.status === "Ijin"
-                      ? "#FFC107"
-                      : item.status === "alpha"
-                      ? "DC3545"
-                      : "transparent"
-                  }
-                  padding="4px 8px"
-                />
+        tbody={data?.siswa.map((item, idx) => {
+          console.log(item);
+          
+          return (
+            <Tr key={idx}>
+              <Td>{idx + 1}</Td>
+              <Td>{item?.nomor_induk}</Td>
+              <Td>{item.nama_siswa}</Td>
+              <Td>{item?.jenis_kelamin}</Td>
+              {item.kehadiran.map((item, idx) => (
+                <Td key={idx}>
+                  <BadgeCustom
+                    title={item.status}
+                    isDelete={false}
+                    color="#fff"
+                    bgColor={
+                      item.status === "Hadir"
+                        ? "#0D6EFD"
+                        : item.status === "Sakit"
+                        ? "#198754"
+                        : item.status === "Ijin"
+                        ? "#FFC107"
+                        : item.status === "alpha"
+                        ? "DC3545"
+                        : "transparent"
+                    }
+                    padding="4px 8px"
+                  />
+                </Td>
+              ))}
+              <Td>
+                {item.kehadiran.reduce(
+                  (total, item) => (item.status === "Hadir" ? total + 1 : total),
+                  0
+                )}
               </Td>
-            ))}
-            <Td>
-              {item.kehadiran.reduce(
-                (total, item) => (item.status === "Hadir" ? total + 1 : total),
-                0
-              )}
-            </Td>
-            <Td>
-              {item.kehadiran.reduce(
-                (total, item) => (item.status === "Ijin" ? total + 1 : total),
-                0
-              )}
-            </Td>
-            <Td>
-              {item.kehadiran.reduce(
-                (total, item) => (item.status === "Sakit" ? total + 1 : total),
-                0
-              )}
-            </Td>
-            <Td>
-              {item.kehadiran.reduce(
-                (total, item) => (item.status === "Alpha" ? total + 1 : total),
-                0
-              )}
-            </Td>
-          </Tr>
-        ))}
+              <Td>
+                {item.kehadiran.reduce(
+                  (total, item) => (item.status === "Ijin" ? total + 1 : total),
+                  0
+                )}
+              </Td>
+              <Td>
+                {item.kehadiran.reduce(
+                  (total, item) => (item.status === "Sakit" ? total + 1 : total),
+                  0
+                )}
+              </Td>
+              <Td>
+                {item.kehadiran.reduce(
+                  (total, item) => (item.status === "Alpha" ? total + 1 : total),
+                  0
+                )}
+              </Td>
+            </Tr>
+          )
+        })}
       />
     </>
   );

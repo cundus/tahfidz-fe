@@ -26,7 +26,7 @@ const InputCustom = ({
   disabled,
   rightAddon,
   helper,
-  value
+  value,
 }) => {
   const [show, setShow] = useState(true);
 

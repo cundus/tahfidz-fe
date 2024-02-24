@@ -49,7 +49,7 @@ const KelolaMurojaah = () => {
               <Text
                 color="#0D6EFD"
                 onClick={() =>
-                  router("/hafalan/murojaah-(manzil)/kelola-hafalan/Ahmad")
+                  router("/hafalan/murojaah-(manzil)/kelola-hafalan/")
                 }
                 fontSize="sm"
                 borderBottom="1px solid transparent"

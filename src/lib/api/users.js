@@ -19,7 +19,7 @@ export const getAllGuru = async () => {
       params: {
         page: 1,
         role: "guru",
-        pageSize: 10,
+        pageSize: 100,
         includeHalaqoh: true,
       },
     })
