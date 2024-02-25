@@ -294,6 +294,7 @@ function RoutePage() {
           </ProtectedPage>
         }
       />
+      
       <Route
         path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id"
         element={
@@ -303,7 +304,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/murojaah-(manzil)/kelola-hafalan/"
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id/:siswa_id/:nama_siswa"
         element={
           <ProtectedPage>
             <SiswaMurojaah />

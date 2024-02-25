@@ -1,11 +1,12 @@
 import API from ".";
-export const getAllHafalan = async (siswaId) => {
+export const getAllHafalan = async (siswaId,type) => {
   return (
     await API.get("/hafalan", {
       params: {
         page: 1,
         pageSize: 10,
         siswaId: siswaId,
+        type: type
       },
     })
   ).data;

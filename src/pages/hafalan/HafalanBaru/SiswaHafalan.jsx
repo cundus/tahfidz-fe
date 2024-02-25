@@ -197,7 +197,7 @@ const SiswaHafalan = () => {
       setLoading(true);
       const [responseHafalan, responseHalaqah, responseSurahList] =
         await Promise.all([
-          getAllHafalan(siswa_id),
+          getAllHafalan(siswa_id, "sabq"),
           getDetailHalaqah(id),
           getSurahList(),
         ]);
@@ -273,36 +273,50 @@ const SiswaHafalan = () => {
           "Nilai Tajwid",
           "Aksi",
         ]}
-        tbody={data?.map((item, idx) => (
-          <Tr key={idx}>
-            <Td>{idx + 1}</Td>
-            <Td>{moment(item.tanggal).format("ll")}</Td>
-            <Td>{item.surat_awal}</Td>
-            <Td>{item.ayat_awal}</Td>
-            <Td>{item.surat_akhir}</Td>
-            <Td>{item.ayat_akhir}</Td>
-            <Td>{item.baris}</Td>
-            <Td>{item.nilai_hafalan}</Td>
-            <Td>{item.nilai_tajwid}</Td>
-            <Td>
-              <Menu>
-                <MenuButton>
-                  <IconButton
-                    size="sm"
-                    icon={<CiMenuKebab size={20} />}
-                    aria-label="aksi"
-                  />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={() => openModalUpdate(item.id)}>
-                    Update
-                  </MenuItem>
-                  <MenuItem onClick={() => openAlert(item.id)}>Delete</MenuItem>
-                </MenuList>
-              </Menu>
-            </Td>
-          </Tr>
-        ))}
+        tbody={
+          <>
+            {!data.length && (
+              <Tr>
+                <Td colSpan={9} textAlign="center">
+                  Data Not Found
+                </Td>
+              </Tr>
+            )}
+
+            {data?.map((item, idx) => (
+              <Tr key={idx}>
+                <Td>{idx + 1}</Td>
+                <Td>{moment(item.tanggal).format("ll")}</Td>
+                <Td>{item.surat_awal}</Td>
+                <Td>{item.ayat_awal}</Td>
+                <Td>{item.surat_akhir}</Td>
+                <Td>{item.ayat_akhir}</Td>
+                <Td>{item.baris}</Td>
+                <Td>{item.nilai_hafalan}</Td>
+                <Td>{item.nilai_tajwid}</Td>
+                <Td>
+                  <Menu>
+                    <MenuButton>
+                      <IconButton
+                        size="sm"
+                        icon={<CiMenuKebab size={20} />}
+                        aria-label="aksi"
+                      />
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem onClick={() => openModalUpdate(item.id)}>
+                        Update
+                      </MenuItem>
+                      <MenuItem onClick={() => openAlert(item.id)}>
+                        Delete
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Td>
+              </Tr>
+            ))}
+          </>
+        }
       />
 
       {isOpen && (
