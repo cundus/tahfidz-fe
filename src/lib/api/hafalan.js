@@ -1,12 +1,14 @@
 import API from ".";
 export const getAllHafalan = async (siswaId) => {
-  return (await API.get("/hafalan", {
-    params: {
-      page: 1,
-      pageSize: 10,
-      siswaId: siswaId
-    }
-  })).data;
+  return (
+    await API.get("/hafalan", {
+      params: {
+        page: 1,
+        pageSize: 10,
+        siswaId: siswaId,
+      },
+    })
+  ).data;
 };
 
 export const getDetailHafalan = async (id) => {
@@ -24,7 +26,7 @@ export const cretaHafalan = async (
     nilai_tajwid,
     siswaId,
     halaqohId,
-    tanggal
+    tanggal,
   },
   type
 ) => {
@@ -41,7 +43,7 @@ export const cretaHafalan = async (
         nilai_tajwid,
         siswaId,
         halaqohId,
-        tanggal
+        tanggal,
       },
       {
         params: {
@@ -54,13 +56,14 @@ export const cretaHafalan = async (
 
 export const updateHafalan = async (
   {
-   baris,
-   ayat_awal,
-   ayat_akhir,
-   surat_awal,
-   surat_akhir,
-   nilai_hafalan,
-   nilai_tajwid,
+    baris,
+    ayat_awal,
+    ayat_akhir,
+    surat_awal,
+    surat_akhir,
+    nilai_hafalan,
+    nilai_tajwid,
+    tanggal,
   },
   id
 ) => {
@@ -73,12 +76,11 @@ export const updateHafalan = async (
       surat_akhir,
       nilai_hafalan,
       nilai_tajwid,
+      tanggal,
     })
   ).data;
 };
 
-
 export const deleteHafalan = async (id) => {
-   return (await API.delete(`/hafalan/${id}`)).data;
- };
- 
+  return (await API.delete(`/hafalan/${id}`)).data;
+};

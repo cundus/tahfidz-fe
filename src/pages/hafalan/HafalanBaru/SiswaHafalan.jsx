@@ -32,6 +32,8 @@ import {
   cretaHafalan,
   deleteHafalan,
   getAllHafalan,
+  getDetailHafalan,
+  updateHafalan,
 } from "../../../lib/api/hafalan";
 import { getDetailHalaqah } from "../../../lib/api/halaqoh";
 import { getSurahList } from "../../../lib/api/quranlist";
@@ -54,24 +56,53 @@ const SiswaHafalan = () => {
   // POST
   const handleAddHafalan = async (data) => {
     try {
-      console.log(data);
-      setLoadingCreate(true);
-      const response = await cretaHafalan(
-        {
-          surat_awal: data.surat_awal.value,
-          surat_akhir: data.surat_akhir.value,
-          nilai_hafalan: data.nilai_hafalan,
-          nilai_tajwid: data.nilai_tajwid,
-          baris: data.baris + " Baris",
-          ayat_awal: data.ayat_awal,
-          ayat_akhir: data.ayat_akhir,
-          siswaId: siswa_id,
-          halaqohId: id,
-          tanggal: data.tanggal,
-        },
-        "sabq"
-      );
-      setLoadingCreate(false);
+      if (idHafalan) {
+        setLoadingCreate(true);
+        const response = await updateHafalan(
+          {
+            surat_awal: data.surat_awal.value,
+            surat_akhir: data.surat_akhir.value,
+            nilai_hafalan: data.nilai_hafalan,
+            nilai_tajwid: data.nilai_tajwid,
+            baris: data.baris + " Baris",
+            ayat_awal: data.ayat_awal,
+            ayat_akhir: data.ayat_akhir,
+            siswaId: siswa_id,
+            halaqohId: id,
+            tanggal: data.tanggal,
+          },
+          idHafalan
+        );
+        toast({
+          title: response.message,
+          status: "success",
+          position: "top",
+        });
+        setLoadingCreate(false);
+      } else {
+        setLoadingCreate(true);
+        const response = await cretaHafalan(
+          {
+            surat_awal: data.surat_awal.value,
+            surat_akhir: data.surat_akhir.value,
+            nilai_hafalan: data.nilai_hafalan,
+            nilai_tajwid: data.nilai_tajwid,
+            baris: data.baris + " Baris",
+            ayat_awal: data.ayat_awal,
+            ayat_akhir: data.ayat_akhir,
+            siswaId: siswa_id,
+            halaqohId: id,
+            tanggal: data.tanggal,
+          },
+          "sabq"
+        );
+        setLoadingCreate(false);
+        toast({
+          title: response.message,
+          status: "success",
+          position: "top",
+        });
+      }
       reset({
         ayat_akhir: "",
         baris: "",
@@ -83,16 +114,50 @@ const SiswaHafalan = () => {
         tanggal: "",
       });
       onClose();
-      toast({
-        title: response.message,
-        status: "success",
-        position: "top",
-      });
       fetchData();
     } catch (error) {
       console.log(error);
       setLoadingCreate(false);
     }
+  };
+
+  // UPDATE
+  const openModalUpdate = async (id) => {
+    setIdHafalan(id);
+    try {
+      const response = await getDetailHafalan(id);
+      console.log(response.hafalan);
+      reset({
+        ...response.hafalan,
+        tanggal: moment(response.hafalan.tanggal).format("YYYY-MM-DD"),
+        surat_awal: {
+          label: response.hafalan.surat_awal,
+          value: response.hafalan.surat_awal,
+        },
+        surat_akhir: {
+          label: response.hafalan.surat_akhir,
+          value: response.hafalan.surat_akhir,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    onOpen();
+  };
+  const closeModal = () => {
+    setIdHafalan(null);
+    reset({
+      baris: "",
+      ayat_awal: "",
+      ayat_akhir: "",
+      surat_awal: null,
+      surat_akhir: null,
+      nilai_hafalan: "",
+      nilai_tajwid: "",
+      tanggal: "",
+    });
+    onClose();
   };
 
   // DELETE
@@ -150,6 +215,7 @@ const SiswaHafalan = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -228,7 +294,9 @@ const SiswaHafalan = () => {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Update</MenuItem>
+                  <MenuItem onClick={() => openModalUpdate(item.id)}>
+                    Update
+                  </MenuItem>
                   <MenuItem onClick={() => openAlert(item.id)}>Delete</MenuItem>
                 </MenuList>
               </Menu>
@@ -242,7 +310,7 @@ const SiswaHafalan = () => {
           onOK={handleSubmit(handleAddHafalan)}
           title="HAFALAN BARU (SABQ)"
           isOpen={isOpen}
-          onClose={onClose}
+          onClose={closeModal}
           isLoading={loadingCreate}
         >
           <Flex borderLeft="4px solid #0D6EFD" direction="column">
@@ -352,7 +420,7 @@ const SiswaHafalan = () => {
                     label="Jumlah Baris Yang Di Hafal"
                     isReq
                     errorText={fieldState?.error?.message}
-                    typeInput="number"
+                    typeInput="text"
                     rightAddon="Baris"
                     placeholder="Baris"
                   />
