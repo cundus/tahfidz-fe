@@ -322,7 +322,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/ujian-hafalan/kelola-hafalan"
+        path="/ujian-hafalan/kelola-hafalan/:id"
         element={
           <ProtectedPage>
             <KelolaUjianHafalan />
@@ -330,7 +330,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/ujian-hafalan/kelola-hafalan/:id"
+        path="/ujian-hafalan/kelola-hafalan/:id/:siswa_id/:nama_siswa"
         element={
           <ProtectedPage>
             <SiswaUjianHafalan />

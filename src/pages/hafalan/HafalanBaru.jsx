@@ -60,10 +60,7 @@ const HafalanBaru = () => {
             <Td>
               <Text
                 color="#0D6EFD"
-                onClick={() => {
-                  localStorage.setItem("idHalaqoh", item.id)
-                  router("/hafalan/hafalan-baru-(sabq)/kelola-hafalan/" + item.id)
-                }}
+                onClick={() => router("/hafalan/hafalan-baru-(sabq)/kelola-hafalan/" + item.id)}
                 fontSize="sm"
                 borderBottom="1px solid transparent"
                 _hover={{

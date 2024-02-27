@@ -37,6 +37,7 @@ const KelolaHafalan = () => {
   if(loading){
     return <Text>Loading....</Text>
   }
+  
   return (
     <>
       <Header title="HAFALAN BARU (SABQ)">

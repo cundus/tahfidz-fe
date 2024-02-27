@@ -27,7 +27,10 @@ const InputCustom = ({
   rightAddon,
   helper,
   value,
-  defaultValue
+  defaultValue,
+  bgInput,
+  textAlign,
+  onClickRigtAddon
 }) => {
   const [show, setShow] = useState(true);
 
@@ -56,8 +59,9 @@ const InputCustom = ({
             onChange={onChange}
             name={name}
             isDisabled={disabled}
-            bgColor="white"
+            bgColor={bgInput ? bgInput : "white"}
             defaultValue={defaultValue}
+            textAlign={textAlign ? textAlign : "left"}
             value={value}
           />
           {errorText ? (
@@ -77,7 +81,7 @@ const InputCustom = ({
               </InputRightElement>
             ))
           )}
-          {rightAddon && <InputRightAddon>{rightAddon}</InputRightAddon>}
+          {rightAddon && <InputRightAddon cursor="pointer" onClick={onClickRigtAddon}>{rightAddon}</InputRightAddon>}
         </InputGroup>
       )}
       {errorText && <FormErrorMessage mt="2px">{errorText}</FormErrorMessage>}

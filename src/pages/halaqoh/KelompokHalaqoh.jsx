@@ -1,26 +1,27 @@
-import ButtonCustom from "../../components/atoms/ButtonCustom";
-import Header from "../../components/molekuls/Header";
-import { useNavigate } from "react-router-dom";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
-import TableCustom from "../../components/molekuls/TableCustom";
 import {
-  Tr,
-  Td,
   Badge,
-  Flex,
-  Select,
   Button,
+  Flex,
+  Icon,
   Input,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
-  Icon,
-  useDisclosure,
+  MenuList,
+  Select,
+  Td,
+  Tr,
+  useDisclosure
 } from "@chakra-ui/react";
-import { IoEyeOutline } from "react-icons/io5";
-import { BsDownload } from "react-icons/bs";
 import { useEffect, useState } from "react";
+import { BsDownload } from "react-icons/bs";
+import { IoEyeOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import ButtonCustom from "../../components/atoms/ButtonCustom";
+import ModalCustom from "../../components/atoms/ModalCustom";
+import Header from "../../components/molekuls/Header";
+import TableCustom from "../../components/molekuls/TableCustom";
 import { deleteHalaqah, getAllHalaqoh } from "../../lib/api/halaqoh";
 import AlertConfirm from "./../../components/atoms/AlertDialog";
 
@@ -30,26 +31,37 @@ const KelompokHalaqoh = () => {
   const [data, setData] = useState();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenModalSiswa,
+    onClose: closeModalSiswa,
+    onOpen: onOpenModalSiswa,
+  } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
-  const [loadingDelete,setLoadingDelete] = useState(false)
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [siswaDetail, setSiswaDetail] = useState([]);  
+
+  const openModalSiswa = (data) => {
+    setSiswaDetail(data)
+    onOpenModalSiswa()
+  }
 
   const openAlertConfirm = (id) => {
     setSelectedId(id);
     onOpen();
   };
 
-  const handleDeleteHalaqoh = async() => {
-    setLoadingDelete(true)
+  const handleDeleteHalaqoh = async () => {
+    setLoadingDelete(true);
     try {
-      await deleteHalaqah(selectedId)
-      setLoadingDelete(false)
-      onClose()
-      fetchDataHolaqoh()
+      await deleteHalaqah(selectedId);
+      setLoadingDelete(false);
+      onClose();
+      fetchDataHolaqoh();
     } catch (error) {
       console.log(error);
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const fetchDataHolaqoh = async () => {
     setLoading(true);
@@ -122,7 +134,7 @@ const KelompokHalaqoh = () => {
             <Td>{item?.nama_halaqoh}</Td>
             <Td>{item?.tahun_ajaran?.nama_tahun_ajaran}</Td>
             <Td>{item?.nama_guru}</Td>
-            <Td>
+            <Td cursor="pointer" onClick={() => openModalSiswa(item.siswa)}>
               <Badge
                 borderRadius="xl"
                 paddingY={1}
@@ -172,7 +184,8 @@ const KelompokHalaqoh = () => {
                   <MenuItem
                     onClick={() =>
                       router(
-                        "/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh/" + item.id
+                        "/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh/" +
+                          item.id
                       )
                     }
                   >
@@ -207,6 +220,21 @@ const KelompokHalaqoh = () => {
           title="Hapus Data"
           subTitle="Apakah anda yakin ingin menghapus data ?"
         />
+      )}
+
+      {isOpenModalSiswa && (
+        <ModalCustom isNoFooter  isOpen={isOpenModalSiswa} onClose={closeModalSiswa} title="Daftar Anggota Halaqoh">
+
+          <TableCustom
+          thead={["#", "Nama Siswa"]}
+          tbody={siswaDetail.map((item,idx)=> (
+            <Tr key={idx}>
+              <Td>{idx + 1}</Td>
+              <Td>{item.nama_siswa}</Td>
+            </Tr>
+          ))}
+          />
+        </ModalCustom>
       )}
     </>
   );
