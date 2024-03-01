@@ -10,7 +10,7 @@ import {
   Stack,
   Td,
   Tr,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
@@ -22,13 +22,19 @@ import ModalCustom from "../../../components/atoms/ModalCustom";
 import Header from "../../../components/molekuls/Header";
 import TableCustom from "../../../components/molekuls/TableCustom";
 import { getDetailHalaqah } from "../../../lib/api/halaqoh";
-import { createKehadiran, getAllKehadiran, updateKehadiran } from "../../../lib/api/kehadiran";
+import {
+  createKehadiran,
+  getAllKehadiran,
+  getDetailKehadiran,
+  updateKehadiran,
+} from "../../../lib/api/kehadiran";
 import { useAbsensiValidation } from "../../../lib/validation/absensiValidation";
 import InputCustom from "./../../../components/atoms/InputCustom";
+import moment from "moment";
 
 const KelolaAbsensi = () => {
   const router = useNavigate();
-  const { control, handleSubmit } = useAbsensiValidation();
+  const { control, handleSubmit, watch, setValue } = useAbsensiValidation();
 
   const params = useParams();
   const idParam = parseInt(params.id);
@@ -37,62 +43,80 @@ const KelolaAbsensi = () => {
   const [dataKehadiran, setDataKehadiran] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedSiswa, setSelectedSiswa] = useState(null);
-  const uniqueDataKehadiran = [
-    ...new Set(dataKehadiran.map((item) => item.user.profile.nama_lengkap)),
-  ];
   const [loadingCreate, setLoadingCreate] = useState(false);
 
   const openModalAbsensi = (id) => {
     setSelectedSiswa(id);
+    console.log(id);
     onOpen();
   };
 
+  const [selectedMeet, setSelectedMeet] = useState({
+    siswa: [],
+  });
+
   const handleCreateAbsensi = async (data) => {
     try {
-      if(selectedSiswa){
-        const response = await updateKehadiran(
-          {
-            status: data.status,
-            tanggal: data.tanggal,
-            user: selectedSiswa,
-          },
-          data.meet,
-          idParam
-        );
-        console.log(response);
-      }else{
-        const response = await createKehadiran({
-          status: data.status,
+      setLoadingCreate(true);
+      await updateKehadiran(
+        selectedMeet.siswa.map((item) => ({
+          id: item.id,
           tanggal: data.tanggal,
-          user: selectedSiswa,
-          halaqoh: idParam
-        }, data.meet) 
-        console.log(response);
-      }
+          status: item.status,
+        })),
+        data.meet,
+        idParam
+      );
+      setLoadingCreate(false);
+
+      onClose();
+      handleGetDetailHalaqoh();
     } catch (error) {
       setLoadingCreate(false);
       console.log(error);
     }
   };
 
+  const handleGetDetailHalaqoh = async () => {
+    try {
+      setLoading(true);
+      const [responseDetailHalaqah, responseKehadiran] = await Promise.all([
+        getDetailHalaqah(idParam),
+        getAllKehadiran(idParam),
+      ]);
+      setLoading(false);
+      setData(responseDetailHalaqah);
+      setDataKehadiran(responseKehadiran.kehadiran);
+      setSelectedMeet({
+        siswa: responseKehadiran.kehadiran.filter(
+          (item) => item.meet === "Meet 1"
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const handleGetDetailHalaqoh = async () => {
-      try {
-        setLoading(true);
-        const [responseDetailHalaqah, responseKehadiran] = await Promise.all([
-          getDetailHalaqah(idParam),
-          getAllKehadiran(idParam),
-        ]);
-        setLoading(false);
-        setData(responseDetailHalaqah);
-        setDataKehadiran(responseKehadiran.kehadiran);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    };
     handleGetDetailHalaqoh();
   }, []);
+
+  useEffect(() => {
+    setSelectedMeet({
+      siswa: dataKehadiran.filter((item) => item.meet === watch("meet")),
+    });
+    // setValue("tanggal");
+    console.log(dataKehadiran.filter((item) => item.meet === watch("meet"))[0]?.tanggal ?? "");
+  }, [watch("meet")]);
+
+  const handleChangeStatus = (idKehadiran, status) => {
+    const listKehadiran = selectedMeet.siswa;
+    console.log(idKehadiran, status);
+    listKehadiran[idKehadiran].status = status;
+    setSelectedMeet({
+      siswa: listKehadiran,
+    });
+  };
 
   return (
     <>
@@ -189,43 +213,83 @@ const KelolaAbsensi = () => {
           <Tr key={idx}>
             <Td>{idx + 1}</Td>
             <Td>{item.nomor_induk}</Td>
-            <Td
-              cursor="pointer"
-              onClick={() => openModalAbsensi(item.siswa_id)}
-            >
-              {item.nama_siswa}
-            </Td>
+            <Td>{item.nama_siswa}</Td>
             <Td>{item.jenis_kelamin}</Td>
 
-            <Td>
+            <Td
+              cursor="pointer"
+              onClick={() =>
+                openModalAbsensi(
+                  dataKehadiran.find(
+                    (e) => e.user.id === item.siswa_id && e.meet === "Meet 1"
+                  )?.id
+                )
+              }
+            >
               {
                 dataKehadiran.find(
                   (e) => e.user.id === item.siswa_id && e.meet === "Meet 1"
                 )?.status
               }
             </Td>
-            <Td>
+            <Td
+              cursor="pointer"
+              onClick={() =>
+                openModalAbsensi(
+                  dataKehadiran.find(
+                    (e) => e.user.id === item.siswa_id && e.meet === "Meet 1"
+                  )?.id
+                )
+              }
+            >
               {
                 dataKehadiran.find(
                   (e) => e.user.id === item.siswa_id && e.meet === "Meet 2"
                 )?.status
               }
             </Td>
-            <Td>
+            <Td
+              cursor="pointer"
+              onClick={() =>
+                openModalAbsensi(
+                  dataKehadiran.find(
+                    (e) => e.user.id === item.siswa_id && e.meet === "Meet 2"
+                  )?.id
+                )
+              }
+            >
               {
                 dataKehadiran.find(
                   (e) => e.user.id === item.siswa_id && e.meet === "Meet 3"
                 )?.status
               }
             </Td>
-            <Td>
+            <Td
+              cursor="pointer"
+              onClick={() =>
+                openModalAbsensi(
+                  dataKehadiran.find(
+                    (e) => e.user.id === item.siswa_id && e.meet === "Meet 3"
+                  )?.id
+                )
+              }
+            >
               {
                 dataKehadiran.find(
                   (e) => e.user.id === item.siswa_id && e.meet === "Meet 4"
                 )?.status
               }
             </Td>
-            <Td>
+            <Td
+              cursor="pointer"
+              onClick={() =>
+                openModalAbsensi(
+                  dataKehadiran.find(
+                    (e) => e.user.id === item.siswa_id && e.meet === "Meet 4"
+                  )?.id
+                )
+              }
+            >
               {
                 dataKehadiran.find(
                   (e) => e.user.id === item.siswa_id && e.meet === "Meet 5"
@@ -233,7 +297,16 @@ const KelolaAbsensi = () => {
               }
             </Td>
 
-            <Td>
+            <Td
+              cursor="pointer"
+              onClick={() =>
+                openModalAbsensi(
+                  dataKehadiran.find(
+                    (e) => e.user.id === item.siswa_id && e.meet === "Meet 5"
+                  )?.id
+                )
+              }
+            >
               {
                 dataKehadiran.filter(
                   (e) => e.user.id === item.siswa_id && e.status === "Hadir"
@@ -287,11 +360,11 @@ const KelolaAbsensi = () => {
                     notInputForm={
                       <RadioGroup {...field}>
                         <Stack direction="row">
-                          <Radio value="1">Ke-1</Radio>
-                          <Radio value="2">Ke-2</Radio>
-                          <Radio value="3">Ke-3</Radio>
-                          <Radio value="4">Ke-4</Radio>
-                          <Radio value="5">Ke-5</Radio>
+                          <Radio value="Meet 1">Ke-1</Radio>
+                          <Radio value="Meet 2">Ke-2</Radio>
+                          <Radio value="Meet 3">Ke-3</Radio>
+                          <Radio value="Meet 4">Ke-4</Radio>
+                          <Radio value="Meet 5">Ke-5</Radio>
                         </Stack>
                       </RadioGroup>
                     }
@@ -316,25 +389,22 @@ const KelolaAbsensi = () => {
             <Divider mt={3} borderWidth="1.5px" />
             <TableCustom
               thead={["#", "Nama Siswa", "Keterangan Absensi"]}
-              tbody={uniqueDataKehadiran.map((nama, index) => (
+              tbody={selectedMeet.siswa.map((item, index) => (
                 <Tr key={index}>
                   <Td>{index + 1}</Td>
-                  <Td>{nama}</Td>
+                  <Td>{item.user.profile.nama_lengkap}</Td>
                   <Td>
-                    <Controller
-                      name="status"
-                      control={control}
-                      render={({ field }) => (
-                        <RadioGroup {...field}>
-                          <Stack direction="row" justify="space-around">
-                            <Radio value="Hadir">Hadir</Radio>
-                            <Radio value="Ijin">Ijin</Radio>
-                            <Radio value="Sakit">Sakit</Radio>
-                            <Radio value="Alpha">Alpha</Radio>
-                          </Stack>
-                        </RadioGroup>
-                      )}
-                    />
+                    <RadioGroup
+                      value={item.status}
+                      onChange={(e) => handleChangeStatus(index, e)}
+                    >
+                      <Stack direction="row" justify="space-around">
+                        <Radio value="Hadir">Hadir</Radio>
+                        <Radio value="Ijin">Ijin</Radio>
+                        <Radio value="Sakit">Sakit</Radio>
+                        <Radio value="Alpha">Alpha</Radio>
+                      </Stack>
+                    </RadioGroup>
                   </Td>
                 </Tr>
               ))}

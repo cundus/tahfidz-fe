@@ -12,6 +12,10 @@ export const getAllKehadiran = async (idHalaqoh) => {
   ).data;
 };
 
+export const getDetailKehadiran = async (id) => {
+  return (await API.get("/kehadiran/" + id, )).data;
+};
+
 export const createKehadiran = async (
   { status, tanggal, user, halaqoh },
   meet
@@ -27,19 +31,11 @@ export const createKehadiran = async (
   );
 };
 
-
-export const updateKehadiran = async (
-  { status, tanggal, user },
-  meet,halaqohId
-) => {
-  return await API.put(
-    "/kehadiran",
-    { status, tanggal, user },
-    {
-      params: {
-        meet: meet,
-        halaqohId: halaqohId
-      },
-    }
-  );
+export const updateKehadiran = async (body, meet, halaqohId) => {
+  return await API.put("/kehadiran", body, {
+    params: {
+      meet: meet.replace("Meet ",""),
+      halaqohId: halaqohId,
+    },
+  });
 };

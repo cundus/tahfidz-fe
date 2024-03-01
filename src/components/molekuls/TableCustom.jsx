@@ -9,7 +9,6 @@ import {
   Thead,
   Tr
 } from "@chakra-ui/react";
-import Pagination from "../atoms/Pagination";
 
 const TableCustom = ({ thead, tbody, theadCustom, isLoading }) => {
   return (
@@ -38,7 +37,7 @@ const TableCustom = ({ thead, tbody, theadCustom, isLoading }) => {
           )}
         </Tbody>
       </Table>
-      <Pagination />
+      {/* <Pagination /> */}
     </TableContainer>
   );
 };

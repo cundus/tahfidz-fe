@@ -12,7 +12,7 @@ export const useAbsensiValidation = () => {
   const initialValues = {
     tanggal: "",
     status: "",
-    meet: null
+    meet: "Meet 1"
   };
 
   return useForm({
