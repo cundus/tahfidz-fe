@@ -123,7 +123,7 @@ const DataTahunAjaran = () => {
                 paddingX={2}
                 color="white"
                 // backgroundColor="#0D6EFD"
-                backgroundColor={data.status ? "#198754" : "#DC3545"}
+                backgroundColor={data.status ? "#0D6EFD" : "#DC3545"}
               >
                 {data.status ? "Aktif" : "Non Aktif"}
               </Badge>
@@ -135,7 +135,7 @@ const DataTahunAjaran = () => {
                   paddingX={2}
                   borderRight="1px solid #21252940"
                   color="#0D6EFD"
-                  href="/master-data/data-tahun-ajaran/edit-data-tahun-ajaran"
+                  href={`/master-data/data-tahun-ajaran/edit-data-tahun-ajaran/${data.id}`}
                 >
                   Edit
                 </Link>

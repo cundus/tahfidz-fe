@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import {
-  Select,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-} from "@chakra-ui/react";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
+import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Select,
+} from "@chakra-ui/react";
 
 const SelectCustom = ({
   label,
@@ -24,6 +24,7 @@ const SelectCustom = ({
       marginBottom={4}
     >
       <FormLabel>{label}</FormLabel>
+
       <Select
         icon={errorText ? <InfoOutlineIcon fontSize="16" /> : iconCurr}
         placeholder={placeholder}
@@ -34,6 +35,7 @@ const SelectCustom = ({
       >
         {options}
       </Select>
+
       {errorText && <FormErrorMessage mt="2px">{errorText}</FormErrorMessage>}
     </FormControl>
   );

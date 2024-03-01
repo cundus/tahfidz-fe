@@ -64,7 +64,7 @@ const TambahGuru = () => {
       const response = await addUser(formData);
       console.log(response);
       setLoading(false);
-      window.location.href = "/master-data/data-guru";
+      router("/master-data/data-guru");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -402,15 +402,9 @@ const TambahGuru = () => {
             <Controller
               control={control}
               name="status"
-              render={({ field }) => {
-                console.log(field);
-                return (
-                  <>
-                    <Switch color="#0D6EFD" name="status" {...field} />
-                    <Text>{field.value}</Text>
-                  </>
-                );
-              }}
+              render={({ field }) => (
+                <Switch color="#0D6EFD" name="status" {...field} />
+              )}
             />
           </Box>
         </Flex>

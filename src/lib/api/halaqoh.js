@@ -8,17 +8,42 @@ export const deleteHalaqah = async (id) => {
 };
 
 export const createHalaqah = async ({
-  nama_halaqah,
+  nama_halaqoh,
   tahun_ajaran,
   guruId,
   siswaIds,
+  status
 }) => {
   return (
-    await API.delete("/halaqoh", {
-      nama_halaqah,
+    await API.post("/halaqoh", {
+      nama_halaqoh,
       tahun_ajaran,
       guruId,
       siswaIds,
+      status
+    })
+  ).data;
+};
+
+
+export const getDetailHalaqah = async(id) => {
+  return (await API.get("/halaqoh/"+ id)).data
+}
+
+export const updateHalaqoh = async ({
+  nama_halaqoh,
+  tahun_ajaran,
+  guruId,
+  siswaIds,
+  status
+},id) => {
+  return (
+    await API.put("/halaqoh/"+ id, {
+      nama_halaqoh,
+      tahun_ajaran,
+      guruId,
+      siswaIds,
+      status
     })
   ).data;
 };

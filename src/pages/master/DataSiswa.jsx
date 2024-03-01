@@ -28,6 +28,7 @@ const DataSiswa = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
   const [loading, setLoading] = useState(false);
+  const [loadingDelete,setLoadingDelete] = useState()
   const toast = useToast();
 
   const handleGetAllSiswa = async () => {
@@ -44,8 +45,9 @@ const DataSiswa = () => {
 
   const handleDeleteSiswa = async () => {
     try {
+      setLoadingDelete(true)
       const response = await deleteUser(selectedId);
-      console.log(response);
+      setLoadingDelete(false)
       onClose();
       toast({
         title: response.data.message,
@@ -55,6 +57,7 @@ const DataSiswa = () => {
       handleGetAllSiswa();
     } catch (error) {
       console.log(error);
+      setLoadingDelete(false)
     }
   };
 
@@ -162,6 +165,7 @@ const DataSiswa = () => {
       {isOpen && (
         <AlertConfirm
           isOpen={isOpen}
+          isLoading={loadingDelete}
           onClose={onClose}
           onOK={handleDeleteSiswa}
           title="Hapus Data"

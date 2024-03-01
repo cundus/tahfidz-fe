@@ -1,20 +1,21 @@
 /* eslint-disable react/prop-types */
-import { Box, Image, Link, Text, Flex } from "@chakra-ui/react";
+import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
+import DashboardIcon from "../../assets/icons/dashboard.png";
+import HafalanIcon from "../../assets/icons/hafalan.png";
+import HalaqohIcon from "../../assets/icons/halaqoh.png";
+import MasterDataIcon from "../../assets/icons/master-data.png";
+import UjianHafalanIcon from "../../assets/icons/ujian_hafalan.png";
+import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
 import Logo from "../../assets/logo.png";
 import LogoNoText from "../../assets/logo_notext.png";
-import DashboardIcon from "../../assets/icons/dashboard.png";
-import MasterDataIcon from "../../assets/icons/master-data.png";
-import HalaqohIcon from "../../assets/icons/halaqoh.png";
-import HafalanIcon from "../../assets/icons/hafalan.png";
-import UjianHafalanIcon from "../../assets/icons/ujian_hafalan.png";
-import RaporHafalanIcon from "../../assets/icons/rapor_tahfidz.png";
-import { SideNavWithArrow } from "../atoms/SideNav";
 import { nav } from "../../constans/nav";
 import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
 import RaportTahfidzWhite from "../../assets/icons/rapor_tahfidz_white.png";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { AccessControl } from "../../utils/accessControl";
+import { SideNavWithArrow } from "../atoms/SideNav";
 
 const SideNavs = ({ isShow }) => {
    const auth = useAuth();
@@ -126,24 +127,18 @@ const SideNavs = ({ isShow }) => {
                      singleLinkTo={nav.ujian_hafalan}
                      IconSingle={UjianHafalanWhite}
                   />
-
-                  {/*  MANAJEMEN REKAPITULASI DATAM */}
-                  <Text
-                     padding={2}
-                     textAlign="left"
-                     fontSize="12px"
-                     opacity="0.5"
-                  >
-                     MANAJEMEN REKAPITULASI DATA
-                  </Text>
-                  <SideNavWithArrow
-                     singleLink
-                     IconSingle={RaportTahfidzWhite}
-                     icon={RaporHafalanIcon}
-                     title="Rapor Tahfidz"
-                     singleLinkTo={nav.rapor_tahfidz}
-                  />
                </AccessControl>
+               {/*  MANAJEMEN REKAPITULASI DATAM */}
+               {/* <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
+                  MANAJEMEN REKAPITULASI DATA
+               </Text>
+               <SideNavWithArrow
+                  singleLink
+                  IconSingle={RaportTahfidzWhite}
+                  icon={RaporHafalanIcon}
+                  title="Rapor Tahfidz"
+                  singleLinkTo={nav.rapor_tahfidz}
+               /> */}
             </Flex>
          </Box>
       </>

@@ -113,7 +113,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-guru/edit-data-guru"
+        path="/master-data/data-guru/edit-data-guru/:id"
         element={
           <ProtectedPage>
             <EditGuru />
@@ -147,7 +147,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-operator/edit-data-operator"
+        path="/master-data/data-operator/edit-data-operator/:id"
         element={
           <ProtectedPage>
             <EditOperator />
@@ -181,7 +181,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/master-data/data-tahun-ajaran/edit-data-tahun-ajaran"
+        path="/master-data/data-tahun-ajaran/edit-data-tahun-ajaran/:id"
         element={
           <ProtectedPage>
             <EditTahunAjaran />
@@ -218,7 +218,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/halaqoh/kelompok-halaqoh/edit-kelompok-halaqoh"
+        path="/halaqoh/kelompok-halaqoh/edit-kelompok-halaqoh/:id"
         element={
           <ProtectedPage>
             <EditKelompokHalaqoh />
@@ -226,7 +226,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh"
+        path="/halaqoh/kelompok-halaqoh/detail-kelompok-halaqoh/:id"
         element={
           <ProtectedPage>
             <DetailKelompokHalaqoh />
@@ -244,7 +244,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/halaqoh/absensi-siswa/kelola-absensi-siswa"
+        path="/halaqoh/absensi-siswa/kelola-absensi-siswa/:id"
         element={
           <ProtectedPage>
             <KelolaAbsensi />
@@ -270,7 +270,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan"
+        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id"
         element={
           <ProtectedPage>
             <KelolaHafalan />
@@ -278,7 +278,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id"
+        path="/hafalan/hafalan-baru-(sabq)/kelola-hafalan/:id/:siswa_id/:nama_siswa"
         element={
           <ProtectedPage>
             <SiswaHafalan />
@@ -294,8 +294,9 @@ function RoutePage() {
           </ProtectedPage>
         }
       />
+      
       <Route
-        path="/hafalan/murojaah-(manzil)/kelola-hafalan"
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id"
         element={
           <ProtectedPage>
             <KelolaMurojaah />
@@ -303,7 +304,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id"
+        path="/hafalan/murojaah-(manzil)/kelola-hafalan/:id/:siswa_id/:nama_siswa"
         element={
           <ProtectedPage>
             <SiswaMurojaah />
@@ -321,7 +322,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/ujian-hafalan/kelola-hafalan"
+        path="/ujian-hafalan/kelola-hafalan/:id"
         element={
           <ProtectedPage>
             <KelolaUjianHafalan />
@@ -329,7 +330,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/ujian-hafalan/kelola-hafalan/:id"
+        path="/ujian-hafalan/kelola-hafalan/:id/:siswa_id/:nama_siswa"
         element={
           <ProtectedPage>
             <SiswaUjianHafalan />

@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
+import { InfoOutlineIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   FormControl,
-  FormLabel,
   FormErrorMessage,
+  FormHelperText,
+  FormLabel,
   Input,
   InputGroup,
+  InputRightAddon,
   InputRightElement,
-  FormHelperText,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
+// eslint-disable-next-line react/display-name
 const InputCustom = ({
   typeInput,
   placeholder,
@@ -24,7 +26,11 @@ const InputCustom = ({
   disabled,
   rightAddon,
   helper,
+  value,
   defaultValue,
+  bgInput,
+  textAlign,
+  onClickRigtAddon
 }) => {
   const [show, setShow] = useState(true);
 
@@ -53,8 +59,10 @@ const InputCustom = ({
             onChange={onChange}
             name={name}
             isDisabled={disabled}
-            bgColor="white"
+            bgColor={bgInput ? bgInput : "white"}
             defaultValue={defaultValue}
+            textAlign={textAlign ? textAlign : "left"}
+            value={value}
           />
           {errorText ? (
             <InputRightElement>
@@ -73,7 +81,7 @@ const InputCustom = ({
               </InputRightElement>
             ))
           )}
-          {rightAddon && <InputRightElement>{rightAddon}</InputRightElement>}
+          {rightAddon && <InputRightAddon cursor="pointer" onClick={onClickRigtAddon}>{rightAddon}</InputRightAddon>}
         </InputGroup>
       )}
       {errorText && <FormErrorMessage mt="2px">{errorText}</FormErrorMessage>}

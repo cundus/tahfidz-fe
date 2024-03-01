@@ -1,12 +1,37 @@
+import { SearchIcon } from "@chakra-ui/icons";
+import { Flex, Input, Select, Td, Text, Tr } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
-import { Flex, Select, Input, Td, Tr, Text } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 import TableCustom from "../../components/molekuls/TableCustom";
-import { useNavigate } from "react-router-dom";
+import { getAllHalaqoh } from "../../lib/api/halaqoh";
 
 const AbsensiSiswa = () => {
   const router = useNavigate();
+
+
+
+  const [data,setData] = useState([])
+  const [isLoading,setIsLoading] = useState(false)
+
+
+  useEffect(()=> {
+    const handleGetKehadiran = async()=> {      
+      try {
+        setIsLoading(true)
+        const response = await getAllHalaqoh()
+        setData(response.halaqoh)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false)
+      }
+    }
+    handleGetKehadiran()
+  }, [])
+
+
   return (
     <>
       <Header title="Absensi Siswa" />
@@ -28,18 +53,20 @@ const AbsensiSiswa = () => {
         />
       </Flex>
       <TableCustom
+      isLoading={isLoading}
         thead={["#", "Nama Halaqoh", "Tahun Ajaran", "Nama Guru", "Action"]}
         tbody={
-          <Tr>
-            <Td>1</Td>
-            <Td>SRQAI 000001</Td>
-            <Td>TA 2020 - 2021 GANJIL</Td>
-            <Td>Ibadurrahman</Td>
+          data?.map((item,idx)=> (
+          <Tr key={idx}>
+            <Td>{idx + 1}</Td>
+            <Td>{item.nama_halaqoh}</Td>
+            <Td>{item.tahun_ajaran.nama_tahun_ajaran}</Td>
+            <Td>{item.nama_guru}</Td>
             <Td>
               <Text
                 color="#0D6EFD"
                 onClick={() =>
-                  router("/halaqoh/absensi-siswa/kelola-absensi-siswa")
+                  router("/halaqoh/absensi-siswa/kelola-absensi-siswa/" + item.id)
                 }
                 fontSize="sm"
                 borderBottom="1px solid transparent"
@@ -53,6 +80,7 @@ const AbsensiSiswa = () => {
               </Text>
             </Td>
           </Tr>
+          ))
         }
       />
     </>
