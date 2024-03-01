@@ -6,7 +6,7 @@ import { checkAuth } from "../lib/api/auth";
 
 export const AuthContext = createContext(null);
 
-export const useAuth = () => {   
+export const useAuth = () => {
    const context = useContext(AuthContext);
    if (context === undefined) {
       throw new Error("useAuth must be used within a AuthProvider");
@@ -15,33 +15,9 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
-   let [user, setUser] = useState({
-      username: "john_doe3",
-      password: "secure_password3",
-      role: "siswa",
-      profile: {
-         nama_lengkap: "John Doe234",
-         alamat: "123 Main Street2",
-         email: "john.doe@example.com2",
-         jenis_kelamin: "male2",
-         nomor_induk: "1234562",
-         nomor_telepon: "123-456-78902",
-         posisi: "Student",
-         tanggal_bergabung: "2022-01-01",
-         tanggal_lahir: "1990-01-01",
-         tempat_lahir: "City",
-         foto: "base64_encoded_image", // replace with the actual base64 encoded image data
-         status: true,
-         nama_ayah: "John Doe Sr.",
-         nama_ibu: "Jane Doe",
-         nomor_telepon_ayah: "123-456-7891",
-         nomor_telepon_ibu: "123-456-7892",
-         pekerjaan_ayah: "Engineer",
-         pekerjaan_ibu: "Teacher",
-      },
-   });
+   let [user, setUser] = useState(null);
 
-   const checkingAuth = async () => {  
+   const checkingAuth = async () => {
       try {
          const token = localStorage.getItem("token");
          console.log("token", token);
@@ -60,7 +36,7 @@ export function AuthProvider({ children }) {
    };
 
    useEffect(() => {
-      // checkingAuth();
+      checkingAuth();
    }, []);
 
    let signin = (newUser, callback) => {

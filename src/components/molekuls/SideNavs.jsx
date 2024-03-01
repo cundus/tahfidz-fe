@@ -13,8 +13,12 @@ import { nav } from "../../constans/nav";
 import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
 import RaportTahfidzWhite from "../../assets/icons/rapor_tahfidz_white.png";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import { AccessControl } from "../../utils/accessControl";
 
 const SideNavs = ({ isShow }) => {
+   const auth = useAuth();
+
    return (
       <>
          <Box
@@ -63,53 +67,83 @@ const SideNavs = ({ isShow }) => {
                </Link>
 
                {/* Master Data */}
-               <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
-                  MASTER
-               </Text>
-               <SideNavWithArrow
-                  icon={MasterDataIcon}
-                  title="Master Data"
-                  listNav={nav.masterData}
-               />
+               <AccessControl
+                  allowedRoles={["admin", "operator"]}
+                  currentRole={auth.user.role}
+               >
+                  <Text
+                     padding={2}
+                     textAlign="left"
+                     fontSize="12px"
+                     opacity="0.5"
+                  >
+                     MASTER
+                  </Text>
+                  <SideNavWithArrow
+                     icon={MasterDataIcon}
+                     title="Master Data"
+                     listNav={nav.masterData}
+                  />
+               </AccessControl>
 
                {/* Halaqoh */}
-               <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
-                  MANAJEMEN HALAQOH
-               </Text>
-               <SideNavWithArrow
-                  icon={HalaqohIcon}
-                  title="Halaqoh"
-                  listNav={nav.halaqoh}
-               />
+               <AccessControl
+                  allowedRoles={["admin", "guru", "siswa"]}
+                  currentRole={auth.user.role}
+               >
+                  <Text
+                     padding={2}
+                     textAlign="left"
+                     fontSize="12px"
+                     opacity="0.5"
+                  >
+                     MANAJEMEN HALAQOH
+                  </Text>
+                  <SideNavWithArrow
+                     icon={HalaqohIcon}
+                     title="Halaqoh"
+                     listNav={nav.halaqoh}
+                  />
 
-               {/* KBM */}
-               <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
-                  MANAJEMEN KBM/TASMI’
-               </Text>
-               <SideNavWithArrow
-                  icon={HafalanIcon}
-                  title="Hafalan"
-                  listNav={nav.hafalan}
-               />
-               <SideNavWithArrow
-                  singleLink
-                  icon={UjianHafalanIcon}
-                  title="Ujian Hafalan"
-                  singleLinkTo={nav.ujian_hafalan}
-                  IconSingle={UjianHafalanWhite}
-               />
+                  {/* KBM */}
+                  <Text
+                     padding={2}
+                     textAlign="left"
+                     fontSize="12px"
+                     opacity="0.5"
+                  >
+                     MANAJEMEN KBM/TASMI’
+                  </Text>
+                  <SideNavWithArrow
+                     icon={HafalanIcon}
+                     title="Hafalan"
+                     listNav={nav.hafalan}
+                  />
+                  <SideNavWithArrow
+                     singleLink
+                     icon={UjianHafalanIcon}
+                     title="Ujian Hafalan"
+                     singleLinkTo={nav.ujian_hafalan}
+                     IconSingle={UjianHafalanWhite}
+                  />
 
-               {/*  MANAJEMEN REKAPITULASI DATAM */}
-               <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
-                  MANAJEMEN REKAPITULASI DATA
-               </Text>
-               <SideNavWithArrow
-                  singleLink
-                  IconSingle={RaportTahfidzWhite}
-                  icon={RaporHafalanIcon}
-                  title="Rapor Tahfidz"
-                  singleLinkTo={nav.rapor_tahfidz}
-               />
+                  {/*  MANAJEMEN REKAPITULASI DATAM */}
+                  <Text
+                     padding={2}
+                     textAlign="left"
+                     fontSize="12px"
+                     opacity="0.5"
+                  >
+                     MANAJEMEN REKAPITULASI DATA
+                  </Text>
+                  <SideNavWithArrow
+                     singleLink
+                     IconSingle={RaportTahfidzWhite}
+                     icon={RaporHafalanIcon}
+                     title="Rapor Tahfidz"
+                     singleLinkTo={nav.rapor_tahfidz}
+                  />
+               </AccessControl>
             </Flex>
          </Box>
       </>
