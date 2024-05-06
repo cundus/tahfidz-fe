@@ -8,7 +8,7 @@ export const deleteHalaqah = async (id) => {
 };
 
 export const createHalaqah = async ({
-  nama_halaqoh,
+  nama_halaqoh, 
   tahun_ajaran,
   guruId,
   siswaIds,
@@ -21,9 +21,13 @@ export const createHalaqah = async ({
       guruId,
       siswaIds,
       status
-    })
+    }) 
   ).data;
 };
+
+export const getSearchHalaqoh = async (option, query) => {
+  return (await API.get("/halaqoh", { params: { [option]: query } })).data;
+}
 
 
 export const getDetailHalaqah = async(id) => {

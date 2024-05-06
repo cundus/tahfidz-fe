@@ -6,7 +6,7 @@ import { Box, Text } from "@chakra-ui/react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart = () => {
+const PieChart = () => { 
   const [data,setData] = useState([0,0])
 
 
@@ -15,7 +15,7 @@ const PieChart = () => {
       labels: ["Siswa Aktif", "Siswa Non Aktif"],
       datasets: [
         {
-          data,
+          data, 
           borderWidth: 1,
           backgroundColor: ["#0D6EFD","#DC3545"]
         },
@@ -39,7 +39,7 @@ const PieChart = () => {
   }, [])
 
   return (
-    <Box bg="#DEE2E6" p={3} borderRadius={5} maxH={"400px"}>
+    <Box bg="#DEE2E6" p={3} borderRadius={5} maxH={"auto"}>
       <Text textAlign="center" mb={3}>Status Siswa Aktif/Non Aktif</Text>
       <Doughnut data={option} />
     </Box>

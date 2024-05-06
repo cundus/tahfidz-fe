@@ -5,6 +5,7 @@ const InfoProfile = ({ title, value, isLine = true }) => {
   return (
     <Box
       __css={{
+        textTransform: "capitalize",
         padding: "4px 24px",
         display: "flex",
         alignItems: "center",

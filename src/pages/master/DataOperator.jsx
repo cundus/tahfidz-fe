@@ -1,24 +1,12 @@
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
-import {
-  Flex,
-  Select,
-  Input,
-  Button,
-  Badge,
-  Link,
-  Tr,
-  Td,
-  Icon,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
+import { Flex, Select, Input, Button, Badge, Link, Tr, Td, Icon, useDisclosure, useToast } from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
 import { useNavigate } from "react-router-dom";
 import { BsDownload } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { deleteUser, getAllOperator } from "../../lib/api/users";
+import { deleteUser, getAllOperator, getSearchOperator } from "../../lib/api/users";
 import AlertConfirm from "../../components/atoms/AlertDialog";
 
 const DataOperator = () => {
@@ -27,12 +15,26 @@ const DataOperator = () => {
   const [dataOperator, setDataOperator] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
+  const [option, setOption] = useState("");
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
   const openAlertConfirm = (id) => {
     setSelectedId(id);
     onOpen();
+  };
+
+  const searchOperator = async () => {
+    setLoading(true);
+    try {
+      const response = await getSearchOperator(option, query);
+      setLoading(false);
+      setDataOperator(response);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const handleDeleteSiswa = async () => {
@@ -72,20 +74,24 @@ const DataOperator = () => {
         <ButtonCustom
           icon={<AddIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Tambah Data Baru"
-          onClick={() =>
-            router("/master-data/data-operator/tambah-data-operator")
-          }
+          onClick={() => router("/master-data/data-operator/tambah-data-operator")}
         />
       </Header>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
         <Flex gap={3} alignItems="stretch">
-          <Select placeholder="Pilih Cari Berdasarkan"></Select>
-          <Input type="text" placeholder="Pencarian" />
+          <Select placeholder="Pilih Cari Berdasarkan" value={option} onChange={(e) => setOption(e.target.value)}>
+            <option value={"nomor_induk"}>Nomor Induk</option>
+            <option value={"nama_lengkap"}>Nama</option>
+            <option value={"jenis_kelamin"}>Jenis Kelamin</option>
+            <option value={"status"}>Status</option>
+          </Select>
+          <Input type="text" placeholder="Pencarian" value={query} onChange={(e) => setQuery(e.target.value)} />
           <ButtonCustom
             paddingX={6}
             icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
             title="Cari"
             height="38px"
+            onClick={searchOperator}
           />
           <ButtonCustom
             paddingX={6}
@@ -93,29 +99,17 @@ const DataOperator = () => {
             bgColor="#6C757D"
             title="Reset"
             height="38px"
+            onClick={() => (setQuery(""), setOption(""), handleGetAllOperator())}
           />
         </Flex>
-        <Button
-          bgColor="#F8F9FA"
-          color="#000"
-          borderRadius={4}
-          fontWeight="400"
-          size="sm"
-        >
+        <Button bgColor="#F8F9FA" color="#000" borderRadius={4} fontWeight="400" size="sm">
           <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
       </Flex>
       <TableCustom
         isLoading={loading}
-        thead={[
-          "#",
-          "No Induk Operator",
-          "Nama Lengkap",
-          "Jenis kelamin",
-          "Status",
-          "Aksi",
-        ]}
+        thead={["#", "No Induk Operator", "Nama Lengkap", "Jenis kelamin", "Status", "Aksi"]}
         tbody={dataOperator?.users?.map((data, idx) => (
           <Tr key={idx}>
             <Td>{idx + 1}</Td>
@@ -136,10 +130,7 @@ const DataOperator = () => {
             </Td>
             <Td>
               <Flex>
-                <Link
-                  href={`/master-data/data-operator/detail-data-operator/${data.id}`}
-                  color="#0D6EFD"
-                >
+                <Link href={`/master-data/data-operator/detail-data-operator/${data.id}`} color="#0D6EFD">
                   Detail
                 </Link>
                 <Link

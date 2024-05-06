@@ -10,9 +10,8 @@ import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
 import Logo from "../../assets/logo.png";
 import LogoNoText from "../../assets/logo_notext.png";
 import { nav } from "../../constans/nav";
-import UjianHafalanWhite from "../../assets/icons/ujian_hafalan_white.png";
 import RaportTahfidzWhite from "../../assets/icons/rapor_tahfidz_white.png";
-import { Link as RouterLink } from "react-router-dom";
+import RaporHafalanIcon from "../../assets/icons/rapor_tahfidz.png";
 import { useAuth } from "../../contexts/AuthContext";
 import { AccessControl } from "../../utils/accessControl";
 import { SideNavWithArrow } from "../atoms/SideNav";
@@ -129,7 +128,7 @@ const SideNavs = ({ isShow }) => {
                   />
                </AccessControl>
                {/*  MANAJEMEN REKAPITULASI DATAM */}
-               {/* <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
+               <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
                   MANAJEMEN REKAPITULASI DATA
                </Text>
                <SideNavWithArrow
@@ -138,7 +137,7 @@ const SideNavs = ({ isShow }) => {
                   icon={RaporHafalanIcon}
                   title="Rapor Tahfidz"
                   singleLinkTo={nav.rapor_tahfidz}
-               /> */}
+               />
             </Flex>
          </Box>
       </>

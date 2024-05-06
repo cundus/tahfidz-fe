@@ -9,7 +9,7 @@ import { useAuth } from "../../contexts/AuthContext";
 export const SideNavWithArrow = ({
    icon,
    title,
-   listNav,
+   listNav, 
    singleLinkTo,
    IconSingle,
 }) => {

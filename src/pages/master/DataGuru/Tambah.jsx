@@ -399,13 +399,18 @@ const TambahGuru = () => {
           </Flex>
 
           <Box>
-            <Controller
-              control={control}
-              name="status"
-              render={({ field }) => (
-                <Switch color="#0D6EFD" name="status" {...field} />
-              )}
-            />
+          <Controller
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <Switch
+                color="#0D6EFD"
+                name="status"
+                isChecked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
+          />
           </Box>
         </Flex>
         <Flex justifyContent="flex-end" gap={4} alignItems="center" mt={12}>

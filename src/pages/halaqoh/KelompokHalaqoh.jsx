@@ -12,7 +12,7 @@ import {
   Select,
   Td,
   Tr,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { BsDownload } from "react-icons/bs";
@@ -22,7 +22,11 @@ import ButtonCustom from "../../components/atoms/ButtonCustom";
 import ModalCustom from "../../components/atoms/ModalCustom";
 import Header from "../../components/molekuls/Header";
 import TableCustom from "../../components/molekuls/TableCustom";
-import { deleteHalaqah, getAllHalaqoh } from "../../lib/api/halaqoh";
+import {
+  deleteHalaqah,
+  getAllHalaqoh,
+  getSearchHalaqoh,
+} from "../../lib/api/halaqoh";
 import AlertConfirm from "./../../components/atoms/AlertDialog";
 
 const KelompokHalaqoh = () => {
@@ -38,12 +42,27 @@ const KelompokHalaqoh = () => {
   } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const [siswaDetail, setSiswaDetail] = useState([]);  
+  const [siswaDetail, setSiswaDetail] = useState([]);
+
+  const [option, setOption] = useState("");
+  const [query, setQuery] = useState("");
+
+  const searchHalaqoh = async () => {
+    setLoading(true);
+    try {
+      const response = await getSearchHalaqoh(option, query);
+      setLoading(false);
+      setData(response.halaqoh);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   const openModalSiswa = (data) => {
-    setSiswaDetail(data)
-    onOpenModalSiswa()
-  }
+    setSiswaDetail(data);
+    onOpenModalSiswa();
+  };
 
   const openAlertConfirm = (id) => {
     setSelectedId(id);
@@ -90,13 +109,19 @@ const KelompokHalaqoh = () => {
       </Header>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
         <Flex gap={3} alignItems="stretch">
-          <Select placeholder="Pilih Cari Berdasarkan"></Select>
-          <Input type="text" placeholder="Pencarian" />
+          <Select placeholder="Pilih Cari Berdasarkan" value={option} onChange={(e) => setOption(e.target.value)}>
+            <option value={"nama_halaqoh"}>Nama Halaqoh</option>
+            <option value={"nama_lengkap"}>Nama Guru</option>
+            <option value={"nama_tahun_ajaran"}>Tahun Ajaran</option>
+            <option value={"status"}>Status</option>
+          </Select>
+          <Input type="text" placeholder="Pencarian" value={query} onChange={(e) => setQuery(e.target.value)}/>
           <ButtonCustom
             paddingX={6}
             icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
             title="Cari"
             height="38px"
+            onClick={searchHalaqoh}
           />
           <ButtonCustom
             paddingX={6}
@@ -223,16 +248,20 @@ const KelompokHalaqoh = () => {
       )}
 
       {isOpenModalSiswa && (
-        <ModalCustom isNoFooter  isOpen={isOpenModalSiswa} onClose={closeModalSiswa} title="Daftar Anggota Halaqoh">
-
+        <ModalCustom
+          isNoFooter
+          isOpen={isOpenModalSiswa}
+          onClose={closeModalSiswa}
+          title="Daftar Anggota Halaqoh"
+        >
           <TableCustom
-          thead={["#", "Nama Siswa"]}
-          tbody={siswaDetail.map((item,idx)=> (
-            <Tr key={idx}>
-              <Td>{idx + 1}</Td>
-              <Td>{item.nama_siswa}</Td>
-            </Tr>
-          ))}
+            thead={["#", "Nama Siswa"]}
+            tbody={siswaDetail.map((item, idx) => (
+              <Tr key={idx}>
+                <Td>{idx + 1}</Td>
+                <Td>{item.nama_siswa}</Td>
+              </Tr>
+            ))}
           />
         </ModalCustom>
       )}

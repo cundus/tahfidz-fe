@@ -225,7 +225,7 @@ const SiswaMurojaah = () => {
 
   return (
     <>
-      <Header title="HAFALAN BARU (MANZIL)">
+      <Header title="MUROJA’AH (MANZIL)">
         <ButtonCustom
           icon={<ArrowBackIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Kembali"
@@ -319,7 +319,7 @@ const SiswaMurojaah = () => {
       {isOpen && (
         <ModalCustom
           onOK={handleSubmit(handleAddHafalan)}
-          title="HAFALAN BARU (MANZIL)"
+          title="MUROJA’AH (MANZIL)"
           isOpen={isOpen}
           onClose={closeModal}
           isLoading={loadingCreate}

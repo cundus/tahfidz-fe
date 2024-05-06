@@ -8,7 +8,7 @@ import Profile from "../components/molekuls/Profile";
 import { useState } from "react";
 
 export function ProtectedPage({ children }) {
-   let auth = useAuth();
+   let auth = useAuth(); 
    let location = useLocation();
 
    const [isShow, setIsShow] = useState(true);

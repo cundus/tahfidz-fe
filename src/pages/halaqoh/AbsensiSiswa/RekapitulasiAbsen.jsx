@@ -39,7 +39,7 @@ const RekapitulasiAbsen = () => {
             isLine={false}
           />
         </Flex>
-        <Flex direction="column" gap={2}>
+        {/* <Flex direction="column" gap={2}>
           <ButtonCustom
             icon={
               <Image
@@ -57,9 +57,9 @@ const RekapitulasiAbsen = () => {
           <ButtonCustom
             icon={<AddIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
             title="Tambah Absensi"
-            onClick={() => {}}
+            onClick={() => {}} 
           />
-        </Flex>
+        </Flex> */}
       </Flex>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
         <Flex gap={3} alignItems="stretch">

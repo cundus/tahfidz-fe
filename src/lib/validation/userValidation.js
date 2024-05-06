@@ -17,7 +17,7 @@ export const useSiswaValidation = (mode) => {
     nomor_telepon_ayah: yup.string(),
     pekerjaan_ayah: yup.string(),
     nama_ibu: yup.string().required("Harap masukan nilai yang valid"),
-    nomor_telepon_ibu: yup.string(),
+    nomor_telepon_ibu: yup.string(), 
     pekerjaan_ibu: yup.string(),
     status: yup.boolean(),
     foto:
@@ -144,3 +144,19 @@ export const useOperatorValidation = (mode) => {
     mode: "all",
   });
 };
+
+export const useNoteGuruValidation = (mode) => {
+  const schemaNoteGuru = yup.object({
+    deskripsi: yup.string().required("isikan deskrepsi jika ada!!"),
+  });
+
+  const initialValues = {
+    deskripsi: "",
+  };
+
+  return useForm({
+    defaultValues: initialValues,
+    resolver: yupResolver(schemaNoteGuru),
+    mode: "all",
+  })
+}

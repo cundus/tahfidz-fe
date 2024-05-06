@@ -37,7 +37,7 @@ export const nav = {
   ],
   hafalan: [
     {
-      label: "Hafalan Baru (Sabq)",
+      label: "Hafalan Baru (Sabq)", 
       to: "/hafalan/hafalan-baru-(sabq)",
     },
     {

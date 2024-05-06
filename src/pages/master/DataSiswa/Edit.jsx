@@ -494,6 +494,7 @@ const EditSiswa = () => {
                 {...register("status")}
                 color="#0D6EFD"
                 name="status"
+                isChecked={field.value}
                 {...field}
               />
             )}

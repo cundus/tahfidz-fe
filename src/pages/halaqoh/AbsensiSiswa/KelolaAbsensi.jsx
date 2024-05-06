@@ -240,7 +240,7 @@ const KelolaAbsensi = () => {
                     (e) => e.user.id === item.siswa_id && e.meet === "Meet 1"
                   )?.id
                 )
-              }
+              } 
             >
               {
                 dataKehadiran.find(
@@ -400,7 +400,7 @@ const KelolaAbsensi = () => {
                     >
                       <Stack direction="row" justify="space-around">
                         <Radio value="Hadir">Hadir</Radio>
-                        <Radio value="Ijin">Ijin</Radio>
+                        <Radio value="Izin">Izin</Radio>
                         <Radio value="Sakit">Sakit</Radio>
                         <Radio value="Alpha">Alpha</Radio>
                       </Stack>

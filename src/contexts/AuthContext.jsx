@@ -5,7 +5,7 @@ import { fakeAuthProvider } from "../utils/auth";
 import { checkAuth } from "../lib/api/auth";
 
 export const AuthContext = createContext(null);
-
+ 
 export const useAuth = () => {
    const context = useContext(AuthContext);
    if (context === undefined) {

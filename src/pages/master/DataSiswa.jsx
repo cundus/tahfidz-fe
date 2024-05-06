@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
 import TableCustom from "../../components/molekuls/TableCustom";
-import { deleteUser, getAllSiswa } from "../../lib/api/users";
+import { deleteUser, getAllSiswa, getSearchSiswa } from "../../lib/api/users";
 import AlertConfirm from "./../../components/atoms/AlertDialog";
 
 const DataSiswa = () => {
@@ -27,9 +27,23 @@ const DataSiswa = () => {
   const [dataSiswa, setDataSiswa] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedId, setSelectedId] = useState();
+  const [option, setOption] = useState(""); 
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loadingDelete,setLoadingDelete] = useState()
+  const [loadingDelete, setLoadingDelete] = useState();
   const toast = useToast();
+
+  const searchSiswa = async () => {
+    setLoading(true);
+    try {
+      const response = await getSearchSiswa(option, query);
+      setLoading(false);
+      setDataSiswa(response);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   const handleGetAllSiswa = async () => {
     setLoading(true);
@@ -45,9 +59,9 @@ const DataSiswa = () => {
 
   const handleDeleteSiswa = async () => {
     try {
-      setLoadingDelete(true)
+      setLoadingDelete(true);
       const response = await deleteUser(selectedId);
-      setLoadingDelete(false)
+      setLoadingDelete(false);
       onClose();
       toast({
         title: response.data.message,
@@ -57,7 +71,7 @@ const DataSiswa = () => {
       handleGetAllSiswa();
     } catch (error) {
       console.log(error);
-      setLoadingDelete(false)
+      setLoadingDelete(false);
     }
   };
 
@@ -81,13 +95,19 @@ const DataSiswa = () => {
       </Header>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
         <Flex gap={3} alignItems="stretch">
-          <Select placeholder="Pilih Cari Berdasarkan"></Select>
-          <Input type="text" placeholder="Pencarian" />
+          <Select placeholder="Pilih Cari Berdasarkan" value={option} onChange={(e) => setOption(e.target.value)}>
+            <option value={"nomor_induk"}>Nomor Induk</option>
+            <option value={"nama_lengkap"}>Nama</option>
+            <option value={"jenis_kelamin"}>Jenis Kelamin</option>
+            <option value={"status"}>Status</option>
+          </Select>
+          <Input type="text" placeholder="Pencarian" value={query} onChange={(e) => setQuery(e.target.value)} />
           <ButtonCustom
             paddingX={6}
             icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
             title="Cari"
             height="38px"
+            onClick={searchSiswa}
           />
           <ButtonCustom
             paddingX={6}
@@ -95,29 +115,17 @@ const DataSiswa = () => {
             bgColor="#6C757D"
             title="Reset"
             height="38px"
+            onClick={() => (setQuery(""), setOption(""), handleGetAllSiswa())}
           />
         </Flex>
-        <Button
-          bgColor="#F8F9FA"
-          color="#000"
-          borderRadius={4}
-          fontWeight="400"
-          size="sm"
-        >
+        <Button bgColor="#F8F9FA" color="#000" borderRadius={4} fontWeight="400" size="sm">
           <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
       </Flex>
       <TableCustom
         isLoading={loading}
-        thead={[
-          "#",
-          "No Induk Siswa",
-          "Nama Lengkap",
-          "Jenis kelamin",
-          "Status",
-          "Aksi",
-        ]}
+        thead={["#", "No Induk Siswa", "Nama Lengkap", "Jenis kelamin", "Status", "Aksi"]}
         tbody={dataSiswa?.users?.map((data, idx) => (
           <Tr key={idx}>
             <Td>{idx + 1}</Td>
@@ -138,9 +146,7 @@ const DataSiswa = () => {
             </Td>
             <Td>
               <Flex gap={2}>
-                <Link
-                  href={`/master-data/data-siswa/detail-data-siswa/${data.id}`}
-                >
+                <Link href={`/master-data/data-siswa/detail-data-siswa/${data.id}`}>
                   <Text color="#0D6EFD">Detail</Text>
                 </Link>
                 <Link

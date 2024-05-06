@@ -37,7 +37,7 @@ const KelolaMurojaah = () => {
 
   return (
     <>
-      <Header title="HAFALAN BARU (Manzil)">
+      <Header title="MUROJA’AH (Manzil)">
         <ButtonCustom
           icon={<ArrowBackIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Kembali"

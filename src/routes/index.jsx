@@ -38,6 +38,7 @@ import KelolaUjianHafalan from "../pages/ujianHafalan/KelolaUjianHafalan";
 import SiswaUjianHafalan from "../pages/ujianHafalan/SiswaUjianHafalan";
 import KelolaRaporTahfidz from "../pages/raporTahfidz/KelolaRaporTahfidz";
 import SiswaRaporTahfidz from "../pages/raporTahfidz/SiswaRaporTahfidz";
+import FormatRaport from "../pages/raporTahfidz/FormatRaport";
 
 function RoutePage() {
   return (
@@ -348,7 +349,7 @@ function RoutePage() {
         }
       />
       <Route
-        path="/rapor-tahfidz/kelola-hafalan"
+        path="/rapor-tahfidz/kelola-rapor-tahfidz/:id"
         element={
           <ProtectedPage>
             <KelolaRaporTahfidz />
@@ -360,6 +361,14 @@ function RoutePage() {
         element={
           <ProtectedPage>
             <SiswaRaporTahfidz />
+          </ProtectedPage>
+        }
+      />
+      <Route
+        path="/format"
+        element={
+          <ProtectedPage>
+            <FormatRaport />
           </ProtectedPage>
         }
       />

@@ -2,24 +2,10 @@ import ButtonCustom from "../../components/atoms/ButtonCustom";
 import Header from "../../components/molekuls/Header";
 import { useNavigate } from "react-router-dom";
 import { AddIcon, SearchIcon } from "@chakra-ui/icons";
-import {
-  Flex,
-  Select,
-  Input,
-  Button,
-  Badge,
-  Link,
-  Tr,
-  Td,
-  Icon,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Flex, Select, Input, Button, Badge, Link, Tr, Td, Icon, useDisclosure } from "@chakra-ui/react";
 import TableCustom from "../../components/molekuls/TableCustom";
 import { BsDownload } from "react-icons/bs";
-import {
-  deleteTahunajaran,
-  getAllTahunAjaran,
-} from "./../../lib/api/tahun-ajaran";
+import { deleteTahunajaran, getAllTahunAjaran, getSearchTahunAjaran } from "./../../lib/api/tahun-ajaran";
 import { useEffect, useState } from "react";
 import AlertConfirm from "../../components/atoms/AlertDialog";
 
@@ -27,6 +13,8 @@ const DataTahunAjaran = () => {
   const router = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedId, setSelectedId] = useState(null);
+  const [option, setOption] = useState("");
+  const [query, setQuery] = useState("");
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -36,6 +24,18 @@ const DataTahunAjaran = () => {
     setLoading(true);
     try {
       const response = await getAllTahunAjaran();
+      setData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const searchTA = async () => {
+    setLoading(true);
+    try {
+      const response = await getSearchTahunAjaran(option, query);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -75,20 +75,22 @@ const DataTahunAjaran = () => {
         <ButtonCustom
           icon={<AddIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
           title="Tambah Data Baru"
-          onClick={() =>
-            router("/master-data/data-tahun-ajaran/tambah-data-tahun-ajaran")
-          }
+          onClick={() => router("/master-data/data-tahun-ajaran/tambah-data-tahun-ajaran")}
         />
       </Header>
       <Flex marginTop={10} justifyContent="space-between" alignItems="center">
         <Flex gap={3} alignItems="stretch">
-          <Select placeholder="Pilih Cari Berdasarkan"></Select>
-          <Input type="text" placeholder="Pencarian" />
+          <Select placeholder="Pilih Cari Berdasarkan" value={option} onChange={(e) => setOption(e.target.value)}>
+            <option value={"nama_tahun_ajaran"}>Nama Tahun Ajaran</option>
+            <option value={"status"}>Status</option>
+          </Select>
+          <Input type="text" placeholder="Pencarian" value={query} onChange={(e) => setQuery(e.target.value)} />
           <ButtonCustom
             paddingX={6}
             icon={<SearchIcon __css={{ marginRight: "6px" }} w={4} h={4} />}
             title="Cari"
             height="38px"
+            onClick={searchTA}
           />
           <ButtonCustom
             paddingX={6}
@@ -96,15 +98,10 @@ const DataTahunAjaran = () => {
             bgColor="#6C757D"
             title="Reset"
             height="38px"
+            onClick={() => (setQuery(""), setOption(""), fetchData())}
           />
         </Flex>
-        <Button
-          bgColor="#F8F9FA"
-          color="#000"
-          borderRadius={4}
-          fontWeight="400"
-          size="sm"
-        >
+        <Button bgColor="#F8F9FA" color="#000" borderRadius={4} fontWeight="400" size="sm">
           <Icon as={BsDownload} __css={{ marginRight: "8px" }} w={4} h={4} />
           Download
         </Button>
