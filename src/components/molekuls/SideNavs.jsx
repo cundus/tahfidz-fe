@@ -69,7 +69,7 @@ const SideNavs = ({ isShow }) => {
                {/* Master Data */}
                <AccessControl
                   allowedRoles={["admin", "operator"]}
-                  currentRole={auth.user.role}
+                  currentRole={auth.user?.role}
                >
                   <Text
                      padding={2}
@@ -89,7 +89,7 @@ const SideNavs = ({ isShow }) => {
                {/* Halaqoh */}
                <AccessControl
                   allowedRoles={["admin", "guru", "siswa"]}
-                  currentRole={auth.user.role}
+                  currentRole={auth.user?.role}
                >
                   <Text
                      padding={2}

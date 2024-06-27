@@ -65,22 +65,22 @@ function StackedBarChart() {
       datasets: [
          {
             label: "alpha",
-            data: dataChart.alpha,
+            data: dataChart?.alpha,
             backgroundColor: "#DC3545",
          },
          {
             label: "Sakit",
-            data: dataChart.sakit,
+            data: dataChart?.sakit,
             backgroundColor: "#198754",
          },
          {
             label: "Izin",
-            data: dataChart.izin,
+            data: dataChart?.izin,
             backgroundColor: "#FFC107",
          },
          {
             label: "Hadir",
-            data: dataChart.hadir,
+            data: dataChart?.hadir,
             backgroundColor: "#0D6EFD",
          },
       ],

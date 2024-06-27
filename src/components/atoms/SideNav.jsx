@@ -9,7 +9,7 @@ import { useAuth } from "../../contexts/AuthContext";
 export const SideNavWithArrow = ({
    icon,
    title,
-   listNav, 
+   listNav,
    singleLinkTo,
    IconSingle,
 }) => {
@@ -46,7 +46,7 @@ export const SideNavWithArrow = ({
                   <Flex gap={1} flexDirection="column" marginBottom={1}>
                      {listNav?.map((item, idx) =>
                         item.label.toLowerCase().includes("operator") &&
-                        auth.user.role === "operator" ? null : (
+                        auth.user?.role === "operator" ? null : (
                            <Box
                               w="100%"
                               key={idx}

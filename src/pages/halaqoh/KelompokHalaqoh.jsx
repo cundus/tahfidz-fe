@@ -101,7 +101,7 @@ const KelompokHalaqoh = () => {
    return (
       <>
          <Header title="Kelompok Halaqoh">
-            {auth.user.role !== "siswa" ? (
+            {auth.user?.role !== "siswa" ? (
                <ButtonCustom
                   icon={<AddIcon __css={{ marginRight: "6px" }} w={3} h={3} />}
                   title="Tambah Data Baru"
