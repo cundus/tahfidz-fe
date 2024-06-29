@@ -44,16 +44,34 @@ const DataSekolah = () => {
       setLoading(true);
       try {
          const formData = new FormData();
-         Object.entries(data).map(([key, value]) => {
+         console.log(data)
+         for (const [key, value] of Object.entries(data)) {
             formData.append(key, value);
-         });
+         }
+         console.log("data",formData)
          await createSekolah(formData);
-         setLoading(false);
+
       } catch (error) {
+         console.error(error); // Optional: handle error as needed
+      } finally {
          setLoading(false);
-         //console.log(error);
       }
    };
+
+   // const handleTambahSekolah = async (data) => {
+   //    setLoading(true);
+   //    try {
+   //       const formData = new FormData();
+   //       Object.entries(data).map(([key, value]) => {
+   //          formData.append(key, value);
+   //       });
+   //       await createSekolah(formData);
+   //       setLoading(false);
+   //    } catch (error) {
+   //       setLoading(false);
+   //       //console.log(error);
+   //    }
+   // };
 
    return (
       <>

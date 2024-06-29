@@ -39,7 +39,7 @@ import InputCustom from "./../../components/atoms/InputCustom";
 
 const SiswaUjianHafalan = () => {
    let { id, nama_siswa, siswa_id } = useParams();
-   const { control, handleSubmit, reset, getValues, setValue } =
+   const { control, handleSubmit, reset, getValues, setValue, watch } =
       useUjianValidation();
 
    const toast = useToast();
@@ -112,9 +112,9 @@ const SiswaUjianHafalan = () => {
                   juz: data.juz,
                   kesalahan_hafalan: data.kesalahan_hafalan,
                   kesalahan_tajwid: data.kesalahan_tajwid,
-                  nilai_hafalan: data.nilai_hafalan,
-                  nilai_tajwid: data.nilai_tajwid,
-                  total_nilai: data.total_nilai,
+                  nilai_hafalan: nilai_hafalan,
+                  nilai_tajwid: nilai_tajwid,
+                  total_nilai: total_nilai,
                   keterangan: data.keterangan.value,
                   penguji: data.penguji.label,
                   siswaId: siswa_id,
@@ -137,9 +137,9 @@ const SiswaUjianHafalan = () => {
                juz: data.juz,
                kesalahan_hafalan: data.kesalahan_hafalan,
                kesalahan_tajwid: data.kesalahan_tajwid,
-               nilai_hafalan: data.nilai_hafalan,
-               nilai_tajwid: data.nilai_tajwid,
-               total_nilai: data.total_nilai,
+               nilai_hafalan: nilai_hafalan,
+               nilai_tajwid: nilai_tajwid,
+               total_nilai: total_nilai,
                keterangan: data.keterangan.value,
                penguji: data.penguji.label,
                siswaId: siswa_id,
@@ -216,6 +216,13 @@ const SiswaUjianHafalan = () => {
       fetchData();
       fetchAllUjian();
    }, [selectedId]);
+
+   const kesalahan_hafalan = watch("kesalahan_hafalan");
+   const kesalahan_tajwid = watch("kesalahan_tajwid");
+
+   const nilai_hafalan = 100 - kesalahan_hafalan * 10;
+   const nilai_tajwid = 100 - kesalahan_tajwid * 10;
+   const total_nilai = (nilai_hafalan + nilai_tajwid) / 2;
 
    return (
       <>
@@ -416,7 +423,6 @@ const SiswaUjianHafalan = () => {
                   <Controller
                      name="kesalahan_hafalan"
                      control={control}
-                     defaultValue={10}
                      render={({ field }) => (
                         <InputCustom
                            {...field}
@@ -455,7 +461,6 @@ const SiswaUjianHafalan = () => {
                   <Controller
                      name="kesalahan_tajwid"
                      control={control}
-                     defaultValue={0}
                      render={({ field }) => (
                         <InputCustom
                            {...field}
@@ -497,8 +502,10 @@ const SiswaUjianHafalan = () => {
                      render={({ field }) => (
                         <InputCustom
                            {...field}
+                           value={nilai_hafalan}
                            label="Nilai Hafalan"
                            placeholder="0"
+                           disabled
                            typeInput="number"
                            bgInput="#E9ECEF"
                         />
@@ -511,7 +518,9 @@ const SiswaUjianHafalan = () => {
                      render={({ field }) => (
                         <InputCustom
                            {...field}
+                           value={nilai_tajwid}
                            label="Nilai Tajwid"
+                           disabled
                            placeholder="0"
                            typeInput="number"
                            bgInput="#E9ECEF"
@@ -525,6 +534,8 @@ const SiswaUjianHafalan = () => {
                         <InputCustom
                            {...field}
                            label="Total Nilai"
+                           value={total_nilai}
+                           disabled
                            placeholder="0"
                            typeInput="number"
                            bgInput="#E9ECEF"

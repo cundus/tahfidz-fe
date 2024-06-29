@@ -6,11 +6,11 @@ const schema = yup.object({
   nama_sekolah: yup.string(),
   nomor_telepon: yup.number().required("Nomor Telepon wajib diisi!"),
   email: yup.string(),
-  website: yup.string(),
+  website: yup.string(), 
   alamat: yup.string(),
   logo:yup.mixed()
 });
-
+ 
 export const useSekolahValidation = () => {
   const initialValues = {
     nama_sekolah: "",

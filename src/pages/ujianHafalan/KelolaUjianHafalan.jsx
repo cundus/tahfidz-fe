@@ -96,7 +96,7 @@ const KelolaUjianHafalan = () => {
                         }
                         fontSize="sm"
                         borderBottom="1px solid transparent"
-                        _hover={{
+                        _hover={{ 
                            cursor: "pointer",
                            borderBottom: "1px solid #0D6EFD",
                            width: "fit-content",

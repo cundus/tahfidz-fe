@@ -25,7 +25,7 @@ export const getSearchSiswa = async (option, query) => {
     })
   ).data;
 };
-
+ 
 // GURU
 
 export const getAllGuru = async () => {
