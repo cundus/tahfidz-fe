@@ -15,133 +15,125 @@ import RaporHafalanIcon from "../../assets/icons/rapor_tahfidz.png";
 import { useAuth } from "../../contexts/AuthContext";
 import { AccessControl } from "../../utils/accessControl";
 import { SideNavWithArrow } from "../atoms/SideNav";
+import { useEffect, useState } from "react";
+import { getSekolah } from "../../lib/api/sekolah";
 
 const SideNavs = ({ isShow }) => {
-   const auth = useAuth();
+  const auth = useAuth();
+  const [sekolah, setSekolah] = useState();
 
-   return (
-      <>
-         <Box
-            maxW="18rem"
-            h="100vh"
-            overflowY="auto"
-            overflowX="hidden"
-            paddingX={8}
-            paddingY="24px"
-            __css={{
-               backgroundColor: "#F8F9FA",
-               display: "flex",
-               flexDirection: "column",
-               alignItems: "center",
-            }}
-            position="fixed"
-         >
-            {/* Hamburger */}
+  useEffect(() => {
+   const fetchData = async () => {
+     const res = await getSekolah();
+     setSekolah(res.data);
+   };
 
-            <Image
-               objectFit="cover"
-               width={isShow ? "100%" : "6rem"}
-               marginBottom="1rem"
-               src={!isShow ? LogoNoText : Logo}
-               alt="logo"
-            />
-            <Flex w="100%" flexDirection="column">
-               <Link
-                  w="100%"
-                  as={RouterLink}
-                  to="/dashboard"
-                  padding={2}
-                  _hover={{ textDecoration: "none" }}
-               >
-                  <Flex alignItems="center" gap={2}>
-                     <Image
-                        src={DashboardIcon}
-                        w="16px"
-                        h="16px"
-                        alt="dashboard"
-                     />
-                     <Text fontSize="15px" textAlign="left" opacity="0.5">
-                        Dashboard
-                     </Text>
-                  </Flex>
-               </Link>
+   fetchData();
+ }, []);
 
-               {/* Master Data */}
-               <AccessControl
-                  allowedRoles={["admin", "operator"]}
-                  currentRole={auth.user?.role}
-               >
-                  <Text
-                     padding={2}
-                     textAlign="left"
-                     fontSize="12px"
-                     opacity="0.5"
-                  >
-                     MASTER
-                  </Text>
-                  <SideNavWithArrow
-                     icon={MasterDataIcon}
-                     title="Master Data"
-                     listNav={nav.masterData}
-                  />
-               </AccessControl>
+  return (
+    <>
+      <Box
+        maxW="18rem"
+        h="100vh"
+        overflowY="auto"
+        overflowX="hidden"
+        paddingX={8}
+        paddingY="24px"
+        __css={{
+          backgroundColor: "#F8F9FA",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        position="fixed"
+      >
+        {/* Hamburger */}
 
-               {/* Halaqoh */}
-               <AccessControl
-                  allowedRoles={["admin", "guru", "siswa"]}
-                  currentRole={auth.user?.role}
-               >
-                  <Text
-                     padding={2}
-                     textAlign="left"
-                     fontSize="12px"
-                     opacity="0.5"
-                  >
-                     MANAJEMEN HALAQOH
-                  </Text>
-                  <SideNavWithArrow
-                     icon={HalaqohIcon}
-                     title="Halaqoh"
-                     listNav={nav.halaqoh}
-                  />
-
-                  {/* KBM */}
-                  <Text
-                     padding={2}
-                     textAlign="left"
-                     fontSize="12px"
-                     opacity="0.5"
-                  >
-                     MANAJEMEN KBM/TASMI’
-                  </Text>
-                  <SideNavWithArrow
-                     icon={HafalanIcon}
-                     title="Hafalan"
-                     listNav={nav.hafalan}
-                  />
-                  <SideNavWithArrow
-                     singleLink
-                     icon={UjianHafalanIcon}
-                     title="Ujian Hafalan"
-                     singleLinkTo={nav.ujian_hafalan}
-                     IconSingle={UjianHafalanWhite}
-                  />
-               </AccessControl>
-               {/*  MANAJEMEN REKAPITULASI DATAM */}
-               <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
-                  MANAJEMEN REKAPITULASI DATA
-               </Text>
-               <SideNavWithArrow
-                  singleLink
-                  IconSingle={RaportTahfidzWhite}
-                  icon={RaporHafalanIcon}
-                  title="Rapor Tahfidz"
-                  singleLinkTo={nav.rapor_tahfidz}
-               />
+        <Image
+          objectFit="cover"
+          width={isShow ? "100%" : "6rem"}
+          marginBottom="1rem"
+          src={!isShow ? sekolah?.logo || LogoNoText : Logo}
+          alt="logo"
+        />
+        <Flex w="100%" flexDirection="column">
+          <Link
+            w="100%"
+            as={RouterLink}
+            to="/dashboard"
+            padding={2}
+            _hover={{ textDecoration: "none" }}
+          >
+            <Flex alignItems="center" gap={2}>
+              <Image src={DashboardIcon} w="16px" h="16px" alt="dashboard" />
+              <Text fontSize="15px" textAlign="left" opacity="0.5">
+                Dashboard
+              </Text>
             </Flex>
-         </Box>
-      </>
-   );
+          </Link>
+
+          {/* Master Data */}
+          <AccessControl
+            allowedRoles={["admin", "operator"]}
+            currentRole={auth.user?.role}
+          >
+            <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
+              MASTER
+            </Text>
+            <SideNavWithArrow
+              icon={MasterDataIcon}
+              title="Master Data"
+              listNav={nav.masterData}
+            />
+          </AccessControl>
+
+          {/* Halaqoh */}
+          <AccessControl
+            allowedRoles={["admin", "guru", "siswa"]}
+            currentRole={auth.user?.role}
+          >
+            <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
+              MANAJEMEN HALAQOH
+            </Text>
+            <SideNavWithArrow
+              icon={HalaqohIcon}
+              title="Halaqoh"
+              listNav={nav.halaqoh}
+            />
+
+            {/* KBM */}
+            <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
+              MANAJEMEN KBM/TASMI’
+            </Text>
+            <SideNavWithArrow
+              icon={HafalanIcon}
+              title="Hafalan"
+              listNav={nav.hafalan}
+            />
+            <SideNavWithArrow
+              singleLink
+              icon={UjianHafalanIcon}
+              title="Ujian Hafalan"
+              singleLinkTo={nav.ujian_hafalan}
+              IconSingle={UjianHafalanWhite}
+            />
+          </AccessControl>
+          {/*  MANAJEMEN REKAPITULASI DATAM */}
+          <Text padding={2} textAlign="left" fontSize="12px" opacity="0.5">
+            MANAJEMEN REKAPITULASI DATA
+          </Text>
+          <SideNavWithArrow
+            singleLink
+            IconSingle={RaportTahfidzWhite}
+            icon={RaporHafalanIcon}
+            title="Rapor Tahfidz"
+            singleLinkTo={nav.rapor_tahfidz}
+          />
+        </Flex>
+      </Box>
+    </>
+  );
 };
 
 export default SideNavs;

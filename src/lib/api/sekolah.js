@@ -1,6 +1,6 @@
 import API from '.'
 
-export const getAllSekolah = async () => {
+export const getSekolah = async () => {
    return (await API.get("/sekolah")).data;
 };
 
